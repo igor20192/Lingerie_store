@@ -261,3 +261,300 @@
 
     color: #FFFFFF;
 }
+
+#help_info {
+    /* полезная информация */
+
+
+    position: absolute;
+    width: 658px;
+    height: 61px;
+    left: 14px;
+    top: 2599px;
+
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 50px;
+    line-height: 61px;
+    /* identical to box height */
+
+    text-transform: uppercase;
+
+    color: #000000;
+}
+
+#info {
+    /* Как купить Доставка Оплата Возврат */
+
+
+    position: absolute;
+    width: 321px;
+    height: 16px;
+    left: 707px;
+    top: 2630px;
+    color: #b70d9a;
+
+
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 40;
+    font-size: 14px;
+    line-height: 16px;
+
+    color: #C91664;
+}
+
+.info {
+    color: #c51490;
+    text-decoration: none;
+    font-size: 14px;
+    margin: 10px;
+}
+
+#my_shop {
+    /* наши магазины */
+
+
+    position: absolute;
+    width: 459px;
+    height: 61px;
+    left: 23px;
+    top: 2830px;
+
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 50px;
+    line-height: 61px;
+    /* identical to box height */
+
+    text-transform: uppercase;
+
+    color: #000000;
+}
+
+#my_city {
+    /* Калининград */
+
+
+    position: absolute;
+    width: 87px;
+    height: 16px;
+    left: 510px;
+    top: 2865px;
+
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 16px;
+
+    color: #C91664;
+}
+
+#map {
+    /* image 6 */
+
+
+    position: absolute;
+    width: 1151px;
+    height: 608px;
+    left: 120px;
+    top: 2954px;
+
+    background: url(image.png);
+}
+
+#group {
+    /* Group */
+
+
+    position: absolute;
+    left: 8.63%;
+    right: 78.79%;
+    top: 3629px;
+    bottom: 6.85%;
+}
+
+#contact {
+    /* КОНТАКТЫ +7 (931) 607-79-73 +7 (921) 104-78-82 */
+
+
+    position: absolute;
+    width: 167px;
+    height: 100px;
+    left: 1097px;
+    top: 3622px;
+
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 25px;
+    /* or 179% */
+
+
+    color: #000000;
+}
+
+#facebook {
+    /* Facebook - Negative */
+
+
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    left: 1096px;
+    top: 3746px;
+}
+
+#instagram {
+    /* Instagram - Negative */
+
+
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    left: 1134px;
+    top: 3741px;
+}
+
+#subtract {
+    /* Subtract */
+
+
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    left: 1172px;
+    top: 3741px;
+
+
+}
+
+#company {
+    /* КОМПАНИЯ О нас Контакты Адреса магазинов Новости и статьи Гарантии */
+
+
+    position: absolute;
+    width: 160px;
+    height: 175px;
+    left: 120px;
+    top: 3714px;
+
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 25px;
+    /* or 179% */
+
+
+    color: #000000;
+}
+
+.company {
+    color: #000;
+    text-decoration: none;
+    font-weight: 100;
+}
+
+.href_company {
+    margin-top: 30px;
+}
+
+#buyer {
+    /* ПОКУПАТЕЛЯМ Личный кабинет Доставка и оплата Правила возврата Программа лояльности */
+
+
+    position: absolute;
+    width: 161px;
+    height: 150px;
+    left: 315px;
+    top: 3622px;
+
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 25px;
+    /* or 179% */
+
+
+    color: #000000;
+}
+
+#support {
+    /* СЛУЖБА ПОДДЕРЖКИ Как оформить заказ Как выбрать размер Вопросы и ответы Гид по стилю Карта сайта */
+
+
+    position: absolute;
+    width: 167px;
+    height: 175px;
+    left: 511px;
+    top: 3617px;
+
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 25px;
+    /* or 179% */
+
+
+    color: #000000;
+}
+
+#legalissues {
+    /* ЮРИДИЧЕСКИЕ ВОПРОСЫ Политика конфиденциальности Использование cookie Условия продажи и обслуживания Пользовательское соглашение */
+
+
+    position: absolute;
+    width: 166px;
+    height: 250px;
+    left: 706px;
+    top: 3622px;
+
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 25px;
+    /* or 179% */
+
+
+    color: #000000;
+}
+
+#question {
+    /* ЗАДАЙТЕ ВОПРОС WhatsApp Viber Telegram */
+
+
+    position: absolute;
+    width: 167px;
+    height: 125px;
+    left: 901px;
+    top: 3622px;
+
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 25px;
+    /* or 179% */
+
+
+    color: #000000;
+}
+
+#group6 {
+    /* Group 6 */
+
+
+    position: absolute;
+    width: 1391px;
+    height: 609px;
+    left: 0px;
+    top: 109px;
+}

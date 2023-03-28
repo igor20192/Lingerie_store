@@ -18,7 +18,7 @@
         <link rel="icon" type="image/x-icon" href="{% static '/favicon.ico' %}">
     </head>
     <body>
-        <nav class="navbar navbar-light bg-dark" id="navbar">
+        <nav id="navbar">
             <div class="container">
                 <img id="logo" src="{% static '/img/logo.png' %}" alt="Not
                     photo">
@@ -45,10 +45,10 @@
                 <a class="navbar-brand" id="group1" href="#">
                     <img src="{% static '/img/Group 1.png' %}" alt="">
                 </a>
-                <a class="navbar-brand" id="group2" href="#">
+                <a class="navbar-brand" id="group2" href="#map">
                     <img src="{% static '/img/Group 2.png' %}" alt="">
                 </a>
-                <a class="navbar-brand" id="shop" href="#">
+                <a class="navbar-brand" id="shop" href="#map">
                     <img src="{% static '/img/Магазины.png' %}" alt="">
                 </a>
                 <a class="navbar-brand" id="group5" href="#">
@@ -63,10 +63,89 @@
                 <a class="navbar-brand" id="basket" href="#">Корзина()</a>
             </div>
         </nav>
+
         {% block body %}
 
         {% endblock body %}
+        <pre id="help_info">Полезная информация</pre>
 
+        <div id="info">
+            <a class="info" href="">Как купить</a>
+            <a class="info" href="">Доставка</a>
+            <a class="info" href="">Оплата</a>
+            <a class="info" href="">Возврат</a>
+        </div>
+        <pre id="my_shop">НАШИ МАГАЗИНЫ</pre>
+        <p id="my_city">Калининград</p>
+        <img id="my_сity" src="{% static '/img/Калининград.png' %}" alt="">
+        <img id="map" src="{% static '/img/image 6.png' %}" alt="">
+
+        <footer>
+            <img id="group" src="{% static '/img/Group.png' %}" alt="">
+            <img id="contact" src="{% static '/img/КОНТАКТЫ.png' %}" alt="">
+            <a href="">
+                <img id="facebook"
+                    src="{% static '/img/Facebook - Negative.png' %}" alt="">
+            </a>
+            <a id="instagram" href="">
+                <img
+                    src="{% static '/img/Instagram - Negative.png' %}" alt="">
+            </a>
+            <a id="subtract" href="">
+                <img
+                    src="{% static '/img/Subtract.png' %}" alt="">
+            </a>
+
+            <div id="company">
+                <h6>КОМПАНИЯ</h6>
+                <div class="href_company">
+                    <a class="company" href="">О нас</a><br>
+                    <a class="company" href="#contact">Контакты</a><br>
+                    <a class="company" href="#map">Адреса магазинов</a><br>
+                    <a class="company" href="">Новости и статьи</a><br>
+                    <a class="company" href="">Гарантии</a>
+                </div>
+            </div>
+            <div id="buyer">
+                <h6>ПОКУПАТЕЛЯМ</h6>
+                <div class="href_company">
+                    <a class="company" href="">Личный кабирет</a><br>
+                    <a class="company" href="">Доставка и оплата</a><br>
+                    <a class="company" href="">Правила возврата</a><br>
+                    <a class="company" href="">Программа лояльности</a><br>
+                </div>
+            </div>
+            <div id="support">
+                <h6><pre>СЛУЖБА ПОДДЕРЖКИ</pre></h6>
+                <div class="href_company">
+                    <a class="company" href="">Как оформить заказ</a><br>
+                    <a class="company" href="">Как выбрать размер</a><br>
+                    <a class="company" href="">Вопросы и ответы</a><br>
+                    <a class="company" href="">Гид по стилю</a><br>
+                    <a class="company" href="">Карта сайта</a><br>
+                </div>
+            </div>
+            <div id="legalissues">
+                <h6><pre>ЮРИДИЧЕСКИЕ ВОПРОСЫ</pre></h6>
+                <div class="href_company">
+                    <a class="company" href="">Политика конфиденциальности</a><br>
+                    <a class="company" href="">Использование cookie</a><br>
+                    <a class="company" href="">Условия продажи и обслуживания</a><br>
+                    <a class="company" href="">Пользовательское соглашение</a><br>
+                </div>
+            </div>
+            <div id="question">
+                <h6><pre>ЗАДАЙТЕ ВОПРОС</pre></h6>
+                <div class="href_company">
+                    <a class="company" href="">WhatsApp</a><br>
+                    <a class="company" href="">Viber</a><br>
+                    <a class="company" href="">Telegram</a><br>
+                </div>
+            </div>
+
+
+
+        </footer>
 
         <!-- Optional JavaScript; choose one of the two! -->
 
