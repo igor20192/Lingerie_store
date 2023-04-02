@@ -64,32 +64,29 @@
             </div>
         </nav>
 
-        {% block body %}
+        {% block content %}
 
-        {% endblock body %}
-        <pre id="help_info">Полезная информация</pre>
-
-        <div id="info">
-            <a class="info" href="">Как купить</a>
-            <a class="info" href="">Доставка</a>
-            <a class="info" href="">Оплата</a>
-            <a class="info" href="">Возврат</a>
-        </div>
-        <pre id="my_shop">НАШИ МАГАЗИНЫ</pre>
-        <p id="my_city">Калининград</p>
-        <img id="my_сity" src="{% static '/img/Калининград.png' %}" alt="">
-        <img id="map" src="{% static '/img/image 6.png' %}" alt="">
+        {% endblock %}
 
         <footer>
+
+            <div id="map_shop">
+                <pre id="my_shop">НАШИ МАГАЗИНЫ</pre>
+                <p id="my_city">Калининград</p>
+                <img id="map" src="{% static '/img/image 6.png' %}" alt="">
+            </div>
+
             <img id="group" src="{% static '/img/Group.png' %}" alt="">
             <img id="contact" src="{% static '/img/КОНТАКТЫ.png' %}" alt="">
             <a href="">
                 <img id="facebook"
-                    src="{% static '/img/Facebook - Negative.png' %}" alt="">
+                    src="{% static '/img/Facebook - Negative.png' %}"
+                    alt="">
             </a>
             <a id="instagram" href="">
                 <img
-                    src="{% static '/img/Instagram - Negative.png' %}" alt="">
+                    src="{% static '/img/Instagram - Negative.png' %}"
+                    alt="">
             </a>
             <a id="subtract" href="">
                 <img
@@ -130,7 +127,8 @@
                 <div class="href_company">
                     <a class="company" href="">Политика конфиденциальности</a><br>
                     <a class="company" href="">Использование cookie</a><br>
-                    <a class="company" href="">Условия продажи и обслуживания</a><br>
+                    <a class="company" href="">Условия продажи и
+                        обслуживания</a><br>
                     <a class="company" href="">Пользовательское соглашение</a><br>
                 </div>
             </div>

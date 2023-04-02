@@ -2,6 +2,181 @@
 {% load static %}
 
 
-{% block body %}
-<img id="group6" src="{% static '/img/Group 6.png' %}" alt="">
-{% endblock body %}
+{% block content %}
+<div id="desktop1">
+    <img id="group6" src="{% static '/img/Group 6.png' %}" alt="">
+    <div id="carouselExampleCaptions" class="carousel slide"
+        data-bs-ride="carousel">
+        <div class="carousel-indicators">
+            <button type="button"
+                data-bs-target="#carouselExampleCaptions"
+                data-bs-slide-to="0" class="active" aria-current="true"
+                aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#carouselExampleCaptions"
+                data-bs-slide-to="1" aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#carouselExampleCaptions"
+                data-bs-slide-to="2" aria-label="Slide 3"></button>
+        </div>
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="{% static '/img/SERGE1 1.png' %}" class="d-block
+                    w-100"
+                    alt="...">
+                <div class="carousel-caption d-none d-md-block">
+                    <h3>ТЫ ПРЕКРАСНА</h3>
+                    <pre id="milavitsa">новая колекция<br>от Milavitsa</pre>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="{% static '/img/MILAVITSA1 1.png' %}" class="d-block
+                    w-100" alt="...">
+                <div class="carousel-caption d-none d-md-block">
+                    <h3 id="perfect">СОВЕРШЕНСТВО</h3>
+                    <pre id="finished_image">Законченый образ<br>от Triumf</pre>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="{% static '/img/LAUMA3 1.png' %}" class="d-block
+                    w-100"
+                    alt="...">
+                <div class="carousel-caption d-none d-md-block">
+                    <h3 id="exciting">ВОЛНУЮЩЕЕ</h3>
+                    <pre id="newcolection">Новая коллекция<br>LAUMA<br></pre>
+                </div>
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button"
+            data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button"
+            data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+    <img id="imgvecort" src="{% static '/img/Vector.png' %}" alt="">
+    <p id="year">2021</p>
+    <a id="facebook_top" href="">
+        <img
+            src="{% static '/img/facebook.png' %}" alt="">
+    </a>
+    <a id="instagram_top" href="">
+        <img
+            src="{% static '/img/instagram.png' %}" alt="">
+    </a>
+    <a id="subtract_top" href="">
+        <img
+            src="{% static '/img/Subtract (1).png' %}" alt="">
+    </a>
+    <a id="go_shopping" href="">
+        <img
+            src="{% static '/img/go_shopping.png' %}" alt="">
+    </a>
+    <a id="line8" href="">
+        <img
+            src="{% static '/img/Line 8.png' %}" alt="">
+    </a>
+    <img id="img2021" src="{% static '/img/20 21.png' %}" alt="">
+    <img id="rectangle4" src="{% static '/img/Rectangle 4.png' %}" alt="">
+    <div id="info1">
+        <pre id="undcatalog"><strong>Каталог нижнего белья</strong></pre>
+        <pre>Выбирайте для себя трусики,<br>бюстгалиеры, топы от ваших<br>любимых брендов.<br><br><br>Заказ можнооформить онлайн<br>или посетив один из наших<br>магазинов</pre>
+        <a id="hrefinfo1" href=""><pre>Прейти в каталог</pre></a>
+
+    </div>
+
+    <img id="rectangle5" src="{% static '/img/Rectangle 5.png' %}" alt="">
+    <pre id="newtriumph">Новая коллекция <br>от Triumph</pre>
+    <div id="rectangle10">
+        <pre>У нас работает<br>накопительная система<br>скидок по картам<br>лояльности.<br>Выбирайте свое любимое<br>белье и покупайте его от 14%<br>ниже по цене.</pre>
+    </div>
+    <a id="href_rectangle5" href=""><strong>Поробнее</strong></a>
+    <pre id="textinfo">Удовлетворите свои<br>желания, отправляясь на<br>увлекательный шоппинг<br>по нашему сайту.</pre>
+    <a id="go_shopping1" href=""><strong>Перейти к шопингу</strong></a>
+    <img id="rectangle6" src="{% static '/img/Rectangle 6.png' %}" alt="">
+    <div id="rectangle11">
+        <pre id="text_rectangle11">Больше не нужно искать<br>компромиссов между<br>красотой и<br>функциональностью!<br><br>Широкий ассортимент<br>моделей нижнего белья<br>разных брендов в наших<br>магазинах, позволяют<br>создать роскошный образ<br>женщинам с абсолютно<br>любым типом фигуры.</pre>
+    </div>
+    <a id="href_rectangle11" href="#map"><strong>Адреса магазинов</strong></a>
+    <img id="imgvecort1" src="{% static '/img/Vector.png' %}" alt="">
+    <pre id="textinfo1">Боитесь покупать белье в<br>интернет магазине?<br><br>Делайте заказ онлайн и<br>приходите за своей<br>покупкой к нам в магазин</pre>
+    <pre id="stock">АКЦИИ И<br>РАСПРОДАЖИ</pre>
+    <img id="rectangle7" src="{% static '/img/Rectangle 7.png' %}" alt="">
+    <img id="rectangle8" src="{% static '/img/Rectangle 8.png' %}" alt="">
+    <img id="rectangle9" src="{% static '/img/Rectangle 9.png' %}" alt="">
+    <img id="img-20" src="{% static '/img/-20%.png' %}" alt="">
+    <pre id="textinfo2">Спортивные бюсьгалтеры по<br>доступной цене</pre>
+    <pre id="textinfo3">Новая кружевная коллекция<br>“Возрождения”</pre>
+    <pre id="textinfo4">Скидка на бюстгалтеры минимайзеры XXL</pre>
+    <img id="rectangle12" src="{% static '/img/Rectangle 12.png' %}" alt="">
+    <img id="rectangle13" src="{% static '/img/Rectangle 13.png' %}" alt="">
+    <img id="rectangle14" src="{% static '/img/Rectangle 14.png' %}" alt="">
+    <pre id="textinfo5">INSTAGRAM</pre>
+    <img id="rectangle16" src="{% static '/img/Rectangle 16.png' %}" alt="">
+    <img id="rectangle17" src="{% static '/img/Rectangle 17.png' %}" alt="">
+    <img id="rectangle18" src="{% static '/img/Rectangle 18.png' %}" alt="">
+    <img id="rectangle19" src="{% static '/img/Rectangle 19.png' %}" alt="">
+    <img id="imgvecort2" src="{% static '/img/Vector.png' %}" alt="">
+    <img id="line10" src="{% static '/img/Line 10.png' %}" alt="">
+    <img id="line11" src="{% static '/img/Line 11.png' %}" alt="">
+    <img id="line12" src="{% static '/img/Line 12.png' %}" alt="">
+    <img id="line13" src="{% static '/img/Line 13.png' %}" alt="">
+    <img id="line15" src="{% static '/img/Line 15.png' %}" alt="">
+    <div id="helpful_info">
+        <pre id="help_info">Полезная информация</pre>
+        <div id="info">
+            <a class="info" href="">Как купить</a>
+            <a class="info" href="">Доставка</a>
+            <a class="info" href="">Оплата</a>
+            <a class="info" href="">Возврат</a>
+        </div>
+    </div>
+    <div class="container" id="brands">
+        <p>БРЕНДЫ</p>
+        <img id="arrow" src="{% static '/img/Arrow 1.png' %}" alt="">
+        <img id="img7" src="{% static '/img/image 7.png' %}" alt="">
+        <img id="img2" src="{% static '/img/image 2.png' %}" alt="">
+        <img id="img8" src="{% static '/img/image 8.png' %}" alt="">
+        <img id="img9" src="{% static '/img/image 9.png' %}" alt="">
+        <img id="img4" src="{% static '/img/image 4.png' %}" alt="">
+        <img id="arrow2" src="{% static '/img/image Arrow 2.png' %}" alt="">
+    </div>
+
+    <div id="about">
+        <div id="carouselExampleFade" class="carousel slide carousel-fade"
+            data-bs-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="{% static '/img/Rectangle 20.png' %}"
+                        class="d-block w-100" alt="...">
+                </div>
+                <div class="carousel-item">
+                    <img src="{% static '/img/Rectangle 20.png' %}"
+                        class="d-block w-100" alt="...">
+                </div>
+                <div class="carousel-item">
+                    <img src="{% static '/img/Rectangle 20.png' %}"
+                        class="d-block w-100" alt="...">
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button"
+                data-bs-target="#carouselExampleFade" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button"
+                data-bs-target="#carouselExampleFade" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+        <p>О&nbsp;НАС</p>
+        <pre id="abount_text1">Наша компания была основана в 2010 году,<br>а с этого года мы запускаем проект<br>интернет-магазина,который как мы<br>надеемся станет одним из популярных<br>магазинов, осуществляющих on-line<br>продажи нижнего белья и трикотажа в<br>регионе.<br><br>Компания специализируется на розничной<br>продаже как женского так мужского<br>ассортимента в основном нижнего белья,<br>трикотажа ,аксессуаров,одежды.
+            </pre>
+        <pre id="abount_text2">На данный момент мы представляем собой<br>компанию, владеющую 11 магазинами и<br>имеющую в своей сети единый офис-центр,<br>который регулирует всю деятельность<br>магазинов, отдел продаж, службу доставки,<br>широкий штат квалифицированных<br>продавцов консультантов, собственный<br>склад c постоянным наличием необходимого<br>запаса товаров.<br><br>За это время у нас сложились партнерские<br>отношения с ведущими производителями,<br>позволяющие предлагать<br>высококачественную продукцию по<br>конкурентоспособным ценам.<br><br>Мы можем гордиться тем, что у нас один из<br>самых широких ассортиментов в городе и<br> области.
+        </pre>
+    </div>
+</div>
+{% endblock %}
