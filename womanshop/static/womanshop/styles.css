@@ -241,8 +241,28 @@ body {
     top: 6px;
 }
 
-#input {
+#input,
+#exit {
     /* Вход */
+
+
+    position: absolute;
+    width: 30px;
+    height: 15px;
+    left: 1106px;
+    top: 15px;
+
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 15px;
+
+    color: #FFFFFF;
+}
+
+#exit1 {
+    /* Выход */
 
 
     position: absolute;
