@@ -1,7 +1,7 @@
 from django.test import TestCase
-from .models import UserProfile, User
+from ..models import UserProfile, User
 from django.db.models.signals import post_save
-from .signals import create_user_profile
+from ..signals import create_user_profile
 
 
 class UserProfileTestCase(TestCase):

@@ -7,5 +7,5 @@ from .models import UserProfile
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, **kwargs):
     obj = User.objects.filter(id=instance.id)
-    if not any(UserProfile.objects.filter(user_id=instance.id)) and obj:
+    if not (UserProfile.objects.filter(user_id=instance.id)) and obj:
         UserProfile.objects.create(user=obj[0])
