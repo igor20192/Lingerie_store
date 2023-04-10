@@ -1,0 +1,30 @@
+{% extends 'womanshop/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container" id="user_profile">
+    <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'index' %}">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">User profile</li>
+        </ol>
+    </nav>
+    <h1>User Profile</h1>
+    <p><strong>Username:</strong> {{ user_profile.user.username }}</p>
+    <p><strong>Address:</strong> {{ user_profile.address }}</p>
+    <p><strong>City:</strong> {{ user_profile.city }}</p>
+    <p><strong>State:</strong> {{ user_profile.state }}</p>
+    <p><strong>Zip Code:</strong> {{ user_profile.zip_code }}</p>
+    <p><strong>Phone Number:</strong> {{ user_profile.phone_number }}</p>
+    <p><strong>Date of Birth:</strong> {{ user_profile.date_of_birth }}</p>
+    <p><strong>Gender:</strong> {{ user_profile.gender }}</p>
+    <p><strong>Profile Pic:</strong><img
+            src="{{ user_profile.profile_pic.url }}"
+            alt="Profile Pic"></p>
+
+    <button class="btn btn-primary active"
+        role="button" data-bs-toggle="button"
+        onclick="document.location='/user_profile_form'">Edit
+        Profile</button>
+</div>
+{% endblock %}
