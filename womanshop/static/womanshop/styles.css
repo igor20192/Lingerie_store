@@ -1590,3 +1590,36 @@ footer {
     border: 1px solid #F087B6;
     transform: rotate(-45deg);
 }
+
+#user_profile {
+    position: absolute;
+    left: 100px;
+    top: 180px;
+    font-family: Arial, sans-serif;
+}
+
+#user_profile h1 {
+    font-size: 24px;
+}
+
+
+#user_profile p {
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+#user_profile strong {
+    font-weight: bold;
+}
+
+#user_profile img {
+    max-width: 200px;
+    max-height: 200px;
+}
+
+
+#user_profile_form {
+    position: absolute;
+    left: 180px;
+    top: 180px;
+}

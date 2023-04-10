@@ -16,7 +16,9 @@ class UserProfile(models.Model):
         max_length=1, choices=(("M", "Male"), ("F", "Female")), null=True
     )
     # поля для фотографии профиля
-    profile_pic = models.ImageField(upload_to="profile_pics", blank=True)
+    profile_pic = models.ImageField(
+        upload_to="profile_pics/", blank=True, default="profile_pics/not_photo.png"
+    )
 
     def __str__(self):
         return self.user.username

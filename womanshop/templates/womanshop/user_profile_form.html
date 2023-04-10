@@ -1,0 +1,24 @@
+{% extends 'womanshop/base.html' %}
+{% load static %}
+
+
+{% block content %}
+<div class="mb-3" id="user_profile_form">
+    <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'index' %}">Home</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'user_profile' %}">User
+                    profile</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Edit User
+                Profile</li>
+        </ol>
+    </nav>
+    <h1>Edit User Profile</h1>
+    <form action="{% url 'user_profile_form' %}" enctype="multipart/form-data"
+        method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Save">
+    </form>
+</div>
+{% endblock content %}
