@@ -1,0 +1,229 @@
+{% extends 'womanshop/base.html' %}
+{% load static %}
+
+{% block content %}
+<div id="catalog_menu">
+    <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'index' %}">Главная
+                    страница</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Каталог</li>
+        </ol>
+    </nav>
+    <p id="cat_p">КАТАЛОГ</p>
+    <pre>Акция! Бесплатная доставка по Калининграду от 4 500₽</pre>
+    <div id="sorting" class="container">
+        <label for="sort-by">Sort by:</label>
+        <select id="sort-by" name="sort-by">
+            <option value="name">Name</option>
+            <option value="price">Price</option>
+            <option value="brand">Brand</option>
+        </select>
+        <label for="sort-direction">Sort direction:</label>
+        <select id="sort-direction" name="sort-direction">
+            <option value="asc">Ascending</option>
+            <option value="desc">descending</option>
+        </select>
+    </div>
+    <img id="line29" src="{% static '/img/Line 29.png' %}" alt="">
+    <img id="line30" src="{% static '/img/Line 30.png' %}" alt="">
+    <div id="choice_of_goods">
+        <p id="name_categor">КАТЕГОРИИ</p>
+        <p id="name_price">По ЦЕНЕ</p>
+        <p id="name_style">ПО&nbsp;СТИЛЮ&nbsp;И&nbsp;НАЗНАЧЕНИЮ</p>
+        <p id="name_brand">БРЕНДЫ</p>
+        <form action="{% url 'catalog_api' %}" method="get">
+            {% csrf_token %}
+            <div id="form_category">
+                <div class="form-group">
+                    {{ form_category.bodysuit }}
+                    {{ form_category.bodysuit.label_tag }}
+                </div>
+                <div class="form-group">
+                    {{ form_category.bras }}
+                    {{ form_category.bras.label_tag }}
+                </div>
+                <div class="form-group">
+                    {{ form_category.tights_and_socks }}
+                    {{ form_category.tights_and_socks.label_tag }}
+                </div>
+                <div class="form-group">
+                    {{ form_category.swimwear }}
+                    {{ form_category.swimwear.label_tag }}
+                </div>
+                <div class="form-group">
+                    {{ form_category.men_underwear }}
+                    {{ form_category.men_underwear.label_tag }}
+                </div>
+                <div class="form-group">
+                    {{ form_category.panties }}
+                    {{ form_category.panties.label_tag }}
+                </div>
+                <div class="form-group">
+                    {{ form_category.seamless_underwear }}
+                    {{ form_category.seamless_underwear.label_tag }}
+                </div>
+                <div class="form-group">
+                    {{ form_category.thermal_underwear }}
+                    {{ form_category.thermal_underwear.label_tag }}
+                </div>
+                <div class="form-group">
+                    {{ form_category.accessories }}
+                    {{ form_category.accessories.label_tag }}
+                </div>
+            </div>
+            <div id="form_price">
+                <div id="start">
+                    <p>{{ form_price.start.label_tag }}</p>
+                    <p>{{ form_price.start }}</p>
+                </div>
+                <div id="end">
+                    <p>{{ form_price.end.label_tag }}</p>
+                    <p>{{ form_price.end }}</p>
+                </div>
+            </div>
+            <div id="form_style">
+                <div class="form-group">
+                    {{ form_style.basic_underwear }}
+                    {{ form_style.basic_underwear.label_tag }}
+                </div>
+                <div class="form-group">
+                    {{ form_style.new }}
+                    {{ form_style.new.label_tag }}
+                </div>
+                <div class="form-group">
+                    {{ form_style.сomfort_underwear }}
+                    {{ form_style.сomfort_underwear.label_tag }}
+                </div>
+                <div class="form-group">
+                    {{ form_style.sexual }}
+                    {{ form_style.sexual.label_tag }}
+                </div>
+                <div class="form-group">
+                    {{ form_style.lacy }}
+                    {{ form_style.lacy.label_tag }}
+                </div>
+                <div class="form-group">
+                    {{ form_style.everyday }}
+                    {{ form_style.everyday.label_tag }}
+                </div>
+                <div class="form-group">
+                    {{ form_style.homewear }}
+                    {{ form_style.homewear.label_tag }}
+                </div>
+                <div class="form-group">
+                    {{ form_style.sleepwear }}
+                    {{ form_style.sleepwear.label_tag }}
+                </div>
+                <div class="form-group">
+                    {{ form_style.for_wedding }}
+                    {{ form_style.for_wedding.label_tag }}
+                </div>
+            </div>
+            <div id="form_brand">
+                <div class="form-group">
+                    {{ form_brand.avelin }}
+                    {{ form_brand.avelin.label_tag }}
+                </div>
+                <div class="form-group">
+                    {{ form_brand.comazo }}
+                    {{ form_brand.comazo.label_tag }}
+                </div>
+                <div class="form-group">
+                    {{ form_brand.lauma }}
+                    {{ form_brand.lauma.label_tag }}
+                </div>
+                <div class="form-group">
+                    {{ form_brand.melado }}
+                    {{ form_brand.melado.label_tag }}
+                </div>
+                <div class="form-group">
+                    {{ form_brand.milavitsa }}
+                    {{ form_brand.milavitsa.label_tag }}
+                </div>
+                <div class="form-group">
+                    {{ form_brand.serge }}
+                    {{ form_brand.serge.label_tag }}
+                </div>
+                <div class="form-group">
+                    {{ form_brand.teatro }}
+                    {{ form_brand.teatro.label_tag }}
+                </div>
+                <div class="form-group">
+                    {{ form_brand.triumph }}
+                    {{ form_brand.triumph.label_tag }}
+                    <input type="submit" class="btn btn-outline-dark"
+                        value="Применить">
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div id="product" class="container">
+    <div id="a" class="row row-cols-3"></div>
+    <nav aria-label="">
+        <a href="#" id="next">
+            Load more
+        </a>
+    </nav>
+    <script>
+        async function getData(url, page, paginateBy,sortBy, sortDirection) {
+            const urlWithParams = url + "?" + new URLSearchParams({
+                page: page,
+                per_page: paginateBy,
+                sort_by: sortBy,
+                sort_direction: sortDirection
+            })
+            const response = await fetch(urlWithParams);
+            return response.json();
+        }
+
+        class LoadMorePaginator {
+            constructor(perPage) {
+                this.perPage = perPage
+                this.pageIndex = 1
+                this.container = document.querySelector("#a")
+                this.next = document.querySelector("#next")
+                this.next.addEventListener("click", this.onNextClick.bind(this))
+                this.loadMore()
+            }
+
+            onNextClick(event) {
+                event.preventDefault()
+                this.pageIndex++
+                this.loadMore()
+            }
+                       
+            addElement(product) {
+                const div = document.createElement("div");
+                div.innerHTML = `
+                    <div class="col">
+                        <img src="${product.image1}" alt="Not photo">
+                        <p id="name_product">${product.name}</p>
+                        <p id="name_brn">${product.brand}</p>
+                        <p id="name_prc">${product.price}₽</p>
+                        <a id="detail" href="">Подробние</a>
+                        <p><img id="line25" src="{% static '/img/Line 25.png' %}" alt=""></p>
+                    </div>
+                `;
+                this.container.append(div);
+                div.style.display = "block";
+            }
+                                 
+
+            loadMore() {
+                getData("{% url 'catalog_api' %}", this.pageIndex, this.perPage)
+                    .then(response => {
+                        response.data.forEach((el) => {
+                            this.addElement(el)
+                        });
+                        this.next.style.display = !response.page.has_next ? "none" : "block"
+                    });
+            }
+        }
+
+        new LoadMorePaginator(3);
+    </script>
+</div>
+
+{% endblock content %}
