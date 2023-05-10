@@ -1,3 +1,14 @@
+@font-face {
+    font-family: 'Roboto', sans-serif;
+    font-style: normal;
+    src: url('/womanshop/fonts/Roboto-MediumItalic.ttf') format('ttf'),
+        url('/womanshop/fonts/Roboto-Bold.ttf') format('ttf'),
+        url('/womanshop/fonts/Roboto-Light.ttf') format('ttf');
+
+    /* Формат ttf */
+}
+
+
 body {
     position: absolute;
     width: 100%;
@@ -49,7 +60,7 @@ body {
     left: 120px;
     top: 13px;
 
-    font-family: 'Roboto';
+    font-family: 'Roboto', sans-serif;
     font-style: normal;
     font-weight: 700;
     font-size: 14px;
@@ -70,7 +81,7 @@ body {
     left: 120px;
     top: 78px;
 
-    font-family: 'Roboto';
+    font-family: 'Roboto', sans-serif;
     font-style: normal;
     font-weight: 400;
     font-size: 14px;
@@ -89,7 +100,7 @@ body {
     left: 210px;
     top: 78px;
 
-    font-family: 'Roboto';
+    font-family: 'Roboto', sans-serif;
     font-style: normal;
     font-weight: 400;
     font-size: 14px;
@@ -109,7 +120,7 @@ body {
     left: 348px;
     top: 78px;
 
-    font-family: 'Roboto';
+    font-family: 'Roboto', sans-serif;
     font-style: normal;
     font-weight: 400;
     font-size: 14px;
@@ -129,7 +140,7 @@ body {
     left: 443px;
     top: 78px;
 
-    font-family: 'Roboto';
+    font-family: 'Roboto', sans-serif;
     font-style: normal;
     font-weight: 400;
     font-size: 14px;
@@ -148,7 +159,7 @@ body {
     left: 993px;
     top: 78px;
 
-    font-family: 'Roboto';
+    font-family: 'Roboto', sans-serif;
     font-style: normal;
     font-weight: 400;
     font-size: 14px;
@@ -168,7 +179,7 @@ body {
     left: 1122px;
     top: 78px;
 
-    font-family: 'Roboto';
+    font-family: 'Roboto', sans-serif;
     font-style: normal;
     font-weight: 400;
     font-size: 14px;
@@ -210,7 +221,7 @@ body {
     left: 993px;
     top: 15px;
 
-    font-family: 'Roboto';
+    font-family: 'Roboto', sans-serif;
     font-style: normal;
     font-weight: 400;
     font-size: 13px;
@@ -252,7 +263,7 @@ body {
     left: 1106px;
     top: 15px;
 
-    font-family: 'Roboto';
+    font-family: 'Roboto', sans-serif;
     font-style: normal;
     font-weight: 400;
     font-size: 13px;
@@ -271,7 +282,7 @@ body {
     left: 1106px;
     top: 15px;
 
-    font-family: 'Roboto';
+    font-family: 'Roboto', sans-serif;
     font-style: normal;
     font-weight: 400;
     font-size: 13px;
@@ -290,7 +301,7 @@ body {
     left: 1194px;
     top: 16px;
 
-    font-family: 'Roboto';
+    font-family: 'Roboto', sans-serif;
     font-style: normal;
     font-weight: 400;
     font-size: 14px;
@@ -309,7 +320,7 @@ body {
     left: 23px;
     top: 0px;
 
-    font-family: 'Roboto';
+    font-family: 'Roboto', sans-serif;
     font-style: normal;
     font-weight: 400;
     font-size: 52px;
@@ -330,10 +341,9 @@ body {
     height: 16px;
     left: 707px;
     top: 35px;
-    color: #b70d9a;
 
 
-    font-family: 'Roboto';
+    font-family: 'Roboto', sans-serif;
     font-style: normal;
     font-weight: 40;
     font-size: 14px;
@@ -359,7 +369,7 @@ body {
     left: 23px;
     margin-bottom: 31px;
 
-    font-family: 'Roboto';
+    font-family: 'Roboto', sans-serif;
     font-style: normal;
     font-weight: 400;
     font-size: 52px;
@@ -381,7 +391,7 @@ body {
     left: 510px;
     margin-top: 31px;
 
-    font-family: 'Roboto';
+    font-family: 'Roboto', sans-serif;
     font-style: normal;
     font-weight: 400;
     font-size: 14px;
@@ -424,7 +434,7 @@ body {
     left: 1097px;
     top: 760px;
 
-    font-family: 'Roboto';
+    font-family: 'Roboto', sans-serif;
     font-style: normal;
     font-weight: 700;
     font-size: 14px;
@@ -517,7 +527,7 @@ body {
     left: 120px;
     top: 852.05px;
 
-    font-family: 'Roboto';
+    font-family: 'Roboto', sans-serif;
     font-style: normal;
     font-weight: 700;
     font-size: 14px;
@@ -548,7 +558,7 @@ body {
     left: 315px;
     top: 760px;
 
-    font-family: 'Roboto';
+    font-family: 'Roboto', sans-serif;
     font-style: normal;
     font-weight: 700;
     font-size: 14px;
@@ -569,7 +579,7 @@ body {
     left: 511px;
     top: 760px;
 
-    font-family: 'Roboto';
+    font-family: 'Roboto', sans-serif;
     font-style: normal;
     font-weight: 700;
     font-size: 14px;
@@ -590,7 +600,7 @@ body {
     left: 706px;
     top: 760px;
 
-    font-family: 'Roboto';
+    font-family: 'Roboto', sans-serif;
     font-style: normal;
     font-weight: 700;
     font-size: 14px;
@@ -611,7 +621,7 @@ body {
     left: 901px;
     top: 760px;
 
-    font-family: 'Roboto';
+    font-family: 'Roboto', sans-serif;
     font-style: normal;
     font-weight: 700;
     font-size: 14px;
@@ -684,7 +694,7 @@ body {
     left: 74px;
     top: 359px;
 
-    font-family: 'Roboto';
+    font-family: 'Roboto', sans-serif;
     font-style: normal;
     font-weight: 400;
     font-size: 48px;
@@ -705,7 +715,7 @@ body {
     left: 993px;
     top: 338px;
 
-    font-family: 'Roboto';
+    font-family: 'Roboto', sans-serif;
     font-style: normal;
     font-weight: 700;
     font-size: 16px;
@@ -737,7 +747,7 @@ body {
     left: 456px;
     top: 555px;
 
-    font-family: 'Roboto';
+    font-family: 'Roboto', sans-serif;
     font-style: normal;
     font-weight: 400;
     font-size: 65px;
@@ -769,7 +779,7 @@ body {
     left: 475px;
     top: 782px;
 
-    font-family: 'Roboto';
+    font-family: 'Roboto', sans-serif;
     font-style: normal;
     font-weight: 700;
     font-size: 14px;
@@ -816,7 +826,7 @@ body {
     left: 1083px;
     top: 613px;
 
-    font-family: 'Roboto';
+    font-family: 'Roboto', sans-serif;
     font-style: normal;
     font-weight: 700;
     font-size: 16px;
@@ -850,7 +860,7 @@ body {
     top: 13px;
     z-index: 2;
 
-    font-family: 'Roboto';
+    font-family: 'Roboto', sans-serif;
     font-style: normal;
     font-weight: 400;
     font-size: 14px;
@@ -869,7 +879,7 @@ body {
     left: 1096px;
     top: 862px;
 
-    font-family: 'Roboto';
+    font-family: 'Roboto', sans-serif;
     font-style: normal;
     font-weight: 400;
     font-size: 14px;
@@ -888,7 +898,7 @@ body {
     left: 136px;
     top: 1172px;
 
-    font-family: 'Roboto';
+    font-family: 'Roboto', sans-serif;
     font-style: normal;
     font-weight: 700;
     font-size: 16px;
@@ -909,7 +919,7 @@ body {
     left: 136px;
     top: 1287px;
 
-    font-family: 'Roboto';
+    font-family: 'Roboto', sans-serif;
     font-style: normal;
     font-weight: 400;
     font-size: 14px;
@@ -955,7 +965,7 @@ body {
     left: 17px;
     top: 13px;
 
-    font-family: 'Roboto';
+    font-family: 'Roboto', sans-serif;
     font-style: normal;
     font-weight: 400;
     font-size: 14px;
@@ -974,7 +984,7 @@ body {
     left: 517px;
     top: 1437px;
 
-    font-family: 'Roboto';
+    font-family: 'Roboto', sans-serif;
     font-style: normal;
     font-weight: 400;
     font-size: 14px;
@@ -1005,7 +1015,7 @@ body {
     left: 1036px;
     top: 1438px;
 
-    font-family: 'Roboto';
+    font-family: 'Roboto', sans-serif;
     font-style: normal;
     font-weight: 700;
     font-size: 16px;
@@ -1024,7 +1034,7 @@ body {
     left: 23px;
     top: 1791px;
 
-    font-family: 'Roboto';
+    font-family: 'Roboto', sans-serif;
     font-style: normal;
     font-weight: 400;
     font-size: 52px;
@@ -1087,7 +1097,7 @@ body {
     left: 437px;
     top: 1978px;
 
-    font-family: 'Roboto';
+    font-family: 'Roboto', sans-serif;
     font-style: normal;
     font-weight: 400;
     font-size: 14px;
@@ -1106,7 +1116,7 @@ body {
     left: 646px;
     top: 1978px;
 
-    font-family: 'Roboto';
+    font-family: 'Roboto', sans-serif;
     font-style: normal;
     font-weight: 400;
     font-size: 14px;
@@ -1125,7 +1135,7 @@ body {
     left: 861px;
     top: 1978px;
 
-    font-family: 'Roboto';
+    font-family: 'Roboto', sans-serif;
     font-style: normal;
     font-weight: 400;
     font-size: 14px;
@@ -1144,7 +1154,7 @@ body {
     left: 881px;
     top: 1743px;
 
-    font-family: 'Roboto';
+    font-family: 'Roboto', sans-serif;
     font-style: normal;
     font-weight: 400;
     font-size: 48px;
@@ -1204,7 +1214,7 @@ body {
     left: 966px;
     top: 2320px;
 
-    font-family: 'Roboto';
+    font-family: 'Roboto', sans-serif;
     font-style: normal;
     font-weight: 400;
     font-size: 52px;
@@ -1323,7 +1333,7 @@ footer {
 }
 
 #brands p {
-    font-family: 'Roboto';
+    font-family: 'Roboto', sans-serif;
     font-style: normal;
     font-weight: 400;
     font-size: 52px;
@@ -1454,7 +1464,7 @@ footer {
     top: 152px;
     z-index: 1;
 
-    font-family: 'Roboto';
+    font-family: 'Roboto', sans-serif;
     font-style: normal;
     font-weight: 400;
     font-size: 52px;
@@ -1486,7 +1496,7 @@ footer {
     left: 428px;
     top: 1px;
 
-    font-family: 'Roboto';
+    font-family: 'Roboto', sans-serif;
     font-style: normal;
     font-weight: 400;
     font-size: 14px;
@@ -1507,7 +1517,7 @@ footer {
     left: 761px;
     top: 83px;
 
-    font-family: 'Roboto';
+    font-family: 'Roboto', sans-serif;
     font-style: normal;
     font-weight: 400;
     font-size: 14px;
@@ -1594,9 +1604,25 @@ footer {
 #user_profile {
     position: absolute;
     left: 100px;
-    top: 180px;
+    top: 124px;
     font-family: Arial, sans-serif;
 }
+
+
+#user_profile nav {
+    text-decoration: none;
+
+    font-family: 'Roboto', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 14px;
+    /* identical to box height */
+
+
+    color: #898989;
+}
+
 
 #user_profile h1 {
     font-size: 24px;
@@ -1621,5 +1647,350 @@ footer {
 #user_profile_form {
     position: absolute;
     left: 180px;
-    top: 180px;
+    top: 124px;
+}
+
+#user_profile_form nav,
+a {
+    text-decoration: none;
+
+    font-family: 'Roboto', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 14px;
+    /* identical to box height */
+
+
+    color: #898989;
+}
+
+
+#catalog_menu {
+    position: absolute;
+    top: 109px;
+}
+
+#catalog_menu nav {
+    /* Главная страница > Каталог */
+
+
+    position: absolute;
+    width: 377px;
+    height: 14px;
+    left: 120px;
+    top: 15px;
+
+    font-family: 'Roboto', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 14px;
+    /* identical to box height */
+
+
+    color: #898989;
+}
+
+#cat_p {
+    /* КАТАЛОГ */
+
+
+    position: absolute;
+    width: 212px;
+    height: 56px;
+    left: 21px;
+    top: 67px;
+
+    font-family: 'Roboto', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 48px;
+    line-height: 56px;
+
+    color: #000000;
+}
+
+#catalog_menu pre {
+    /* Акция! Бесплатная доставка по Калининграду от 4 500₽ */
+
+
+    position: absolute;
+    width: auto;
+    height: 28px;
+    left: 654px;
+    top: 80px;
+
+    font-family: 'Roboto', sans-serif;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 28px;
+    /* identical to box height, or 200% */
+
+
+    color: #000000;
+}
+
+#line29 {
+    /* Line 29 */
+
+
+    position: absolute;
+    width: 130px;
+    height: 0px;
+    left: 510px;
+    top: 96px;
+
+    border: 1px solid #F087B6;
+}
+
+#line30 {
+    /* Line 30 */
+
+
+    position: absolute;
+    width: 130px;
+    height: 0px;
+    left: 1053px;
+    top: 96px;
+
+    border: 1px solid #F087B6;
+}
+
+#choice_of_goods {
+    position: absolute;
+    width: auto;
+    height: auto;
+    left: 120px;
+    top: 80px;
+}
+
+#name_categor {
+    /* КАТЕГОРИИ */
+
+
+    position: absolute;
+    width: 174px;
+    height: 28px;
+    left: 0px;
+    top: 80px;
+
+    font-family: 'Roboto', sans-serif;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 28px;
+    /* identical to box height, or 200% */
+
+
+    color: #000000;
+}
+
+
+#name_price {
+    /* ПО ЦЕНЕ */
+
+
+    position: absolute;
+    width: 193px;
+    height: 28px;
+    left: 0px;
+    top: 530px;
+
+    font-family: 'Roboto', sans-serif;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 28px;
+    /* identical to box height, or 200% */
+
+
+    color: #000000;
+}
+
+
+#name_style {
+    /* ПО СТИЛЮ И НАЗНАЧЕНИЮ */
+
+
+    position: absolute;
+    width: 200px;
+    height: 28px;
+    left: 0px;
+    top: 702px;
+
+    font-family: 'Roboto', sans-serif;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 28px;
+    /* identical to box height, or 200% */
+
+
+    color: #000000;
+}
+
+#name_brand {
+    /* бренды */
+
+
+    position: absolute;
+    width: 59px;
+    height: 28px;
+    left: 0px;
+    top: 1172px;
+
+    font-family: 'Roboto', sans-serif;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 28px;
+    /* identical to box height, or 200% */
+
+    text-transform: uppercase;
+
+    color: #000000;
+}
+
+
+#form_category {
+    position: absolute;
+    width: 230px;
+    height: auto;
+    left: 10px;
+    top: 110px;
+
+}
+
+
+.form-group {
+    margin-bottom: 14px;
+    margin-right: 29px;
+    /* Отступ между полями формы */
+
+    font-family: 'Roboto', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 28px;
+    /* or 200% */
+
+
+    color: #000000;
+}
+
+/* Отмена отступа между чекбоксом и меткой */
+.form-group input[type="checkbox"],
+.form-group label {
+    margin-bottom: 0;
+}
+
+/* Выравнивание метки по левому краю */
+.form-group label {
+    display: inline
+}
+
+#form_price {
+    position: absolute;
+    width: 195px;
+    height: auto;
+    top: 556px;
+    left: 35px;
+    background-color: #b8afb7;
+}
+
+
+#start {
+    position: absolute;
+    width: 47;
+}
+
+
+#end {
+    position: absolute;
+    left: 97px;
+}
+
+#form_style {
+
+    /* Базовое белье Новинки Комфортное белье Сексуальное Кружевное Повседневное Одежда для дома Одежда для сна Для свадьбы */
+
+
+    position: absolute;
+    width: 185px;
+    height: 252px;
+    left: 10px;
+    top: 739px;
+
+    font-family: 'Roboto', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 28px;
+    /* or 200% */
+
+
+    color: #000000;
+
+}
+
+#form_brand {
+    /* AVELIN COMAZO LAUMA MELADO MILAVITSA SERGE TEATRO TRIUMPH */
+
+
+    position: absolute;
+    width: 150px;
+    height: 224px;
+    left: 10px;
+    top: 1216px;
+
+    font-family: 'Roboto', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 28px;
+    /* or 200% */
+
+
+    color: #000000;
+}
+
+
+#product {
+    position: absolute;
+    width: 860px;
+    height: 2070px;
+    left: 413px;
+    top: 302px;
+}
+
+#name_brn {
+    font-family: 'Roboto', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 16px;
+    color: #F087B6;
+}
+
+#sorting {
+    /* Сортировать: */
+
+
+    position: absolute;
+    width: 500px;
+    height: 28px;
+    left: 413px;
+    top: 147px;
+
+    font-family: 'Roboto', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 28px;
+    /* identical to box height, or 200% */
+
+
+    color: #898989;
 }

@@ -97,8 +97,13 @@ class UserProfileFormView(View):
 
 def catalog_api(request):
     page_number = request.GET.get("page")
-    products = Product.objects.all().order_by("price")
-    paginator = Paginator(products, 3)
+    sort_by = request.GET.get("sort_by")
+    sort_direction = request.GET.get("sort_direction")
+
+    if sort_direction == "desc":
+        sort_by = f"-{sort_by}"
+    products = Product.objects.all().order_by(sort_by)
+    paginator = Paginator(products, 12)
     page_obj = paginator.get_page(page_number)
     data = {
         "has_next": page_obj.has_next(),

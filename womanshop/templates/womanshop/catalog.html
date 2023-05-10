@@ -184,16 +184,27 @@
                 this.pageIndex = 1
                 this.container = document.querySelector("#a")
                 this.next = document.querySelector("#next")
+                this.sortBy = document.querySelector("#sort-by")
+                this.sortDirection = document.querySelector("#sort-direction")
                 this.next.addEventListener("click", this.onNextClick.bind(this))
+                this.sortBy.addEventListener("change", this.onSortByChange.bind(this))
+                this.sortDirection.addEventListener("change", this.onSortDirectionChange.bind(this))
                 this.loadMore()
             }
-
             onNextClick(event) {
                 event.preventDefault()
                 this.pageIndex++
                 this.loadMore()
             }
-                       
+            onSortByChange(event) {
+                this.pageIndex = 1
+                this.loadMore()
+            }
+            onSortDirectionChange(event) {
+                this.pageIndex = 1
+                this.loadMore()
+            }
+                           
             addElement(product) {
                 const div = document.createElement("div");
                 div.innerHTML = `
@@ -209,18 +220,21 @@
                 this.container.append(div);
                 div.style.display = "block";
             }
-                                 
-
+                                     
             loadMore() {
-                getData("{% url 'catalog_api' %}", this.pageIndex, this.perPage)
+                const sortBy = this.sortBy.value
+                const sortDirection = this.sortDirection.value
+                getData("{% url 'catalog_api' %}", this.pageIndex, this.perPage, sortBy, sortDirection)
                     .then(response => {
+                        this.container.innerHTML = ""
                         response.data.forEach((el) => {
                             this.addElement(el)
                         });
-                        this.next.style.display = !response.page.has_next ? "none" : "block"
+                        this.next.style.display = !response.has_next ? "none" : "block"
                     });
             }
         }
+        
 
         new LoadMorePaginator(3);
     </script>

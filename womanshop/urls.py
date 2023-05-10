@@ -15,4 +15,6 @@ urlpatterns = [
         views.UserProfileFormView.as_view(),
         name="user_profile_form",
     ),
+    path("catalog/", views.CatalogView.as_view(), name="catalog"),
+    path("catalog_api/", views.catalog_api, name="catalog_api"),
 ]
