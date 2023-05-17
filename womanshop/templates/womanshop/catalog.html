@@ -36,124 +36,175 @@
             {% csrf_token %}
             <div id="form_category">
                 <div class="form-group">
-                    {{ form_category.bodysuit }}
-                    {{ form_category.bodysuit.label_tag }}
+                    <input type="checkbox" name="bodysuit" value="bodysuit"
+                        id="sort_bodysuit">
+                    <label for="sort-by-name">Боди</label>
                 </div>
                 <div class="form-group">
-                    {{ form_category.bras }}
-                    {{ form_category.bras.label_tag }}
+                    <input type="checkbox" name="bras" value="bras"
+                        id="sort_bras">
+                    <label for="sort-by-name">Бюстгальтеры</label>
                 </div>
                 <div class="form-group">
-                    {{ form_category.tights_and_socks }}
-                    {{ form_category.tights_and_socks.label_tag }}
+                    <input type="checkbox" name="tights_and_socks"
+                        value="tights_and_socks"
+                        id="sort_tights_and_socks">
+                    <label for="sort-by-name"> Колготки и носки </label>
                 </div>
                 <div class="form-group">
-                    {{ form_category.swimwear }}
-                    {{ form_category.swimwear.label_tag }}
+                    <input type="checkbox" name="swimwear"
+                        value="swimwear"
+                        id="sort_swimwear">
+                    <label for="sort-by-name">Купальники</label>
                 </div>
                 <div class="form-group">
-                    {{ form_category.men_underwear }}
-                    {{ form_category.men_underwear.label_tag }}
+                    <input type="checkbox" name="men_underwear"
+                        value="men_underwear"
+                        id="sort_men_underwear">
+                    <label for="sort-by-name">Мужское белье</label>
                 </div>
                 <div class="form-group">
-                    {{ form_category.panties }}
-                    {{ form_category.panties.label_tag }}
+                    <input type="checkbox" name="panties"
+                        value="panties"
+                        id="sort_panties">
+                    <label for="sort-by-name">Трусики</label>
                 </div>
                 <div class="form-group">
-                    {{ form_category.seamless_underwear }}
-                    {{ form_category.seamless_underwear.label_tag }}
+                    <input type="checkbox" name="seamless_underwear"
+                        value="seamless_underwear"
+                        id="sort_seamless_underwear">
+                    <label for="sort-by-name">Бесшовное нижнее белье</label>
                 </div>
                 <div class="form-group">
-                    {{ form_category.thermal_underwear }}
-                    {{ form_category.thermal_underwear.label_tag }}
+                    <input type="checkbox" name="thermal_underwear"
+                        value="thermal_underwear"
+                        id="sort_thermal_underwear">
+                    <label for="sort-by-name">Термобелье</label>
                 </div>
                 <div class="form-group">
-                    {{ form_category.accessories }}
-                    {{ form_category.accessories.label_tag }}
+                    <input type="checkbox" name="accessories"
+                        value="accessories"
+                        id="sort_accessories">
+                    <label for="sort-by-name">Аксессуары</label>
                 </div>
             </div>
             <div id="form_price">
                 <div id="start">
-                    <p>{{ form_price.start.label_tag }}</p>
-                    <p>{{ form_price.start }}</p>
+                    <p><label for="id_start">От:</label></p>
+                    <p><input type="text" name="start" style="width:
+                            97px;"
+                            id="id_start"></p>
                 </div>
                 <div id="end">
-                    <p>{{ form_price.end.label_tag }}</p>
-                    <p>{{ form_price.end }}</p>
+                    <p><label for="id_end">До:</label></p>
+                    <p><input type="text" name="end" style="width: 97px;"
+                            id="id_end"></p>
                 </div>
             </div>
             <div id="form_style">
                 <div class="form-group">
-                    {{ form_style.basic_underwear }}
-                    {{ form_style.basic_underwear.label_tag }}
+                    <input type="checkbox" name="basic_underwear"
+                        value="basic_underwear"
+                        id="sort_basic_underwear">
+                    <label for="sort-by-name">Базовое белье</label>
                 </div>
                 <div class="form-group">
-                    {{ form_style.new }}
-                    {{ form_style.new.label_tag }}
+                    <input type="checkbox" name="new_style"
+                        value="new_style"
+                        id="sort_new_style">
+                    <label for="sort-by-name">Новинки</label>
                 </div>
                 <div class="form-group">
-                    {{ form_style.сomfort_underwear }}
-                    {{ form_style.сomfort_underwear.label_tag }}
+                    <input type="checkbox" name="сomfort_underwear"
+                        value="сomfort_underwear"
+                        id="sort_сomfort_underwear">
+                    <label for="sort-by-name">Комфортное белье</label>
                 </div>
                 <div class="form-group">
-                    {{ form_style.sexual }}
-                    {{ form_style.sexual.label_tag }}
+                    <input type="checkbox" name="sexual"
+                        value="sexual"
+                        id="sort_sexual">
+                    <label for="sort-by-name">Сексуальное</label>
                 </div>
                 <div class="form-group">
-                    {{ form_style.lacy }}
-                    {{ form_style.lacy.label_tag }}
+                    <input type="checkbox" name="lacy"
+                        value="lacy"
+                        id="sort_lacy">
+                    <label for="sort-by-name">Кружевное</label>
                 </div>
                 <div class="form-group">
-                    {{ form_style.everyday }}
-                    {{ form_style.everyday.label_tag }}
+                    <input type="checkbox" name="everyday"
+                        value="everyday"
+                        id="sort_everyday">
+                    <label for="sort-by-name">Повседневное</label>
                 </div>
                 <div class="form-group">
-                    {{ form_style.homewear }}
-                    {{ form_style.homewear.label_tag }}
+                    <input type="checkbox" name="homewear"
+                        value="homewear"
+                        id="sort_homewear">
+                    <label for="sort-by-name">Одежда для дома</label>
                 </div>
                 <div class="form-group">
-                    {{ form_style.sleepwear }}
-                    {{ form_style.sleepwear.label_tag }}
+                    <input type="checkbox" name="sleepwear"
+                        value="sleepwear"
+                        id="sort_sleepwear">
+                    <label for="sort-by-name">Одежда для сна</label>
                 </div>
                 <div class="form-group">
-                    {{ form_style.for_wedding }}
-                    {{ form_style.for_wedding.label_tag }}
+                    <input type="checkbox" name="for_wedding"
+                        value="for_wedding"
+                        id="sort_for_wedding">
+                    <label for="sort-by-name">Для свадьбы</label>
                 </div>
             </div>
             <div id="form_brand">
                 <div class="form-group">
-                    {{ form_brand.avelin }}
-                    {{ form_brand.avelin.label_tag }}
+                    <input type="checkbox" name="avelin"
+                        value="avelin"
+                        id="sort_avelin">
+                    <label for="sort-by-name">AVELIN</label>
                 </div>
                 <div class="form-group">
-                    {{ form_brand.comazo }}
-                    {{ form_brand.comazo.label_tag }}
+                    <input type="checkbox" name="comazo"
+                        value="comazo"
+                        id="sort_comazo">
+                    <label for="sort-by-name">COMAZO</label>
                 </div>
                 <div class="form-group">
-                    {{ form_brand.lauma }}
-                    {{ form_brand.lauma.label_tag }}
+                    <input type="checkbox" name="lauma"
+                        value="lauma"
+                        id="sort_lauma">
+                    <label for="sort-by-name">LAUMA</label>
                 </div>
                 <div class="form-group">
-                    {{ form_brand.melado }}
-                    {{ form_brand.melado.label_tag }}
+                    <input type="checkbox" name="melado"
+                        value="melado"
+                        id="sort_melado">
+                    <label for="sort-by-name">MELADO</label>
                 </div>
                 <div class="form-group">
-                    {{ form_brand.milavitsa }}
-                    {{ form_brand.milavitsa.label_tag }}
+                    <input type="checkbox" name="milavitsa"
+                        value="milavitsa"
+                        id="sort_milavitsa">
+                    <label for="sort-by-name">MILAVITSA</label>
                 </div>
                 <div class="form-group">
-                    {{ form_brand.serge }}
-                    {{ form_brand.serge.label_tag }}
+                    <input type="checkbox" name="serge"
+                        value="serge"
+                        id="sort_serge">
+                    <label for="sort-by-name">SERGE</label>
                 </div>
                 <div class="form-group">
-                    {{ form_brand.teatro }}
-                    {{ form_brand.teatro.label_tag }}
+                    <input type="checkbox" name="teatro"
+                        value="teatro"
+                        id="sort_teatro">
+                    <label for="sort-by-name">TEATRO</label>
                 </div>
                 <div class="form-group">
-                    {{ form_brand.triumph }}
-                    {{ form_brand.triumph.label_tag }}
-                    <input type="submit" class="btn btn-outline-dark"
-                        value="Применить">
+                    <input type="checkbox" name="triumph"
+                        value="triumph"
+                        id="sort_triumph">
+                    <label for="sort-by-name">TRIUMPH</label>
                 </div>
             </div>
         </div>
@@ -167,12 +218,40 @@
         </a>
     </nav>
     <script>
-        async function getData(url, page, paginateBy,sortBy, sortDirection) {
+        async function getData(url, page, paginateBy,sortBy, sortDirection, bodysuit, bras, tights_and_socks,swimwear,men_underwear,panties,seamless_underwear,thermal_underwear,accessories,basic_underwear,new_style,сomfort_underwear,sexual,lacy,everyday,homewear,sleepwear,for_wedding,avelin,comazo,lauma,melado,milavitsa,serge,teatro,triumph,start,end) {
             const urlWithParams = url + "?" + new URLSearchParams({
                 page: page,
                 per_page: paginateBy,
                 sort_by: sortBy,
-                sort_direction: sortDirection
+                sort_direction: sortDirection,
+                bodysuit: bodysuit,
+                bras: bras,
+                tights_and_socks: tights_and_socks,
+                swimwear:swimwear,
+                men_underwear:men_underwear,
+                panties:panties,
+                seamless_underwear:seamless_underwear,
+                thermal_underwear:thermal_underwear,
+                accessories:accessories,
+                basic_underwear:basic_underwear,
+                new_style:new_style,
+                сomfort_underwear:сomfort_underwear,
+                sexual:sexual,
+                lacy:lacy,
+                everyday:everyday,
+                homewear:homewear,
+                sleepwear:sleepwear,
+                for_wedding:for_wedding,
+                avelin:avelin,
+                comazo:comazo,
+                lauma:lauma,
+                melado:melado,
+                milavitsa:milavitsa,
+                serge:serge,
+                teatro:teatro,
+                triumph:triumph,
+                start:start,
+                end:end
             })
             const response = await fetch(urlWithParams);
             return response.json();
@@ -186,9 +265,65 @@
                 this.next = document.querySelector("#next")
                 this.sortBy = document.querySelector("#sort-by")
                 this.sortDirection = document.querySelector("#sort-direction")
+                this.bodysuit = document.querySelector("#sort_bodysuit")
+                this.bras = document.querySelector("#sort_bras")
+                this.tights_and_socks = document.querySelector("#sort_tights_and_socks")
+                this.swimwear = document.querySelector("#sort_swimwear")
+                this.men_underwear = document.querySelector("#sort_men_underwear")
+                this.panties = document.querySelector("#sort_panties")
+                this.seamless_underwear= document.querySelector("#sort_seamless_underwear")
+                this.thermal_underwear = document.querySelector("#sort_thermal_underwear")
+                this.accessories = document.querySelector("#sort_accessories")
+                this.basic_underwear = document.querySelector("#sort_basic_underwear")
+                this.new_style = document.querySelector("#sort_new_style")
+                this.сomfort_underwear = document.querySelector("#sort_сomfort_underwear")
+                this.sexual = document.querySelector("#sort_sexual")
+                this.lacy = document.querySelector("#sort_lacy")
+                this.everyday = document.querySelector("#sort_everyday")
+                this.homewear = document.querySelector("#sort_homewear")
+                this.sleepwear = document.querySelector("#sort_sleepwear")
+                this.for_wedding = document.querySelector("#sort_for_wedding")
+                this.avelin = document.querySelector("#sort_avelin")
+                this.comazo = document.querySelector("#sort_comazo")
+                this.lauma = document.querySelector("#sort_lauma")
+                this.melado = document.querySelector("#sort_melado")
+                this.milavitsa = document.querySelector("#sort_milavitsa")
+                this.serge = document.querySelector("#sort_serge")
+                this.teatro = document.querySelector("#sort_teatro")
+                this.triumph = document.querySelector("#sort_triumph")
+                this.start = document.querySelector("#id_start")
+                this.end = document.querySelector("#id_end")
                 this.next.addEventListener("click", this.onNextClick.bind(this))
                 this.sortBy.addEventListener("change", this.onSortByChange.bind(this))
                 this.sortDirection.addEventListener("change", this.onSortDirectionChange.bind(this))
+                this.bodysuit.addEventListener("change", this.onBodysuitChange.bind(this))
+                this.bras.addEventListener("change", this.onBrasChange.bind(this))
+                this.tights_and_socks.addEventListener("change",this.onTights_and_socksChange.bind(this))
+                this.swimwear.addEventListener("change", this.onSwimwearChange.bind(this))
+                this.men_underwear.addEventListener("change", this.onMen_underwearChange.bind(this))
+                this.panties.addEventListener("change", this.onPantiesChande.bind(this))
+                this.seamless_underwear.addEventListener("change", this.onSeamless_underwearChange.bind(this))
+                this.thermal_underwear.addEventListener("change", this.onThermal_underwearChange.bind(this))
+                this.accessories.addEventListener("change", this.onAccessoriesChange.bind(this))
+                this.basic_underwear.addEventListener("change", this.onBasic_underwearChange.bind(this))
+                this.new_style.addEventListener("change", this.onNew_style_Change.bind(this))
+                this.сomfort_underwear.addEventListener("change", this.onComfort_underwearChange.bind(this))
+                this.sexual.addEventListener("change", this.onSexualChange.bind(this))
+                this.lacy.addEventListener("change", this.onLacyChange.bind(this))
+                this.everyday.addEventListener("change", this.onEverydayChange.bind(this))
+                this.homewear.addEventListener("change", this.onHomewearChange.bind(this))
+                this.sleepwear.addEventListener("change", this.onSleepwearChange.bind(this))
+                this.for_wedding.addEventListener("change", this.onFor_weddingChange.bind(this))
+                this.avelin.addEventListener("change", this.onAvelinChange.bind(this))
+                this.comazo.addEventListener("change", this.onComazoChange.bind(this))
+                this.lauma.addEventListener("change", this.onLaumaChange.bind(this))
+                this.melado.addEventListener("change", this.onMeladoChange.bind(this))
+                this.milavitsa.addEventListener("change", this.onMilavitsaChande.bind(this))
+                this.serge.addEventListener("change", this.onSergeChange.bind(this))
+                this.teatro.addEventListener("change", this.onTeatroChange.bind(this))
+                this.triumph.addEventListener("change", this.onTriumphChange.bind(this))
+                this.start.addEventListener("change", this.onStartChange.bind(this))
+                this.end.addEventListener("change", this.onEndChange.bind(this))
                 this.loadMore()
             }
             onNextClick(event) {
@@ -204,7 +339,119 @@
                 this.pageIndex = 1
                 this.loadMore()
             }
-                           
+            onBodysuitChange(event) {
+               
+                this.pageIndex = 1
+                this.loadMore()
+            }
+            onBrasChange(event) {
+                this.pageIndex = 1
+                this.loadMore()
+            }
+            onTights_and_socksChange(event) {
+                this.pageIndex = 1
+                this.loadMore()
+            }
+            onSwimwearChange(event) {
+                this.pageIndex = 1
+                this.loadMore()
+            }
+            onMen_underwearChange(event) {
+                this.pageIndex = 1
+                this.loadMore()
+            }
+            onPantiesChande(event) {
+                this.pageIndex = 1
+                this.loadMore()
+            }
+            onSeamless_underwearChange(event)  {
+                this.pageIndex = 1
+                this.loadMore()
+            }
+            onThermal_underwearChange(event)  {
+                this.pageIndex = 1
+                this.loadMore()
+            }
+            onAccessoriesChange(event) {
+                this.pageIndex = 1
+                this.loadMore()
+            }
+            onBasic_underwearChange(event)  {
+                this.pageIndex = 1
+                this.loadMore()
+            }
+            onNew_style_Change(event) {
+                this.pageIndex = 1
+                this.loadMore()
+            }
+            onComfort_underwearChange(event) {
+                this.pageIndex = 1
+                this.loadMore()
+            } 
+            onSexualChange(event) {
+                this.pageIndex = 1
+                this.loadMore()
+            }  
+            onLacyChange(event) {
+                this.pageIndex = 1
+                this.loadMore()
+            }  
+            onEverydayChange(event) {
+                this.pageIndex = 1
+                this.loadMore()
+            } 
+            onHomewearChange(event) {
+                this.pageIndex = 1
+                this.loadMore()
+            } 
+            onSleepwearChange(event) {
+                this.pageIndex = 1
+                this.loadMore()
+            } 
+            onFor_weddingChange(event)   {
+                this.pageIndex = 1
+                this.loadMore()
+            }  
+            onAvelinChange(event) {
+                this.pageIndex = 1
+                this.loadMore()
+            }
+            onComazoChange(event) {
+                this.pageIndex = 1
+                this.loadMore()
+            }
+            onLaumaChange(event) {
+                this.pageIndex = 1
+                this.loadMore()
+            }
+            onMeladoChange(event) {
+                this.pageIndex = 1
+                this.loadMore()
+            }
+            onMilavitsaChande(event) {
+                this.pageIndex = 1
+                this.loadMore()
+            }
+            onSergeChange(event) {
+                this.pageIndex = 1
+                this.loadMore()
+            }
+            onTeatroChange(event) {
+                this.pageIndex = 1
+                this.loadMore()
+            }
+            onTriumphChange(event) {
+                this.pageIndex = 1
+                this.loadMore()
+            }
+            onStartChange(event) {
+                this.pageIndex = 1
+                this.loadMore()
+            }
+            onEndChange(event) {
+                this.pageIndex = 1
+                this.loadMore()
+            }
             addElement(product) {
                 const div = document.createElement("div");
                 div.innerHTML = `
@@ -224,7 +471,36 @@
             loadMore() {
                 const sortBy = this.sortBy.value
                 const sortDirection = this.sortDirection.value
-                getData("{% url 'catalog_api' %}", this.pageIndex, this.perPage, sortBy, sortDirection)
+                const bodysuit = this.bodysuit.checked
+                const bras = this.bras.checked
+                const tights_and_socks = this.tights_and_socks.checked
+                const swimwear = this.swimwear.checked
+                const men_underwear = this.men_underwear.checked
+                const panties = this.panties.checked
+                const seamless_underwear = this.seamless_underwear.checked
+                const thermal_underwear = this.thermal_underwear.checked
+                const accessories = this.accessories.checked
+                const basic_underwear = this.basic_underwear.checked
+                const new_style = this.new_style.checked
+                const сomfort_underwear = this.сomfort_underwear.checked
+                const sexual = this.sexual.checked
+                const lacy = this.lacy.checked
+                const everyday = this.everyday.checked
+                const homewear = this.homewear.checked
+                const sleepwear = this.sleepwear.checked
+                const for_wedding = this.for_wedding.checked
+                const avelin = this.avelin.checked
+                const comazo = this.comazo.checked
+                const lauma = this.lauma.checked
+                const melado = this.melado.checked
+                const milavitsa = this.milavitsa.checked
+                const serge = this.serge.checked
+                const teatro = this.teatro.checked
+                const triumph = this.triumph.checked
+                const start = this.start.value
+                const end = this.end.value
+            
+                getData("{% url 'catalog_api' %}", this.pageIndex, this.perPage, sortBy, sortDirection, bodysuit, bras,tights_and_socks,swimwear,men_underwear,panties,seamless_underwear,thermal_underwear,accessories,basic_underwear,new_style,сomfort_underwear,sexual,lacy,everyday,homewear,sleepwear,for_wedding,avelin,comazo,lauma,melado,milavitsa,serge,teatro,triumph,start,end)
                     .then(response => {
                         this.container.innerHTML = ""
                         response.data.forEach((el) => {
