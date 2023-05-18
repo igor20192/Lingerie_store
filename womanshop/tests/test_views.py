@@ -2,8 +2,8 @@ from django.test import TestCase, RequestFactory
 from django.urls import reverse
 from django.contrib.auth.models import User
 from django.core.files.uploadedfile import SimpleUploadedFile
-from womanshop.models import UserProfile
-from womanshop.views import UserProfileFormView
+from womanshop.models import UserProfile, Product, Brand, Category, Color, Size, Style
+from womanshop.views import UserProfileFormView, CatalogView
 from datetime import date
 
 
@@ -142,3 +142,86 @@ class UserProfileFormViewTest(TestCase):
         # Проверка, что форма была успешно сохранена
         user_profile = UserProfile.objects.get(user=self.user)
         self.assertEqual(user_profile.address, "Updated address")
+
+
+class CatalogViewTest(TestCase):
+    def setUp(self):
+        self.factory = RequestFactory()
+
+    def test_get_context_data(self):
+        # Create some example products
+        category = Category.objects.create(name="bodysuit")
+        brand = Brand.objects.create(name="AVELIN")
+        color = Color.objects.create(name="blue")
+        size = Size.objects.create(name="70D")
+        style = Style.objects.create(name="new_style")
+        for i in range(1, 13):
+            Product.objects.create(
+                name=f"Product {i}",
+                price=10,
+                brand=brand,
+                category=category,
+                color=color,
+                size=size,
+                style=style,
+                sale=False,
+                vendor_code=f"{i}",
+            )
+
+        # Create a GET request to the catalog page
+        url = reverse("catalog")
+        request = self.factory.get(url)
+
+        # Create an instance of the CatalogView and call get_context_data
+        view = CatalogView.as_view(template_name="womanshop/catalog.html")
+        response = view(request)
+
+        # Check that the response is successful
+        self.assertEqual(response.status_code, 200)
+
+        # Check that the context contains the expected keys
+        self.assertIn("list_product", response.context_data)
+        self.assertIn("catalog_api_url", response.context_data)
+
+        # Check the values in the context
+        context = response.context_data
+        list_product = context["list_product"]
+
+        # Check that the product list is paginated correctly
+        self.assertEqual(list_product.number, 1)
+        self.assertEqual(len(list_product), 12)
+        self.assertEqual(list_product[0], Product.objects.get(name="Product 1"))
+        self.assertEqual(list_product[1], Product.objects.get(name="Product 2"))
+        self.assertEqual(list_product[2], Product.objects.get(name="Product 3"))
+
+        # Check the catalog API URL
+        self.assertEqual(context["catalog_api_url"], reverse("catalog_api"))
+
+
+class CatalogAPITestCase(TestCase):
+    def test_catalog_api(self):
+        url = reverse("catalog_api")
+        data = {
+            "page": "1",
+            "sort_by": "price",
+            "sort_direction": "asc",
+            "start": "10",
+            "end": "50",
+            "bodysuit": "true",
+            "bras": "true",
+        }
+
+        response = self.client.get(url, data)
+        self.assertEqual(response.status_code, 200)
+
+        # Validate the JSON response structure and data
+        json_data = response.json()
+        self.assertIn("has_next", json_data)
+        self.assertIn("data", json_data)
+
+        data_list = json_data["data"]
+        for item in data_list:
+            self.assertIn("name", item)
+            self.assertIn("price", item)
+            self.assertIn("brand", item)
+            self.assertIn("image1", item)
