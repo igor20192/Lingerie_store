@@ -7,52 +7,43 @@ from django.core.paginator import Paginator
 from django.http import JsonResponse
 from django.urls import reverse
 from .models import UserProfile, Product, Style, Category, Brand
-from .forms import UserProfileForm, CategoryForm, PriceForm, StyleForm, BrandForm
+from .forms import UserProfileForm
 
 
 # Create your views here.
 
 
 class UserProfileView(View):
-    """Класс-представление для отображения профиля пользователя.
+    """Class-based view for displaying a user profile.
 
-    Методы:
-    --------
-    get(self, request):
-        Обработчик GET-запроса. Получает профиль пользователя по его user_id,
-        создает словарь с данными контекста и отображает шаблон страницы профиля.
+    Methods:
+        get(self, request): Handles GET requests. Retrieves the user profile based on the user_id,
+            creates a context dictionary, and renders the profile page template.
 
-    Атрибуты класса:
-    ------------------
-    Нет атрибутов класса.
+    Class Attributes:
+        None.
 
-    Аргументы метода get():
-    ------------------------
-    request: HttpRequest
-        Объект HttpRequest, содержащий данные запроса.
+    Args for get() method:
+        request (HttpRequest): The HttpRequest object containing the request data.
 
-    Возвращает:
-    -----------
-    HttpResponse
-        Ответ, содержащий отображение шаблона страницы профиля пользователя.
+    Returns:
+        HttpResponse: A response containing the rendered user profile page template.
 
-    Исключения:
-    -----------
-    Http404
-        Если профиль пользователя не найден в базе данных.
+    Raises:
+        Http404: If the user profile is not found in the database.
 
-    Пример использования:
-    ---------------------
-    # urls.py
-    from django.urls import path
-    from .views import UserProfileView
+    Example Usage:
+        # urls.py
+        from django.urls import path
+        from .views import UserProfileView
 
-    urlpatterns = [
-        path('user_profile/', UserProfileView.as_view(), name='user_profile'),
-    ]
+        urlpatterns = [
+            path('user_profile/', UserProfileView.as_view(), name='user_profile'),
+        ]
     """
 
     def get(self, request):
+        """Handle GET requests and render the user profile page."""
         user_profile = get_object_or_404(UserProfile, user_id=request.user.id)
         context = {"user_profile": user_profile}
         return render(request, "womanshop/user_profile.html", context)
@@ -60,51 +51,129 @@ class UserProfileView(View):
 
 class UserProfileFormView(View):
     """
-    Класс представления формы редактирования профиля пользователя.
+    Class-based view for editing a user profile.
 
-    HTTP-методы:
-        - GET: выводит форму для редактирования профиля пользователя.
-        - POST: сохраняет измененные данные профиля пользователя.
+    HTTP Methods:
+        - GET: Displays the form for editing the user profile.
+        - POST: Saves the modified user profile data.
 
-    Рендерит шаблон:
+    Renders Template:
         - womanshop/user_profile_form.html
 
-    Контекст:
-        - form: объект формы UserProfileForm.
+    Context:
+        - form: UserProfileForm object.
+
     """
 
     def get(self, request):
-        # Получение экземпляра модели UserProfile для текущего пользователя
+        """
+        Handle GET requests and display the user profile form for editing.
+        """
         user_profile = get_object_or_404(UserProfile, user_id=request.user.id)
-        # Создание экземпляра формы с дефолтными значениями из модели
         form = UserProfileForm(instance=user_profile)
 
         return render(request, "womanshop/user_profile_form.html", {"form": form})
 
     def post(self, request):
-        # Логика для POST-запроса
+        """
+        Handle POST requests and save the modified user profile data.
+        """
         user_profile = get_object_or_404(UserProfile, user_id=request.user.id)
         form = UserProfileForm(request.POST, request.FILES, instance=user_profile)
 
         if form.is_valid():
             form.save()
-            # Дополнительная логика после успешного сохранения формы
-            return redirect("user_profile")  # Перенаправление на страницу профиля
+            return redirect("user_profile")
 
-            # Обработка ошибок формы
         return render(request, "womanshop/user_profile_form.html", {"form": form})
 
 
 def catalog_api(request):
+    """
+    Performs filtering and sorting of products based on the parameters provided in the request.GET.
+    Returns the result in JSON format.
+
+    Args:
+        request (HttpRequest): The HTTP request object.
+
+    Returns:
+        JsonResponse: JSON response containing the filtered and sorted products.
+
+    """
     page_number = request.GET.get("page")
     sort_by = request.GET.get("sort_by")
     sort_direction = request.GET.get("sort_direction")
+    start_price = request.GET.get("start")
+    end_price = request.GET.get("end")
 
+    # Define name lists for categories, styles, and brands
+    name_categor = (
+        "bodysuit",
+        "bras",
+        "tights_and_socks",
+        "swimwear",
+        "men_underwear",
+        "panties",
+        "seamless_underwear",
+        "thermal_underwear",
+        "accessories",
+    )
+    name_styles = (
+        "basic_underwear",
+        "new_style",
+        "сomfort_underwear",
+        "sexual",
+        "lacy",
+        "everyday",
+        "homewear",
+        "sleepwear",
+        "for_wedding",
+    )
+    name_brands = (
+        "avelin",
+        "comazo",
+        "lauma",
+        "melado",
+        "milavitsa",
+        "serge",
+        "teatro",
+        "triumph",
+    )
+
+    # Filter categories, styles, and brands based on the request parameters
+    categories = [
+        values for values in name_categor if request.GET.get(values) == "true"
+    ]
+    styles = [values for values in name_styles if request.GET.get(values) == "true"]
+    brands = [
+        values.upper() for values in name_brands if request.GET.get(values) == "true"
+    ]
+
+    # Create the filters based on the selected categories, styles, brands, and price range
+    filters = Q()
+    if categories:
+        filters &= Q(category__name__in=categories)
+    if styles:
+        filters &= Q(style__name__in=styles)
+    if brands:
+        filters &= Q(brand__name__in=brands)
+    if start_price:
+        filters &= Q(price__gt=start_price)
+    if end_price:
+        filters &= Q(price__lt=end_price)
+
+    # Determine the sort direction
     if sort_direction == "desc":
         sort_by = f"-{sort_by}"
-    products = Product.objects.all().order_by(sort_by)
+
+    # Filter and sort the products
+    products = Product.objects.filter(filters).order_by(sort_by)
+
+    # Paginate the products
     paginator = Paginator(products, 12)
     page_obj = paginator.get_page(page_number)
+
+    # Create the response data
     data = {
         "has_next": page_obj.has_next(),
         "data": [
@@ -117,75 +186,40 @@ def catalog_api(request):
             for product in page_obj.object_list
         ],
     }
+
     return JsonResponse(data)
 
 
 class CatalogView(TemplateView):
+    """View for displaying the catalog page."""
+
     template_name = "womanshop/catalog.html"
-    form_category = CategoryForm()
-    form_price = PriceForm()
-    form_style = StyleForm()
-    form_brand = BrandForm()
 
     def get_context_data(self, **kwargs):
+        """
+        Retrieve the context data for the catalog page.
+
+        Returns:
+            dict: The context data containing the product list, pagination information, and API URL.
+        """
         context = super().get_context_data(**kwargs)
-        context["form_category"] = self.form_category
-        context["form_price"] = self.form_price
-        context["form_style"] = self.form_style
-        context["form_brand"] = self.form_brand
 
-        # Получаем номер текущей страницы, переданной GET-параметром
+        # Get the current page number from the GET parameters
         page_number = self.request.GET.get("page")
-        products = Product.objects.all().order_by("price")
-        paginator = Paginator(
-            products, 3
-        )  # Определяем пагинатор с количеством товаров на странице равным 12
-        page_obj = paginator.get_page(
-            page_number
-        )  # Получаем страницу с номером page_number
 
-        context[
-            "list_product"
-        ] = page_obj  # Передаем объект страницы в контекст шаблона
+        # Retrieve all products and order them by price
+        products = Product.objects.all().order_by("price")
+
+        # Create a paginator with 12 products per page
+        paginator = Paginator(products, 12)
+
+        # Get the page object for the specified page number
+        page_obj = paginator.get_page(page_number)
+
+        # Add the page object to the context
+        context["list_product"] = page_obj
+
+        # Add the API URL to the context using the reverse function
         context["catalog_api_url"] = reverse("catalog_api")
 
         return context
-
-    def post(self, request, *args, **kwargs):
-        form_category = CategoryForm(request.POST)
-        form_style = StyleForm(request.POST)
-        form_brand = BrandForm(request.POST)
-        form_price = PriceForm(request.POST)
-        if form_category.is_valid():
-            categories = [k for k, v in form_category.cleaned_data.items() if v]
-        if form_style.is_valid():
-            styles = [k for k, v in form_style.cleaned_data.items() if v]
-        if form_brand.is_valid():
-            brands = [k.upper() for k, v in form_brand.cleaned_data.items() if v]
-        if form_price.is_valid():
-            start_price = form_price.cleaned_data.get("start")
-            end_price = form_price.cleaned_data.get("end")
-        filters = Q()
-        if categories:
-            filters &= Q(category__name__in=categories)
-        if styles:
-            filters &= Q(style__name__in=styles)
-        if brands:
-            filters &= Q(brand__name__in=brands)
-        if start_price:
-            filters &= Q(price__gt=start_price)
-        if end_price:
-            filters &= Q(price__lt=end_price)
-
-        context = self.get_context_data()
-
-        # Фильтруем продукты и создаем объект страницы с количеством товаров на странице равным 12
-        products = Product.objects.filter(filters).order_by("price")
-        paginator = Paginator(products, 3)
-        page_obj = paginator.get_page(1)
-
-        context[
-            "list_product"
-        ] = page_obj  # Передаем объект страницы в контекст шаблона
-
-        return self.render_to_response(context)
