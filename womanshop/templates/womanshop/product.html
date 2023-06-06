@@ -1,0 +1,164 @@
+{% extends 'womanshop/base.html' %}
+{% load static %}
+
+{% block content %}
+<div id="naw_product">
+    <nav style="--bs-breadcrumb-divider: '>';"
+        aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'index' %}">Главная
+                    страница</a></li>
+            <li class="breadcrumb-item"><a
+                    href="/catalog">{{product.category.name}}</a></li>
+            <li class=" breadcrumb-item active" aria-current="page">{{product.name}}</li>
+        </ol>
+    </nav>
+</div>
+<img id="arrow3" src="{% static 'img/Arrow 3.jpg' %}" alt>
+<img id="product_image1" src="{{ product.image1.url }}" alt>
+<img id="product_image2" src="{{ product.image2.url }}" alt>
+<img id="product_image3" src="{{ product.image3.url }}" alt>
+<img id="product_image4" src="{{ product.image4.url }}" alt>
+<img id="arrow4" src="{% static 'img/Arrow 4.png' %}" alt>
+
+<div id="product_info">
+    <p>{{product.name}}</p>
+    <pre>{{product.vendor_code}} | {{product.brand.name}} | {{product.collection}}</pre>
+    <p id="product_price">{{product.price}}&nbsp;₽</p>
+    <p id="product_color">ЦВЕТ:</p>
+
+    <div id="color_picker">
+        <div class="color_circle" style="background-color: #fffefe;"></div>
+        <div class="color_circle" style="background-color: #891818;"></div>
+        <div class="color_circle" style="background-color: #030303;"></div>
+        <div class="color_circle" style="background-color: #7FBAFD;"></div>
+        <div class="color_circle" style="background-color: #fbd4b0;"></div>
+        <!-- Добавьте дополнительные цветовые кружки по необходимости -->
+    </div>
+
+    <p id="product_size">РАЗМЕР:</p>
+
+    <div id="size_picker">
+        <div class="size_square" data-size="70E">70E</div>
+        <div class="size_square" data-size="70D">70D</div>
+        <div class="size_square" data-size="70F">70F</div>
+        <div class="size_square" data-size="70F">75C</div>
+        <div class="size_square" data-size="70F">75D</div>
+        <div class="size_square" data-size="70F">75E</div>
+        <div class="size_square" data-size="70F">75F</div>
+        <div class="size_square" data-size="70F">80B</div>
+        <div class="size_square" data-size="70F">80C</div>
+        <div class="size_square" data-size="70F">80D</div>
+        <div class="size_square" data-size="70F">80E</div>
+        <div class="size_square" data-size="70F">80F</div>
+        <!-- Добавьте остальные размеры квадратиков здесь -->
+    </div>
+
+    <p id="product_quantity">КОЛИЧЕСТВО</p>
+
+</div>
+
+<script>
+    // Получаем ссылки на изображения
+    var image1 = document.getElementById('product_image1');
+    var image2 = document.getElementById('product_image2');
+    var image3 = document.getElementById('product_image3');
+    var image4 = document.getElementById('product_image4');
+
+    // Сохраняем исходный src атрибут image1
+    var originalSrc = image1.src;
+
+    // Функция для замены изображения
+    function replaceImage(clickedImage) {
+        var clickedSrc = clickedImage.src;
+        clickedImage.src = image1.src;
+        image1.src = clickedSrc;
+    }
+
+    // Обработчик клика на изображении image2
+    image2.addEventListener('click', function() {
+        replaceImage(image2);
+    });
+
+    // Обработчик клика на изображении image3
+    image3.addEventListener('click', function() {
+        replaceImage(image3);
+    });
+
+    // Обработчик клика на изображении image4
+    image4.addEventListener('click', function() {
+        replaceImage(image4);
+    });
+
+    // Обработчик клика на изображении image1
+    image1.addEventListener('click', function() {
+        replaceImage(image1);
+    });
+
+</script>
+
+<script>
+    // Получаем ссылки на цветовые кружки
+    var colorCircles = document.getElementsByClassName('color_circle');
+
+    // Обработчик клика на цветовом кружке
+    for (const element of colorCircles) {
+        element.addEventListener('click', function() {
+            var selectedColor = this.dataset.color;
+            sendSelectedColor(selectedColor);
+        });
+    }
+
+    // Функция для отправки выбранного цвета на сервер
+    function sendSelectedColor(color) {
+        var xhr = new XMLHttpRequest();
+        var url = '/path/to/your/endpoint'; // Замените на реальный URL endpoint на сервере
+
+        xhr.open('POST', url, true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                // Обработка успешного ответа от сервера, если необходимо
+                console.log('Цвет успешно передан на сервер');
+            }
+        };
+
+        var data = JSON.stringify({ color: color });
+        xhr.send(data);
+    }
+</script>
+
+<script>
+    // Получаем ссылки на размерные квадратики
+    var sizeSquares = document.getElementsByClassName('size_square');
+
+    // Обработчик клика на размерном квадратике
+    for (const element of sizeSquares) {
+        element.addEventListener('click', function() {
+            var selectedSize = this.dataset.size;
+            sendSelectedSize(selectedSize);
+        });
+    }
+
+    // Функция для отправки выбранного размера на сервер
+    function sendSelectedSize(size) {
+        var xhr = new XMLHttpRequest();
+        var url = '/path/to/your/endpoint'; // Замените на реальный URL endpoint на сервере
+
+        xhr.open('POST', url, true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                // Обработка успешного ответа от сервера, если необходимо
+                console.log('Размер успешно передан на сервер');
+            }
+        };
+
+        var data = JSON.stringify({ size: size });
+        xhr.send(data);
+    }
+</script>
+
+{% endblock content %}
