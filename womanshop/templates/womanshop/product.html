@@ -3,16 +3,16 @@
 
 {% block content %}
 <div id="naw_product">
-    <nav style="--bs-breadcrumb-divider: '>';"
-        aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{% url 'index' %}">Главная
-                    страница</a></li>
-            <li class="breadcrumb-item"><a
-                    href="/catalog">{{product.category.name}}</a></li>
-            <li class=" breadcrumb-item active" aria-current="page">{{product.name}}</li>
-        </ol>
-    </nav>
+  <nav style="--bs-breadcrumb-divider: '>';"
+    aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'index' %}">Главная
+          страница</a></li>
+      <li class="breadcrumb-item"><a
+          href="/catalog">{{product.category.name}}</a></li>
+      <li class=" breadcrumb-item active" aria-current="page">{{product.name}}</li>
+    </ol>
+  </nav>
 </div>
 <img id="arrow3" src="{% static 'img/Arrow 3.jpg' %}" alt>
 <img id="product_image1" src="{{ product.image1.url }}" alt>
@@ -22,143 +22,215 @@
 <img id="arrow4" src="{% static 'img/Arrow 4.png' %}" alt>
 
 <div id="product_info">
-    <p>{{product.name}}</p>
-    <pre>{{product.vendor_code}} | {{product.brand.name}} | {{product.collection}}</pre>
-    <p id="product_price">{{product.price}}&nbsp;₽</p>
-    <p id="product_color">ЦВЕТ:</p>
+  <p>{{product.name}}</p>
+  <pre>{{product.vendor_code}} | {{product.brand.name}} | {{product.collection}}</pre>
+  <p id="product_price">{{product.price}}&nbsp;₽</p>
+  <p id="product_color">ЦВЕТ:</p>
 
-    <div id="color_picker">
-        <div class="color_circle" style="background-color: #fffefe;"></div>
-        <div class="color_circle" style="background-color: #891818;"></div>
-        <div class="color_circle" style="background-color: #030303;"></div>
-        <div class="color_circle" style="background-color: #7FBAFD;"></div>
-        <div class="color_circle" style="background-color: #fbd4b0;"></div>
-        <!-- Добавьте дополнительные цветовые кружки по необходимости -->
+  <div id="color_picker">
+    <div class="color_circle selected" style="background-color: #fffefe;"
+      data-color="#fffefe"></div>
+    <div class="color_circle" style="background-color: #891818;"
+      data-color="#891818"></div>
+    <div class="color_circle" style="background-color: #030303;"
+      data-color="#030303"></div>
+    <div class="color_circle" style="background-color: #7FBAFD;"
+      data-color="#7FBAFD"></div>
+    <div class="color_circle" style="background-color: #fbd4b0;"
+      data-color="#fbd4b0"></div>
+    <!-- Добавьте дополнительные цветовые кружки по необходимости -->
+  </div>
+
+  <p id="product_size">РАЗМЕР:</p>
+
+  <div id="size_picker">
+    <div class="size_square selected" data-size="70E">70E</div>
+    <div class="size_square" data-size="70D" name="size">70D</div>
+    <div class="size_square" data-size="70F" name="size">70F</div>
+    <div class="size_square" data-size="75C" name="size">75C</div>
+    <div class="size_square" data-size="75D" name="size">75D</div>
+    <div class="size_square" data-size="75E" name="size">75E</div>
+    <div class="size_square" data-size="75F" name="size">75F</div>
+    <div class="size_square" data-size="80B" name="size">80B</div>
+    <div class="size_square" data-size="80C" name="size">80C</div>
+    <div class="size_square" data-size="80D" name="size">80D</div>
+    <div class="size_square" data-size="80E" name="size">80E</div>
+    <div class="size_square" data-size="80F" name="size">80F</div>
+    <!-- Добавьте остальные размеры квадратиков здесь -->
+  </div>
+
+  <p id="product_quantity">КОЛИЧЕСТВО</p>
+
+  <form id="quantity_form">
+    {% csrf_token %}
+    <div class="quantity_buttons">
+      <button id="button-" type="button" class="quantity_button minus">-</button>
+      <input type="number" id="quantity_input" name="quantity" min="1"
+        value="1">
+      <button id="button_plus" type="button" class="quantity_button plus">+</button>
     </div>
-
-    <p id="product_size">РАЗМЕР:</p>
-
-    <div id="size_picker">
-        <div class="size_square" data-size="70E">70E</div>
-        <div class="size_square" data-size="70D">70D</div>
-        <div class="size_square" data-size="70F">70F</div>
-        <div class="size_square" data-size="70F">75C</div>
-        <div class="size_square" data-size="70F">75D</div>
-        <div class="size_square" data-size="70F">75E</div>
-        <div class="size_square" data-size="70F">75F</div>
-        <div class="size_square" data-size="70F">80B</div>
-        <div class="size_square" data-size="70F">80C</div>
-        <div class="size_square" data-size="70F">80D</div>
-        <div class="size_square" data-size="70F">80E</div>
-        <div class="size_square" data-size="70F">80F</div>
-        <!-- Добавьте остальные размеры квадратиков здесь -->
-    </div>
-
-    <p id="product_quantity">КОЛИЧЕСТВО</p>
+    <p id="product_stock">В наличии: {{product.stock}}</p>
+    <button type="submit">Добавить в корзину</button>
+  </form>
 
 </div>
 
 <script>
-    // Получаем ссылки на изображения
-    var image1 = document.getElementById('product_image1');
-    var image2 = document.getElementById('product_image2');
-    var image3 = document.getElementById('product_image3');
-    var image4 = document.getElementById('product_image4');
+  // Получаем ссылки на изображения
+  var image1 = document.getElementById('product_image1');
+  var image2 = document.getElementById('product_image2');
+  var image3 = document.getElementById('product_image3');
+  var image4 = document.getElementById('product_image4');
 
-    // Сохраняем исходный src атрибут image1
-    var originalSrc = image1.src;
+  // Сохраняем исходный src атрибут image1
+  var originalSrc = image1.src;
 
-    // Функция для замены изображения
-    function replaceImage(clickedImage) {
-        var clickedSrc = clickedImage.src;
-        clickedImage.src = image1.src;
-        image1.src = clickedSrc;
-    }
+  // Функция для замены изображения
+  function replaceImage(clickedImage) {
+      var clickedSrc = clickedImage.src;
+      clickedImage.src = image1.src;
+      image1.src = clickedSrc;
+  }
 
-    // Обработчик клика на изображении image2
-    image2.addEventListener('click', function() {
-        replaceImage(image2);
-    });
+  // Обработчик клика на изображении image2
+  image2.addEventListener('click', function() {
+      replaceImage(image2);
+  });
 
-    // Обработчик клика на изображении image3
-    image3.addEventListener('click', function() {
-        replaceImage(image3);
-    });
+  // Обработчик клика на изображении image3
+  image3.addEventListener('click', function() {
+      replaceImage(image3);
+  });
 
-    // Обработчик клика на изображении image4
-    image4.addEventListener('click', function() {
-        replaceImage(image4);
-    });
+  // Обработчик клика на изображении image4
+  image4.addEventListener('click', function() {
+      replaceImage(image4);
+  });
 
-    // Обработчик клика на изображении image1
-    image1.addEventListener('click', function() {
-        replaceImage(image1);
-    });
+  // Обработчик клика на изображении image1
+  image1.addEventListener('click', function() {
+      replaceImage(image1);
+  });
 
 </script>
 
 <script>
-    // Получаем ссылки на цветовые кружки
-    var colorCircles = document.getElementsByClassName('color_circle');
+  // Получаем ссылки на элементы формы и кнопки
+  var quantityForm = document.getElementById('quantity_form');
+  var minusButton = document.querySelector('.quantity_button.minus');
+  var plusButton = document.querySelector('.quantity_button.plus');
+  var quantityInput = document.getElementById('quantity_input');
+  var productStock = document.getElementById('product_stock');
+  
+  // Функция для получения значения cookie по имени
+  function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+      var cookies = document.cookie.split(';');
+      for (const element of cookies) {
+        var cookie = element.trim();
+        // Проверяем, является ли cookie искомым cookie по имени
+        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+          break;
+        }
+      }
+    }
+    return cookieValue;
+  }
+
 
     // Обработчик клика на цветовом кружке
-    for (const element of colorCircles) {
-        element.addEventListener('click', function() {
-            var selectedColor = this.dataset.color;
-            sendSelectedColor(selectedColor);
-        });
+  var colorCircles = document.querySelectorAll('.color_circle');
+  colorCircles.forEach(function(circle) {
+    circle.addEventListener('click', function() {
+      // Убираем класс 'selected' у всех цветовых кружков
+      colorCircles.forEach(function(circle) {
+        circle.classList.remove('selected');
+      });
+  
+      // Добавляем класс 'selected' выбранному цветовому кружку
+      this.classList.add('selected');
+    });
+  });
+  
+  // Обработчик клика на квадратике размера
+  var sizeSquares = document.querySelectorAll('.size_square');
+  sizeSquares.forEach(function(square) {
+    square.addEventListener('click', function() {
+      // Убираем класс 'selected' у всех квадратиков размера
+      sizeSquares.forEach(function(square) {
+        square.classList.remove('selected');
+      });
+  
+      // Добавляем класс 'selected' выбранному квадратику размера
+      this.classList.add('selected');
+    });
+  });
+
+
+  // Обработчик клика на кнопку "-"
+  minusButton.addEventListener('click', function() {
+    if (quantityInput.value > 1) {
+      quantityInput.value--;
     }
+  });
 
-    // Функция для отправки выбранного цвета на сервер
-    function sendSelectedColor(color) {
-        var xhr = new XMLHttpRequest();
-        var url = '/path/to/your/endpoint'; // Замените на реальный URL endpoint на сервере
+  // Обработчик клика на кнопку "+"
+  plusButton.addEventListener('click', function() {
+    quantityInput.value++;
+  });
 
-        xhr.open('POST', url, true);
-        xhr.setRequestHeader('Content-Type', 'application/json');
+  // Обработчик отправки формы
+  quantityForm.addEventListener('submit', function(event) {
+    event.preventDefault();
 
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState === 4 && xhr.status === 200) {
-                // Обработка успешного ответа от сервера, если необходимо
-                console.log('Цвет успешно передан на сервер');
-            }
-        };
+    var selectedColor = document.querySelector('.color_circle.selected');
+    var selectedSize = document.querySelector('.size_square.selected');
 
-        var data = JSON.stringify({ color: color });
-        xhr.send(data);
+    // Установка значений выбранного цвета и размера на странице
+    var selectedColorText = selectedColor.getAttribute('data-color');
+    var selectedSizeText = selectedSize.getAttribute('data-size');
+    document.getElementById('product_color').textContent = 'ЦВЕТ: ' + selectedColorText;
+    document.getElementById('product_size').textContent = 'РАЗМЕР: ' + selectedSizeText;
+
+    if (selectedColor && selectedSize && quantityInput.value > 0) {
+      var color = selectedColor.getAttribute('data-color');
+      var size = selectedSize.getAttribute('data-size');
+      var quantity = quantityInput.value;
+
+      // Создаем объект с данными для отправки на сервер
+      var data = {
+        color: color,
+        size: size,
+        quantity: quantity
+      };
+
+      // Создаем и настраиваем XMLHttpRequest объект
+      var xhr = new XMLHttpRequest();
+      xhr.open('POST', '/submit-form/', true);
+      xhr.setRequestHeader('Content-Type', 'application/json');
+      xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+      xhr.setRequestHeader('X-CSRFToken', getCookie('csrftoken'));
+
+      // Отправляем данные на сервер
+      xhr.onreadystatechange = function() {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+          if (xhr.status === 200) {
+            // Обработка успешного ответа от сервера
+            var response = JSON.parse(xhr.responseText);
+            console.log(response.message);
+          } else {
+            // Обработка ошибки от сервера
+            console.error('Произошла ошибка при отправке данных на сервер');
+          }
+        }
+      };
+
+      // Преобразуем данные в формат JSON и отправляем на сервер
+      xhr.send(JSON.stringify(data));
     }
-</script>
-
-<script>
-    // Получаем ссылки на размерные квадратики
-    var sizeSquares = document.getElementsByClassName('size_square');
-
-    // Обработчик клика на размерном квадратике
-    for (const element of sizeSquares) {
-        element.addEventListener('click', function() {
-            var selectedSize = this.dataset.size;
-            sendSelectedSize(selectedSize);
-        });
-    }
-
-    // Функция для отправки выбранного размера на сервер
-    function sendSelectedSize(size) {
-        var xhr = new XMLHttpRequest();
-        var url = '/path/to/your/endpoint'; // Замените на реальный URL endpoint на сервере
-
-        xhr.open('POST', url, true);
-        xhr.setRequestHeader('Content-Type', 'application/json');
-
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState === 4 && xhr.status === 200) {
-                // Обработка успешного ответа от сервера, если необходимо
-                console.log('Размер успешно передан на сервер');
-            }
-        };
-
-        var data = JSON.stringify({ size: size });
-        xhr.send(data);
-    }
+  });
 </script>
 
 {% endblock content %}
