@@ -139,8 +139,7 @@
     return cookieValue;
   }
 
-
-    // Обработчик клика на цветовом кружке
+  // Обработчик клика на цветовом кружке
   var colorCircles = document.querySelectorAll('.color_circle');
   colorCircles.forEach(function(circle) {
     circle.addEventListener('click', function() {
@@ -151,8 +150,17 @@
   
       // Добавляем класс 'selected' выбранному цветовому кружку
       this.classList.add('selected');
+  
+      // Удаляем стиль 'border' у всех цветовых кружков
+      colorCircles.forEach(function(circle) {
+        circle.style.border = 'none';
+      });
+  
+      // Добавляем стиль 'border' выбранному цветовому кружку
+      this.style.border = '4px solid pink'; // Здесь 'red' можно заменить на желаемый цвет
     });
   });
+
   
   // Обработчик клика на квадратике размера
   var sizeSquares = document.querySelectorAll('.size_square');
