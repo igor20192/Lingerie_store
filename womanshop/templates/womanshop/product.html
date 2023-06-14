@@ -28,34 +28,44 @@
   <p id="product_color">ЦВЕТ:</p>
 
   <div id="color_picker">
-    <div class="color_circle selected" style="background-color: #fffefe;"
-      data-color="#fffefe"></div>
-    <div class="color_circle" style="background-color: #891818;"
-      data-color="#891818"></div>
-    <div class="color_circle" style="background-color: #030303;"
-      data-color="#030303"></div>
-    <div class="color_circle" style="background-color: #7FBAFD;"
-      data-color="#7FBAFD"></div>
-    <div class="color_circle" style="background-color: #fbd4b0;"
-      data-color="#fbd4b0"></div>
-    <!-- Добавьте дополнительные цветовые кружки по необходимости -->
+    <div class="color_circle selected"
+      style="background-color: {{ data.0.color }};"
+      data-color="{{ data.0.color }}" data.sizes="{{ data.0.sizes }}"></div>
+
+      {% for obj in data|slice:"1:" %} 
+            <div class="color_circle" style="background-color: {{ obj.color }};"
+            data-color="{{ obj.color }}" data-sizes="{{ obj.sizes }}"></div>
+      {% endfor %}
+
   </div>
 
   <p id="product_size">РАЗМЕР:</p>
 
   <div id="size_picker">
-    <div class="size_square selected" data-size="70E">70E</div>
-    <div class="size_square" data-size="70D" name="size">70D</div>
-    <div class="size_square" data-size="70F" name="size">70F</div>
-    <div class="size_square" data-size="75C" name="size">75C</div>
-    <div class="size_square" data-size="75D" name="size">75D</div>
-    <div class="size_square" data-size="75E" name="size">75E</div>
-    <div class="size_square" data-size="75F" name="size">75F</div>
-    <div class="size_square" data-size="80B" name="size">80B</div>
-    <div class="size_square" data-size="80C" name="size">80C</div>
-    <div class="size_square" data-size="80D" name="size">80D</div>
-    <div class="size_square" data-size="80E" name="size">80E</div>
-    <div class="size_square" data-size="80F" name="size">80F</div>
+    <div class="size_square selected"
+      data-size="70E" data-colors="{{ 70E }}">70E</div>
+    <div class="size_square" data-size="70D"
+      name="size" data-colors="{{ 70D }}">70D</div>
+    <div class="size_square" data-size="70F"
+      name="size" data-colors="{{ 70F }}">70F</div>
+    <div class="size_square" data-size="75C"
+      name="size" data-colors="{{ 75C }}">75C</div>
+    <div class="size_square" data-size="75D"
+      name="size" data-colors="{{ 75D }}">75D</div>
+    <div class="size_square" data-size="75E"
+      name="size" data-colors="{{ 75E }}">75E</div>
+    <div class="size_square" data-size="75F"
+      name="size" data-colors="{{ 75F }}">75F</div>
+    <div class="size_square" data-size="80B"
+      name="size" data-colors="{{ 80B }}">80B</div>
+    <div class="size_square" data-size="80C"
+      name="size" data-colors="{{ 80C }}">80C</div>
+    <div class="size_square" data-size="80D"
+      name="size" data-colors="{{ 80D }}">80D</div>
+    <div class="size_square" data-size="80E"
+      name="size" data-colors="{{ 80E }}">80E</div>
+    <div class="size_square" data-size="80F"
+      name="size" data-colors="{{ 80F }}">80F</div>
     <!-- Добавьте остальные размеры квадратиков здесь -->
   </div>
 
@@ -72,6 +82,9 @@
     <p id="product_stock">В наличии: {{product.stock}}</p>
     <button type="submit">Добавить в корзину</button>
   </form>
+
+  <div id="selected_size_square">
+  </div>
 
 </div>
 
@@ -138,43 +151,85 @@
     }
     return cookieValue;
   }
-
-  // Обработчик клика на цветовом кружке
-  var colorCircles = document.querySelectorAll('.color_circle');
-  colorCircles.forEach(function(circle) {
-    circle.addEventListener('click', function() {
-      // Убираем класс 'selected' у всех цветовых кружков
-      colorCircles.forEach(function(circle) {
-        circle.classList.remove('selected');
+  
+    // Обработчик клика на цветовом кружке
+    var colorCircles = document.querySelectorAll('.color_circle');
+    colorCircles.forEach(function(circle) {
+      circle.addEventListener('click', function() {
+        // Убираем класс 'selected' у всех цветовых кружков
+        colorCircles.forEach(function(circle) {
+          circle.classList.remove('selected');
+        });
+    
+        // Добавляем класс 'selected' выбранному цветовому кружку
+        this.classList.add('selected');
+    
+        // Удаляем стиль 'border' у всех цветовых кружков
+        colorCircles.forEach(function(circle) {
+          circle.style.border = 'none';
+        });
+    
+        // Добавляем стиль 'border' выбранному цветовому кружку
+        this.style.border = '4px solid pink'; // Здесь 'pink' можно заменить на желаемый цвет
+  
+        // Получаем выбранный цвет
+        var selectedColor = this.getAttribute('data-color');
+  
+        // Получаем ссылку на контейнер с квадратиками размеров
+        var sizePicker = document.getElementById('size_picker');
+  
+        // Получаем ссылки на все квадратики размеров внутри контейнера
+        var sizeSquares = sizePicker.getElementsByClassName('size_square');
+  
+        // Перебираем все квадратики размеров
+        Array.from(sizeSquares).forEach(function(square) {
+          // Получаем доступные размеры для текущего цвета из атрибута data-colors
+          var availableSizes = JSON.parse(square.getAttribute('data-colors'));
+  
+          // Проверяем, является ли размер доступным для выбранного цвета
+          if (availableSizes.includes(selectedColor)) {
+            // Делаем размер доступным
+            square.disabled = false;
+            square.classList.remove('unavailable');
+          } else {
+            // Делаем размер недоступным
+            square.disabled = true;
+            square.classList.add('unavailable');
+          }
+        });
       });
-  
-      // Добавляем класс 'selected' выбранному цветовому кружку
-      this.classList.add('selected');
-  
-      // Удаляем стиль 'border' у всех цветовых кружков
-      colorCircles.forEach(function(circle) {
-        circle.style.border = 'none';
-      });
-  
-      // Добавляем стиль 'border' выбранному цветовому кружку
-      this.style.border = '4px solid pink'; // Здесь 'red' можно заменить на желаемый цвет
     });
-  });
-
   
+  
+
   // Обработчик клика на квадратике размера
-  var sizeSquares = document.querySelectorAll('.size_square');
-  sizeSquares.forEach(function(square) {
-    square.addEventListener('click', function() {
-      // Убираем класс 'selected' у всех квадратиков размера
-      sizeSquares.forEach(function(square) {
-        square.classList.remove('selected');
-      });
-  
-      // Добавляем класс 'selected' выбранному квадратику размера
-      this.classList.add('selected');
+  // Получаем ссылку на контейнер с квадратиками размеров
+var sizePicker = document.getElementById('size_picker');
+
+// Получаем ссылки на все квадратики размеров внутри контейнера
+var sizeSquares = sizePicker.getElementsByClassName('size_square');
+
+// Обработчик клика на квадратике размера
+Array.from(sizeSquares).forEach(function(square) {
+  square.addEventListener('click', function() {
+    // Убираем класс 'selected' у всех квадратиков размера
+    Array.from(sizeSquares).forEach(function(square) {
+      square.classList.remove('selected');
     });
+
+    // Добавляем класс 'selected' выбранному квадратику размера
+    this.classList.add('selected');
+
+    // Изменяем цвет текста всех квадратиков размера
+    Array.from(sizeSquares).forEach(function(square) {
+      square.style.color = 'black';
+    });
+
+    // Изменяем цвет текста выбранного квадратика размера
+    this.style.color = 'pink';
   });
+});
+
 
 
   // Обработчик клика на кнопку "-"
@@ -216,29 +271,32 @@
 
       // Создаем и настраиваем XMLHttpRequest объект
       var xhr = new XMLHttpRequest();
-      xhr.open('POST', '/submit-form/', true);
+      xhr.open('POST', '{% url "add_to_cart" product.name %}');
       xhr.setRequestHeader('Content-Type', 'application/json');
-      xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
       xhr.setRequestHeader('X-CSRFToken', getCookie('csrftoken'));
 
       // Отправляем данные на сервер
-      xhr.onreadystatechange = function() {
-        if (xhr.readyState === XMLHttpRequest.DONE) {
-          if (xhr.status === 200) {
-            // Обработка успешного ответа от сервера
-            var response = JSON.parse(xhr.responseText);
-            console.log(response.message);
-          } else {
-            // Обработка ошибки от сервера
-            console.error('Произошла ошибка при отправке данных на сервер');
-          }
+      xhr.send(JSON.stringify(data));
+
+      // Обработчик ответа от сервера
+      xhr.onload = function() {
+        if (xhr.status === 200) {
+          // Обновляем информацию о количестве товара в наличии
+          var response = JSON.parse(xhr.responseText);
+          productStock.textContent = 'В наличии: ' + response.stock;
+          quantityInput.value = 1;
+
+          // Показываем уведомление об успешном добавлении товара в корзину
+          alert('Товар успешно добавлен в корзину!');
+        } else {
+          // Показываем уведомление об ошибке
+          alert('Ошибка при добавлении товара в корзину!');
         }
       };
-
-      // Преобразуем данные в формат JSON и отправляем на сервер
-      xhr.send(JSON.stringify(data));
+    } else {
+      // Показываем уведомление о неправильном выборе цвета, размера или количества
+      alert('Пожалуйста, выберите цвет, размер и количество товара!');
     }
   });
 </script>
-
-{% endblock content %}
+{% endblock %}
