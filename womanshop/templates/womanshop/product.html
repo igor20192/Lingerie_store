@@ -32,10 +32,10 @@
       style="background-color: {{ data.0.color }};"
       data-color="{{ data.0.color }}" data.sizes="{{ data.0.sizes }}"></div>
 
-      {% for obj in data|slice:"1:" %} 
-            <div class="color_circle" style="background-color: {{ obj.color }};"
-            data-color="{{ obj.color }}" data-sizes="{{ obj.sizes }}"></div>
-      {% endfor %}
+    {% for obj in data|slice:"1:" %}
+    <div class="color_circle" style="background-color: {{ obj.color }};"
+      data-color="{{ obj.color }}" data-sizes="{{ obj.sizes }}"></div>
+    {% endfor %}
 
   </div>
 
@@ -152,6 +152,28 @@
     return cookieValue;
   }
   
+    // Функция для обновления доступных размеров
+    function updateSizes(sizes) {
+      // Получение выбранного цвета
+      var selectedColor = document.querySelector('.color_circle.selected');
+      var selectedColorSizes = selectedColor.dataset.sizes.split(',');
+    
+      // Очистка списка размеров
+      var sizePicker = document.getElementById('size_picker');
+      sizePicker.innerHTML = '';
+    
+      // Добавление доступных размеров для выбранного цвета
+      sizes.forEach(function(size) {
+        if (selectedColorSizes.includes(size)) {
+          var sizeSquare = document.createElement('div');
+          sizeSquare.classList.add('size_square');
+          sizeSquare.dataset.size = size;
+          sizeSquare.innerText = size;
+          sizePicker.appendChild(sizeSquare);
+        }
+      });
+    }          
+
     // Обработчик клика на цветовом кружке
     var colorCircles = document.querySelectorAll('.color_circle');
     colorCircles.forEach(function(circle) {
@@ -171,35 +193,14 @@
     
         // Добавляем стиль 'border' выбранному цветовому кружку
         this.style.border = '4px solid pink'; // Здесь 'pink' можно заменить на желаемый цвет
+
+        // Получаем доступные размеры для выбранного цвета
+      var sizes = this.getAttribute('data-sizes');
   
-        // Получаем выбранный цвет
-        var selectedColor = this.getAttribute('data-color');
-  
-        // Получаем ссылку на контейнер с квадратиками размеров
-        var sizePicker = document.getElementById('size_picker');
-  
-        // Получаем ссылки на все квадратики размеров внутри контейнера
-        var sizeSquares = sizePicker.getElementsByClassName('size_square');
-  
-        // Перебираем все квадратики размеров
-        Array.from(sizeSquares).forEach(function(square) {
-          // Получаем доступные размеры для текущего цвета из атрибута data-colors
-          var availableSizes = JSON.parse(square.getAttribute('data-colors'));
-  
-          // Проверяем, является ли размер доступным для выбранного цвета
-          if (availableSizes.includes(selectedColor)) {
-            // Делаем размер доступным
-            square.disabled = false;
-            square.classList.remove('unavailable');
-          } else {
-            // Делаем размер недоступным
-            square.disabled = true;
-            square.classList.add('unavailable');
-          }
-        });
+      // Обновляем размеры в соответствующем контейнере
+      updateSizes(sizes);
       });
     });
-  
   
 
   // Обработчик клика на квадратике размера
