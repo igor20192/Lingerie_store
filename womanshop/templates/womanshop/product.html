@@ -153,26 +153,22 @@
   }
   
     // Функция для обновления доступных размеров
-    function updateSizes(sizes) {
-      // Получение выбранного цвета
-      var selectedColor = document.querySelector('.color_circle.selected');
-      var selectedColorSizes = selectedColor.dataset.sizes.split(',');
-    
-      // Очистка списка размеров
+    function updateSizes() {
       var sizePicker = document.getElementById('size_picker');
-      sizePicker.innerHTML = '';
+      var sizeSquares = sizePicker.getElementsByClassName('size_square');
     
-      // Добавление доступных размеров для выбранного цвета
-      sizes.forEach(function(size) {
-        if (selectedColorSizes.includes(size)) {
-          var sizeSquare = document.createElement('div');
-          sizeSquare.classList.add('size_square');
-          sizeSquare.dataset.size = size;
-          sizeSquare.innerText = size;
-          sizePicker.appendChild(sizeSquare);
-        }
+      // Скрыть все размеры
+      Array.from(sizeSquares).forEach(function(square) {
+        square.style.display = 'none';
       });
-    }          
+    
+      // Отобразить только выбранные размеры
+      var selectedSizeSquares = sizePicker.getElementsByClassName('size_square selected');
+      Array.from(selectedSizeSquares).forEach(function(square) {
+        square.style.display = 'inline-block';
+      });
+    }
+
 
     // Обработчик клика на цветовом кружке
     var colorCircles = document.querySelectorAll('.color_circle');
