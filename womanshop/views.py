@@ -1,3 +1,5 @@
+import json
+from typing import Any, Dict
 from django.shortcuts import render, redirect, get_object_or_404, get_list_or_404
 from django.contrib.auth.decorators import login_required
 from django.views import View
@@ -6,7 +8,7 @@ from django.db.models import Q
 from django.core.paginator import Paginator
 from django.http import JsonResponse
 from django.urls import reverse
-from .models import UserProfile, Product, Style, Category, Brand
+from .models import UserProfile, Product, Size, ProductVariant
 from .forms import UserProfileForm
 
 
@@ -182,6 +184,7 @@ def catalog_api(request):
                 "price": product.price,
                 "brand": product.brand.name,
                 "image1": product.image1.url,
+                "id": product.id,
             }
             for product in page_obj.object_list
         ],
@@ -223,3 +226,59 @@ class CatalogView(TemplateView):
         context["catalog_api_url"] = reverse("catalog_api")
 
         return context
+
+
+class ProductDetailView(TemplateView):
+    template_name = "womanshop/product.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        product_id = kwargs.get("product_id")
+        product = Product.objects.get(id=product_id)
+        product_variant = ProductVariant.objects.filter(product_id=product.id)
+        colors = {obj.color.name for obj in product_variant}
+        data = []
+        for color in list(colors):
+            data.append(
+                {
+                    "color": color,
+                    "sizes": ",".join(
+                        [
+                            obj.size.name
+                            for obj in product_variant
+                            if color == obj.color.name
+                        ]
+                    ),
+                }
+            )
+        context["product"] = product
+        context["data"] = data
+        context["product_variant"] = product_variant
+        return context
+
+
+def add_to_cart(request, product_name):
+    if request.method == "POST":
+        data = request.body.decode("utf-8")  # Получаем данные из запроса
+        if data:
+            # Парсим данные из JSON
+            json_data = json.loads(data)
+            color = json_data.get("color")
+            size = json_data.get("size")
+            quantity = json_data.get("quantity")
+            name = product_name
+
+            if color and size and quantity and name:
+                # Данные были переданы, выполняем необходимые действия
+
+                # Возвращаем успешный ответ
+                return JsonResponse(
+                    {"message": "Данные успешно получены и обработаны.", "stock": "3"}
+                )
+
+    # Если данные не были переданы или запрос не был методом POST,
+    # возвращаем ошибку
+    return JsonResponse(
+        {"message": "Ошибка: данные не были переданы или запрос не является POST."},
+        status=400,
+    )
