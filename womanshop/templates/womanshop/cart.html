@@ -1,0 +1,62 @@
+{% extends 'womanshop/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="cart">
+    <h1>Корзина</h1>
+    {% if cart_items %}
+    <table class="cart-table">
+        <thead>
+            <tr>
+                <th>Товар</th>
+                <th>Цена</th>
+                <th>Количество</th>
+                <th>Сумма</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in cart_items %}
+            <tr>
+                <td>
+                    <div class="cart-item">
+                        <img src="{{ item.product.image.url }}"
+                            alt="{{ item.product.name }}"
+                            class="cart-item-image">
+                        <div class="cart-item-details">
+                            <h3>{{ item.product.name }}</h3>
+                            <p>{{ item.product.description }}</p>
+                        </div>
+                    </div>
+                </td>
+                <td>{{ item.product.price }}₽</td>
+                <td>
+                    <div class="quantity">
+                        <button class="quantity-button minus">-</button>
+                        <input type="number" class="quantity-input" min="1"
+                            value="{{ item.quantity }}" readonly>
+                        <button class="quantity-button plus">+</button>
+                    </div>
+                </td>
+                <td>{{ item.subtotal }}₽</td>
+                <td>
+                    <a href="{% url 'remove_from_cart' item.id %}"
+                        class="remove-button">Удалить</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div class="cart-total">
+        <p>Итого: {{ cart_total }}₽</p>
+    </div>
+    <div class="cart-buttons">
+        <a href="{% url 'checkout' %}" class="checkout-button">Оформить заказ</a>
+        <a href="{% url 'clear_cart' %}" class="clear-cart-button">Очистить
+            корзину</a>
+    </div>
+    {% else %}
+    <p>Ваша корзина пуста.</p>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1994,3 +1994,347 @@ a {
 
     color: #898989;
 }
+
+#naw_product {
+    /* Главная страница > Бюстгальтеры > Бюстгальтер 116181 (Classic) */
+
+
+    position: absolute;
+    width: auto;
+    height: 14px;
+    left: 120px;
+    top: 124px;
+
+    font-family: 'Roboto', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 14px;
+    /* identical to box height */
+
+
+    color: #898989;
+}
+
+#product_image1 {
+    /* Rectangle 26 */
+
+
+    box-sizing: border-box;
+
+    position: absolute;
+    width: 436px;
+    height: 581px;
+    left: 250px;
+    top: 212px;
+
+    background: url(image.png);
+    border: 1px solid rgba(229, 229, 229, 0.5);
+}
+
+#product_image2 {
+    /* Rectangle 23 */
+
+
+    box-sizing: border-box;
+
+    position: absolute;
+    width: 110px;
+    height: 146.67px;
+    left: 120px;
+    top: 263px;
+
+    background: url(image.png);
+    border: 1px solid rgba(229, 229, 229, 0.5);
+}
+
+#product_image3 {
+    /* Rectangle 24 */
+
+
+    box-sizing: border-box;
+
+    position: absolute;
+    width: 110px;
+    height: 145.79px;
+    left: 120px;
+    top: 430px;
+
+    background: url(image.png);
+    border: 1px solid rgba(229, 229, 229, 0.5);
+}
+
+
+#product_image4 {
+    /* Rectangle 25 */
+
+
+    box-sizing: border-box;
+
+    position: absolute;
+    width: 110px;
+    height: 146.67px;
+    left: 120px;
+    top: 596px;
+
+    background: url(image.png);
+    border: 1px solid rgba(229, 229, 229, 0.5);
+}
+
+#product_info {
+    /* Бюстгальтер балконет (Classic) */
+
+
+    position: absolute;
+    width: 700px;
+    height: 28px;
+    left: 706px;
+    top: 210px;
+
+    font-family: 'Roboto', sans-serif;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 28px;
+    text-transform: uppercase;
+
+    color: #000000;
+}
+
+#product_info pre {
+    /* Арт. 116181 | Milavitsa | Коллекция «Classic» */
+
+
+    position: absolute;
+    width: auto;
+    height: 16px;
+    left: 0px;
+    top: 46px;
+
+    font-family: 'Roboto', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 16px;
+
+    color: #898989;
+}
+
+#product_price {
+    /* 1900 ₽ */
+
+
+    position: absolute;
+    width: auto;
+    height: 28px;
+    left: 0px;
+    top: 117px;
+
+    font-family: 'Roboto', sans-serif;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 28px;
+    text-transform: uppercase;
+
+    color: #C91664;
+}
+
+#product_color {
+    /* Цвет: */
+
+
+    position: absolute;
+    width: 39px;
+    height: 16px;
+    left: 0px;
+    top: 194px;
+
+    font-family: 'Roboto', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 16px;
+    text-transform: uppercase;
+
+    color: #000000;
+}
+
+
+#product_size {
+    /* размер: */
+
+
+    position: absolute;
+    width: 58px;
+    height: 16px;
+    left: 0px;
+    top: 300px;
+
+    font-family: 'Roboto', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 16px;
+    text-transform: uppercase;
+
+    color: #000000;
+}
+
+#arrow3 {
+    /* Arrow 3 */
+
+
+    box-sizing: border-box;
+
+    position: absolute;
+    width: 26px;
+    height: 0px;
+    left: 176px;
+    top: 238px;
+
+    border: 1px solid #000000;
+    transform: rotate(-90deg);
+}
+
+
+#arrow4 {
+    /* Arrow 4 */
+
+
+    box-sizing: border-box;
+
+    position: absolute;
+    width: 26px;
+    height: 0px;
+    left: 176px;
+    top: 767px;
+
+    border: 1px solid #000000;
+    transform: rotate(90deg);
+}
+
+#color_picker {
+    /* Ellipse 9 */
+
+
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+
+    position: absolute;
+    width: 540px;
+    height: 24px;
+    left: 30px;
+    top: 210px;
+
+    background: #fffefe;
+
+}
+
+
+.color_circle {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    margin-right: 10px;
+    cursor: pointer;
+    border: 1px solid #C4C4C4;
+}
+
+.size_square {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    line-height: 40px;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+
+#size_picker {
+    position: absolute;
+    width: 610px;
+    height: 80px;
+    left: 25px;
+    top: 331px;
+
+    font-family: 'Roboto', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 40px;
+    /* or 222% */
+
+    text-transform: uppercase;
+
+    color: #898989;
+}
+
+#product_quantity {
+    /* Количество */
+
+
+    position: absolute;
+    width: 92px;
+    height: 16px;
+    left: 0px;
+    top: 503px;
+
+    font-family: 'Roboto', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 16px;
+    text-transform: uppercase;
+
+    color: #000000;
+}
+
+#quantity_form {
+    position: absolute;
+    height: 23px;
+    left: 21px;
+    top: 536px;
+}
+
+.quantity_wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.quantity_button {
+    display: inline-block;
+    width: 23px;
+    height: 23px;
+    border: none;
+    background-color: #f2f2f2;
+    cursor: pointer;
+    margin: 0 5px;
+}
+
+
+#quantity_input {
+    width: 48px;
+    height: 23px;
+}
+
+.quantity_label {
+    display: inline-block;
+    margin: 0 10px;
+}
+
+.selected {
+    position: relative;
+    border-bottom: 2px solid pink;
+}
+
+.unavailable {
+    opacity: 0.5;
+    /* Прозрачность для недоступных размеров */
+    pointer-events: none;
+    /* Отключение событий указателя для недоступных размеров */
+}

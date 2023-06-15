@@ -25,8 +25,8 @@
             <option value="desc">descending</option>
         </select>
     </div>
-    <img id="line29" src="{% static '/img/Line 29.png' %}" alt="">
-    <img id="line30" src="{% static '/img/Line 30.png' %}" alt="">
+    <img id="line29" src="{% static '/img/Line 29.png' %}" alt>
+    <img id="line30" src="{% static '/img/Line 30.png' %}" alt>
     <div id="choice_of_goods">
         <p id="name_categor">КАТЕГОРИИ</p>
         <p id="name_price">По ЦЕНЕ</p>
@@ -212,7 +212,7 @@
 </div>
 <div id="product" class="container">
     <div id="a" class="row row-cols-3"></div>
-    <nav aria-label="">
+    <nav aria-label>
         <a href="#" id="next">
             Load more
         </a>
@@ -460,7 +460,7 @@
                         <p id="name_product">${product.name}</p>
                         <p id="name_brn">${product.brand}</p>
                         <p id="name_prc">${product.price}₽</p>
-                        <a id="detail" href="">Подробние</a>
+                        <a id="detail" href="/product/${product.id}">Подробние</a>
                         <p><img id="line25" src="{% static '/img/Line 25.png' %}" alt=""></p>
                     </div>
                 `;
