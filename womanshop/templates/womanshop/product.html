@@ -30,7 +30,7 @@
   <div id="color_picker">
     <div class="color_circle selected"
       style="background-color: {{ data.0.color }};"
-      data-color="{{ data.0.color }}" data.sizes="{{ data.0.sizes }}"></div>
+      data-color="{{ data.0.color }}" data-sizes="{{ data.0.sizes }}"></div>
 
     {% for obj in data|slice:"1:" %}
     <div class="color_circle" style="background-color: {{ obj.color }};"
@@ -43,29 +43,29 @@
 
   <div id="size_picker">
     <div class="size_square selected"
-      data-size="70E" data-colors="{{ 70E }}">70E</div>
+      data-size="70E" data-colors="{{ '70E' }}">70E</div>
     <div class="size_square" data-size="70D"
-      name="size" data-colors="{{ 70D }}">70D</div>
+      name="size" data-colors="{{ '70D' }}">70D</div>
     <div class="size_square" data-size="70F"
-      name="size" data-colors="{{ 70F }}">70F</div>
+      name="size" data-colors="{{ '70F' }}">70F</div>
     <div class="size_square" data-size="75C"
-      name="size" data-colors="{{ 75C }}">75C</div>
+      name="size" data-colors="{{ '75C' }}">75C</div>
     <div class="size_square" data-size="75D"
-      name="size" data-colors="{{ 75D }}">75D</div>
+      name="size" data-colors="{{ '75D' }}">75D</div>
     <div class="size_square" data-size="75E"
-      name="size" data-colors="{{ 75E }}">75E</div>
+      name="size" data-colors="{{ '75E' }}">75E</div>
     <div class="size_square" data-size="75F"
-      name="size" data-colors="{{ 75F }}">75F</div>
+      name="size" data-colors="{{ '75F' }}">75F</div>
     <div class="size_square" data-size="80B"
-      name="size" data-colors="{{ 80B }}">80B</div>
+      name="size" data-colors="{{ '80B' }}">80B</div>
     <div class="size_square" data-size="80C"
-      name="size" data-colors="{{ 80C }}">80C</div>
+      name="size" data-colors="{{ '80C' }}">80C</div>
     <div class="size_square" data-size="80D"
-      name="size" data-colors="{{ 80D }}">80D</div>
+      name="size" data-colors="{{ '80D' }}">80D</div>
     <div class="size_square" data-size="80E"
-      name="size" data-colors="{{ 80E }}">80E</div>
+      name="size" data-colors="{{ '80E' }}">80E</div>
     <div class="size_square" data-size="80F"
-      name="size" data-colors="{{ 80F }}">80F</div>
+      name="size" data-colors="{{ '80F' }}">80F</div>
     <!-- Добавьте остальные размеры квадратиков здесь -->
   </div>
 
@@ -153,7 +153,7 @@
   }
   
     // Функция для обновления доступных размеров
-    function updateSizes() {
+    function updateSizes(sizes) {
       var sizePicker = document.getElementById('size_picker');
       var sizeSquares = sizePicker.getElementsByClassName('size_square');
     
@@ -163,9 +163,11 @@
       });
     
       // Отобразить только выбранные размеры
-      var selectedSizeSquares = sizePicker.getElementsByClassName('size_square selected');
-      Array.from(selectedSizeSquares).forEach(function(square) {
-        square.style.display = 'inline-block';
+      sizes.split(',').forEach(function(size) {
+        var sizeSquare = sizePicker.querySelector('.size_square[data-size="' + size + '"]');
+        if (sizeSquare) {
+          sizeSquare.style.display = 'inline-block';
+        }
       });
     }
 
@@ -192,9 +194,15 @@
 
         // Получаем доступные размеры для выбранного цвета
       var sizes = this.getAttribute('data-sizes');
-  
+      console.log(sizes)
+      
+
       // Обновляем размеры в соответствующем контейнере
-      updateSizes(sizes);
+      if (sizes !== null && sizes !== undefined) {
+        // Выполнить действия, если размеры не равны null или undefined
+        updateSizes(sizes);
+      }
+      
       });
     });
   
