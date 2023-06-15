@@ -17,4 +17,10 @@ urlpatterns = [
     ),
     path("catalog/", views.CatalogView.as_view(), name="catalog"),
     path("catalog_api/", views.catalog_api, name="catalog_api"),
+    path(
+        "product/<int:product_id>/",
+        views.ProductDetailView.as_view(),
+        name="product",
+    ),
+    path("add_to_cart/<str:product_name>", views.add_to_cart, name="add_to_cart"),
 ]
