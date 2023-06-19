@@ -1,18 +1,29 @@
+from decimal import Decimal
 import json
 from typing import Any, Dict
 from django.shortcuts import render, redirect, get_object_or_404, get_list_or_404
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import View
 from django.views.generic import TemplateView
 from django.db.models import Q
 from django.core.paginator import Paginator
 from django.http import JsonResponse
 from django.urls import reverse
-from .models import UserProfile, Product, Size, ProductVariant
+from .models import UserProfile, Product, Size, ProductVariant, Color
 from .forms import UserProfileForm
 
 
 # Create your views here.
+
+
+class IndexView(TemplateView):
+    template_name = "womanshop/index.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["item_in_cart"] = len(self.request.session.get("cart", []))
+        return context
 
 
 class UserProfileView(View):
@@ -225,6 +236,9 @@ class CatalogView(TemplateView):
         # Add the API URL to the context using the reverse function
         context["catalog_api_url"] = reverse("catalog_api")
 
+        # Displaying the number of items in the cart
+        context["item_in_cart"] = len(self.request.session.get("cart", []))
+
         return context
 
 
@@ -254,11 +268,12 @@ class ProductDetailView(TemplateView):
         context["product"] = product
         context["data"] = data
         context["product_variant"] = product_variant
+        context["item_in_cart"] = len(self.request.session.get("cart", []))
         return context
 
 
-def add_to_cart(request, product_name):
-    if request.method == "POST":
+class AddToCartView(View):
+    def post(self, request, product_id):
         data = request.body.decode("utf-8")  # Получаем данные из запроса
         if data:
             # Парсим данные из JSON
@@ -266,19 +281,88 @@ def add_to_cart(request, product_name):
             color = json_data.get("color")
             size = json_data.get("size")
             quantity = json_data.get("quantity")
-            name = product_name
 
-            if color and size and quantity and name:
-                # Данные были переданы, выполняем необходимые действия
-
+            if color and size and quantity:
+                cart = self.request.session.get("cart", [])
+                cart.append([product_id, color, size, quantity])
+                self.request.session["cart"] = cart
+                color_id = Color.objects.get(name=color).id
+                size_id = Size.objects.get(name=size).id
+                stock = ProductVariant.objects.filter(
+                    product_id=product_id, color_id=color_id, size_id=size_id
+                ).values("stock")
                 # Возвращаем успешный ответ
                 return JsonResponse(
-                    {"message": "Данные успешно получены и обработаны.", "stock": "3"}
+                    {
+                        "message": "Данные успешно получены и обработаны. ",
+                        "stock": stock[0]["stock"],
+                    }
                 )
 
-    # Если данные не были переданы или запрос не был методом POST,
-    # возвращаем ошибку
-    return JsonResponse(
-        {"message": "Ошибка: данные не были переданы или запрос не является POST."},
-        status=400,
-    )
+        # Если данные не были переданы или запрос не был методом POST,
+        # возвращаем ошибку
+        return JsonResponse(
+            {"message": "Ошибка: данные не были переданы или запрос не является POST."},
+            status=400,
+        )
+
+
+class CartView(LoginRequiredMixin, TemplateView):
+    login_url = "/accounts/signup/"
+    template_name = "womanshop/cart.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        cart = self.request.session.get("cart", [])
+        product_data = []
+        for id, data in enumerate(cart):
+            product_obj = Product.objects.get(id=data[0])
+            subtotal = product_obj.price * Decimal(data[3])
+            product_data.append(
+                {
+                    "id": id,
+                    "product": product_obj,
+                    "quantity": data[3],
+                    "subtotal": subtotal,
+                }
+            )
+
+        context["cart_items"] = product_data
+        context["cart_total"] = sum(item["product"].price for item in product_data)
+        context["item_in_cart"] = len(self.request.session.get("cart", []))
+        return context
+
+
+class ClearCartView(LoginRequiredMixin, View):
+    """
+    View class for removing an item from the cart.
+    The user must be authenticated, otherwise will be redirected to the signup page.
+    """
+
+    login_url = "/accounts/signup/"
+
+    def get(self, request, id):
+        """
+        Handles the GET request for removing an item from the cart.
+
+        Args:
+            request (HttpRequest): The request object.
+            id (int): The identifier of the item to remove.
+
+        Returns:
+            HttpResponseRedirect: Redirects to the cart page.
+        """
+        item_cart = request.session.get("cart")
+        if item_cart and str(id):
+            del item_cart[id]
+            request.session["cart"] = item_cart
+        return redirect("cart")
+
+
+class ClearCartView(LoginRequiredMixin, View):
+    login_url = "/accounts/signup/"
+
+    def get(self, request):
+        if request.session.get("cart"):
+            request.session["cart"] = []
+            return redirect("cart")
