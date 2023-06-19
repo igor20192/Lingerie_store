@@ -333,7 +333,7 @@ class CartView(LoginRequiredMixin, TemplateView):
         return context
 
 
-class ClearCartView(LoginRequiredMixin, View):
+class RemoveFromCartView(LoginRequiredMixin, View):
     """
     View class for removing an item from the cart.
     The user must be authenticated, otherwise will be redirected to the signup page.
