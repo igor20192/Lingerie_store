@@ -25,38 +25,38 @@
                 <img id="telephone" src="{% static '/img/telephone.png' %}"
                     alt="Not photo">
                 <a class="navbar-brand" id="catalog" href="{% url 'catalog' %}">
-                    <img src="{% static '/img/КАТАЛОГ.png' %}" alt="">
+                    <img src="{% static '/img/КАТАЛОГ.png' %}" alt>
                 </a>
                 <a class="navbar-brand" id="undwear" href="#">
-                    <img src="{% static '/img/Нижнее белье.png' %}" alt="">
+                    <img src="{% static '/img/Нижнее белье.png' %}" alt>
                 </a>
                 <a class="navbar-brand" id="brend" href="#">
-                    <img src="{% static '/img/Бренды.png' %}" alt="">
+                    <img src="{% static '/img/Бренды.png' %}" alt>
                 </a>
                 <a class="navbar-brand" id="xxl" href="#">
-                    <img src="{% static '/img/XXL.png' %}" alt="">
+                    <img src="{% static '/img/XXL.png' %}" alt>
                 </a>
                 <a class="navbar-brand" id="sale" href="#">
-                    <img src="{% static '/img/Распродажа.png' %}" alt="">
+                    <img src="{% static '/img/Распродажа.png' %}" alt>
                 </a>
                 <a class="navbar-brand" id="certificate" href="#">
-                    <img src="{% static '/img/Сертификаты.png' %}" alt="">
+                    <img src="{% static '/img/Сертификаты.png' %}" alt>
                 </a>
                 <a class="navbar-brand" id="group1" href="#">
-                    <img src="{% static '/img/Group 1.png' %}" alt="">
+                    <img src="{% static '/img/Group 1.png' %}" alt>
                 </a>
                 <a class="navbar-brand" id="group2" href="#map">
-                    <img src="{% static '/img/Group 2.png' %}" alt="">
+                    <img src="{% static '/img/Group 2.png' %}" alt>
                 </a>
                 <a class="navbar-brand" id="shop" href="#map">
-                    <img src="{% static '/img/Магазины.png' %}" alt="">
+                    <img src="{% static '/img/Магазины.png' %}" alt>
                 </a>
                 <a class="navbar-brand" id="group5"
                     href="{% url 'user_profile' %}">
-                    <img src="{% static '/img/Group 5.png' %}" alt="">
+                    <img src="{% static '/img/Group 5.png' %}" alt>
                 </a>
-                <a class="navbar-brand" id="group3" href="#">
-                    <img src="{% static '/img/Group 3.png' %}" alt="">
+                <a class="navbar-brand" id="group3" href="{% url 'cart' %}">
+                    <img src="{% static '/img/Group 3.png' %}" alt="Корзина">
                 </a>
 
                 {% if user.is_authenticated %}
@@ -65,7 +65,8 @@
                 <a class="navbar-brand" id="input" href="/accounts/login/">Вход</a>
                 {% endif %}
 
-                <a class="navbar-brand" id="basket" href="#">Корзина()</a>
+                <a class="navbar-brand" id="basket" href="{% url 'cart' %}">Корзина(<span
+                        id="item_in_cart">{{ item_in_cart }}</span>)</a>
             </div>
         </nav>
 
@@ -78,75 +79,73 @@
             <div id="map_shop">
                 <pre id="my_shop">НАШИ МАГАЗИНЫ</pre>
                 <p id="my_city">Калининград</p>
-                <img id="map" src="{% static '/img/image 6.png' %}" alt="">
+                <img id="map" src="{% static '/img/image 6.png' %}" alt>
             </div>
 
-            <img id="group" src="{% static '/img/Group.png' %}" alt="">
-            <img id="contact" src="{% static '/img/КОНТАКТЫ.png' %}" alt="">
-            <a href="">
+            <img id="group" src="{% static '/img/Group.png' %}" alt>
+            <img id="contact" src="{% static '/img/КОНТАКТЫ.png' %}" alt>
+            <a href>
                 <img id="facebook"
                     src="{% static '/img/Facebook - Negative.png' %}"
-                    alt="">
+                    alt>
             </a>
-            <a id="instagram" href="">
+            <a id="instagram" href>
                 <img
                     src="{% static '/img/Instagram - Negative.png' %}"
-                    alt="">
+                    alt>
             </a>
-            <a id="subtract" href="">
+            <a id="subtract" href>
                 <img
-                    src="{% static '/img/Subtract.png' %}" alt="">
+                    src="{% static '/img/Subtract.png' %}" alt>
             </a>
 
             <div id="company">
                 <h6>КОМПАНИЯ</h6>
                 <div class="href_company">
-                    <a class="company" href="">О нас</a><br>
+                    <a class="company" href>О нас</a><br>
                     <a class="company" href="#contact">Контакты</a><br>
                     <a class="company" href="#map">Адреса магазинов</a><br>
-                    <a class="company" href="">Новости и статьи</a><br>
-                    <a class="company" href="">Гарантии</a>
+                    <a class="company" href>Новости и статьи</a><br>
+                    <a class="company" href>Гарантии</a>
                 </div>
             </div>
             <div id="buyer">
                 <h6>ПОКУПАТЕЛЯМ</h6>
                 <div class="href_company">
-                    <a class="company" href="">Личный кабирет</a><br>
-                    <a class="company" href="">Доставка и оплата</a><br>
-                    <a class="company" href="">Правила возврата</a><br>
-                    <a class="company" href="">Программа лояльности</a><br>
+                    <a class="company" href>Личный кабирет</a><br>
+                    <a class="company" href>Доставка и оплата</a><br>
+                    <a class="company" href>Правила возврата</a><br>
+                    <a class="company" href>Программа лояльности</a><br>
                 </div>
             </div>
             <div id="support">
                 <h6><pre>СЛУЖБА ПОДДЕРЖКИ</pre></h6>
                 <div class="href_company">
-                    <a class="company" href="">Как оформить заказ</a><br>
-                    <a class="company" href="">Как выбрать размер</a><br>
-                    <a class="company" href="">Вопросы и ответы</a><br>
-                    <a class="company" href="">Гид по стилю</a><br>
-                    <a class="company" href="">Карта сайта</a><br>
+                    <a class="company" href>Как оформить заказ</a><br>
+                    <a class="company" href>Как выбрать размер</a><br>
+                    <a class="company" href>Вопросы и ответы</a><br>
+                    <a class="company" href>Гид по стилю</a><br>
+                    <a class="company" href>Карта сайта</a><br>
                 </div>
             </div>
             <div id="legalissues">
                 <h6><pre>ЮРИДИЧЕСКИЕ ВОПРОСЫ</pre></h6>
                 <div class="href_company">
-                    <a class="company" href="">Политика конфиденциальности</a><br>
-                    <a class="company" href="">Использование cookie</a><br>
-                    <a class="company" href="">Условия продажи и
+                    <a class="company" href>Политика конфиденциальности</a><br>
+                    <a class="company" href>Использование cookie</a><br>
+                    <a class="company" href>Условия продажи и
                         обслуживания</a><br>
-                    <a class="company" href="">Пользовательское соглашение</a><br>
+                    <a class="company" href>Пользовательское соглашение</a><br>
                 </div>
             </div>
             <div id="question">
                 <h6><pre>ЗАДАЙТЕ ВОПРОС</pre></h6>
                 <div class="href_company">
-                    <a class="company" href="">WhatsApp</a><br>
-                    <a class="company" href="">Viber</a><br>
-                    <a class="company" href="">Telegram</a><br>
+                    <a class="company" href>WhatsApp</a><br>
+                    <a class="company" href>Viber</a><br>
+                    <a class="company" href>Telegram</a><br>
                 </div>
             </div>
-
-
 
         </footer>
 
