@@ -134,7 +134,7 @@
   var plusButton = document.querySelector('.quantity_button.plus');
   var quantityInput = document.getElementById('quantity_input');
   var productStock = document.getElementById('product_stock');
-  
+  var userIsAuthenticated = "{{ user }}";
   // Функция для получения значения cookie по имени
   function getCookie(name) {
     var cookieValue = null;
@@ -276,7 +276,7 @@ Array.from(sizeSquares).forEach(function(square) {
 
       // Создаем и настраиваем XMLHttpRequest объект
       var xhr = new XMLHttpRequest();
-      xhr.open('POST', '{% url "add_to_cart" product.name %}');
+      xhr.open('POST', '{% url "add_to_cart" product.id %}');
       xhr.setRequestHeader('Content-Type', 'application/json');
       xhr.setRequestHeader('X-CSRFToken', getCookie('csrftoken'));
 
@@ -288,8 +288,17 @@ Array.from(sizeSquares).forEach(function(square) {
         if (xhr.status === 200) {
           // Обновляем информацию о количестве товара в наличии
           var response = JSON.parse(xhr.responseText);
+          console.log(response)
           productStock.textContent = 'В наличии: ' + response.stock;
           quantityInput.value = 1;
+
+          // Обновляем количество товаров в корзине
+          var itemInCartElement = document.getElementById('item_in_cart');
+          if (itemInCartElement) {
+            var currentItemCount = parseInt(itemInCartElement.textContent);
+            itemInCartElement.textContent = currentItemCount + 1;
+          }
+
 
           // Показываем уведомление об успешном добавлении товара в корзину
           alert('Товар успешно добавлен в корзину!');
