@@ -3,7 +3,7 @@ import json
 from typing import Any, Dict
 from django.shortcuts import render, redirect, get_object_or_404, get_list_or_404
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views import View
 from django.views.generic import TemplateView
 from django.db.models import Q
@@ -15,6 +15,8 @@ from .forms import UserProfileForm
 
 
 # Create your views here.
+
+LOGIN_URL = "/accounts/signup/"
 
 
 class IndexView(TemplateView):
@@ -252,6 +254,8 @@ class ProductDetailView(TemplateView):
         product_variant = ProductVariant.objects.filter(product_id=product.id)
         colors = {obj.color.name for obj in product_variant}
         data = []
+        user = self.request.user
+
         for color in list(colors):
             data.append(
                 {
@@ -267,48 +271,97 @@ class ProductDetailView(TemplateView):
             )
         context["product"] = product
         context["data"] = data
+        context["user"] = user.is_authenticated
         context["product_variant"] = product_variant
         context["item_in_cart"] = len(self.request.session.get("cart", []))
         return context
 
 
-class AddToCartView(View):
+class AddToCartView(LoginRequiredMixin, View):
+    """
+    View class to add a product to the cart for authenticated users.
+    """
+
+    login_url = LOGIN_URL  # Замените это на ваш URL для страницы регистрации или входа
+
     def post(self, request, product_id):
-        data = request.body.decode("utf-8")  # Получаем данные из запроса
+        """
+        Handle POST request to add a product to the cart.
+
+        Args:
+            request: The HTTP request object.
+            product_id: The ID of the product to add to the cart.
+
+        Returns:
+            A JSON response indicating the success or failure of the operation.
+        """
+        data = request.body.decode("utf-8")  # Get data from the request
         if data:
-            # Парсим данные из JSON
+            # Parse data from JSON
             json_data = json.loads(data)
             color = json_data.get("color")
             size = json_data.get("size")
             quantity = json_data.get("quantity")
 
             if color and size and quantity:
-                cart = self.request.session.get("cart", [])
+                cart = request.session.get("cart", [])
                 cart.append([product_id, color, size, quantity])
-                self.request.session["cart"] = cart
-                color_id = Color.objects.get(name=color).id
-                size_id = Size.objects.get(name=size).id
+                request.session["cart"] = cart
+                # Fetch stock information from the database
+                product = get_object_or_404(Product, id=product_id)
+                color_id = get_object_or_404(Color, name=color).id
+                size_id = get_object_or_404(Size, name=size).id
                 stock = ProductVariant.objects.filter(
-                    product_id=product_id, color_id=color_id, size_id=size_id
+                    product=product, color_id=color_id, size_id=size_id
                 ).values("stock")
-                # Возвращаем успешный ответ
+                # Return a successful response
                 return JsonResponse(
                     {
-                        "message": "Данные успешно получены и обработаны. ",
+                        "message": "Data received and processed successfully.",
                         "stock": stock[0]["stock"],
                     }
                 )
 
-        # Если данные не были переданы или запрос не был методом POST,
-        # возвращаем ошибку
+        # If no data was provided or the request method is not POST, return an error
         return JsonResponse(
-            {"message": "Ошибка: данные не были переданы или запрос не является POST."},
+            {"message": "Error: No data provided or request method is not POST."},
             status=400,
         )
 
 
+class AvailableProductQuantityView(LoginRequiredMixin, View):
+    def post(self, request, product_id):
+        """
+        Get the available quantity of a product variant based on color and size.
+
+        Args:
+            request (HttpRequest): The HTTP request object.
+            product_id (int): The ID of the product.
+
+        Returns:
+            JsonResponse: JSON response containing the available stock quantity.
+        """
+        data = request.body.decode("utf-8")
+        if data:
+            # Parse data from JSON
+            json_data = json.loads(data)
+            color = json_data.get("color")
+            size = json_data.get("size")
+
+            if color and size:
+                product = get_object_or_404(Product, id=product_id)
+                color_id = get_object_or_404(Color, name=color).id
+                size_id = get_object_or_404(Size, name=size).id
+                stock = ProductVariant.objects.filter(
+                    product=product, color_id=color_id, size_id=size_id
+                ).values("stock")
+
+                # Return JSON response with stock quantity
+                return JsonResponse({"stock": stock[0]["stock"]})
+
+
 class CartView(LoginRequiredMixin, TemplateView):
-    login_url = "/accounts/signup/"
+    login_url = LOGIN_URL
     template_name = "womanshop/cart.html"
 
     def get_context_data(self, **kwargs):
@@ -328,7 +381,7 @@ class CartView(LoginRequiredMixin, TemplateView):
             )
 
         context["cart_items"] = product_data
-        context["cart_total"] = sum(item["product"].price for item in product_data)
+        context["cart_total"] = sum(item["subtotal"] for item in product_data)
         context["item_in_cart"] = len(self.request.session.get("cart", []))
         return context
 
@@ -339,7 +392,7 @@ class RemoveFromCartView(LoginRequiredMixin, View):
     The user must be authenticated, otherwise will be redirected to the signup page.
     """
 
-    login_url = "/accounts/signup/"
+    login_url = LOGIN_URL
 
     def get(self, request, id):
         """
@@ -360,9 +413,22 @@ class RemoveFromCartView(LoginRequiredMixin, View):
 
 
 class ClearCartView(LoginRequiredMixin, View):
-    login_url = "/accounts/signup/"
+    """
+    View class to clear the cart.
+    """
+
+    login_url = LOGIN_URL
 
     def get(self, request):
+        """
+        Handle GET request to clear the cart.
+
+        Args:
+            request: The HTTP request object.
+
+        Returns:
+            A redirect to the "cart" URL.
+        """
         if request.session.get("cart"):
             request.session["cart"] = []
             return redirect("cart")
