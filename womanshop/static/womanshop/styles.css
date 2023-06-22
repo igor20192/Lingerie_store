@@ -2338,3 +2338,17 @@ a {
     pointer-events: none;
     /* Отключение событий указателя для недоступных размеров */
 }
+
+.cart {
+    position: absolute;
+    width: 100%;
+    height: 300px;
+    top: 110px;
+
+}
+
+.cart img {
+
+    width: 110px;
+    height: 146.67px;
+}
