@@ -4,7 +4,7 @@ from django.views.generic import TemplateView
 from . import views
 
 urlpatterns = [
-    path("", TemplateView.as_view(template_name="womanshop/index.html"), name="index"),
+    path("", views.IndexView.as_view(), name="index"),
     path(
         "user_profile/",
         login_required(views.UserProfileView.as_view()),
@@ -22,5 +22,21 @@ urlpatterns = [
         views.ProductDetailView.as_view(),
         name="product",
     ),
-    path("add_to_cart/<str:product_name>", views.add_to_cart, name="add_to_cart"),
+    path(
+        "add_to_cart/<int:product_id>/",
+        views.AddToCartView.as_view(),
+        name="add_to_cart",
+    ),
+    path("cart/", views.CartView.as_view(), name="cart"),
+    path(
+        "remove_from_cart/<int:id>/",
+        views.RemoveFromCartView.as_view(),
+        name="remove_from_cart",
+    ),
+    path("clear_cart/", views.ClearCartView.as_view(), name="clear_cart"),
+    path(
+        "available_product_quantity/<int:product_id>/",
+        views.AvailableProductQuantityView.as_view(),
+        name="available_product_quantity",
+    ),
 ]
