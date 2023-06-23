@@ -65,17 +65,22 @@
 
 <script>
     var itemsId = JSON.parse('{{ items_id }}')
-    for(const element of itemsId){
-        let minusButton  = document.getElementById('button_minus_' + element);
-        let plusButton = document.getElementById('button_plus' + element);
-        let quantityInput = document.getElementById('input_' + element);
-    
+    for(const element of itemsId) {
+        let minusButton  = document.getElementById('button_minus_' + element[0]);
+        let plusButton = document.getElementById('button_plus_' + element[0]);
+        let quantityInput = document.getElementById('input_' + element[0]);
+        let stock = element[1];
+        console.log(stock)
         minusButton.addEventListener('click', function (){
             if (quantityInput.value > 1) {
                 quantityInput.value--;
             }
         });
+        plusButton.addEventListener('click', function (){
+            if (quantityInput.value < stock) {
+                quantityInput.value++;
+            }
+        });
     }
-
 </script>
 {% endblock %}
