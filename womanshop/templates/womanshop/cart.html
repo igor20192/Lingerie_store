@@ -20,7 +20,7 @@
             <tr>
                 <td>
                     <div class="cart-item">
-                        <img src="{{ item.product.image.url }}"
+                        <img src="{{ item.product.image1.url }}"
                             alt="{{ item.product.name }}"
                             class="cart-item-image">
                         <div class="cart-item-details">
@@ -32,10 +32,13 @@
                 <td>{{ item.product.price }}₽</td>
                 <td>
                     <div class="quantity">
-                        <button class="quantity-button minus">-</button>
-                        <input type="number" class="quantity-input" min="1"
+                        <button id="button_minus_{{ item.id }}"
+                            class="quantity-button minus">-</button>
+                        <input id="input_{{ item.id }}" type="number"
+                            class="quantity-input" min="1"
                             value="{{ item.quantity }}" readonly>
-                        <button class="quantity-button plus">+</button>
+                        <button id="button_plus_{{ item.id }}"
+                            class="quantity-button plus">+</button>
                     </div>
                 </td>
                 <td>{{ item.subtotal }}₽</td>
@@ -51,7 +54,7 @@
         <p>Итого: {{ cart_total }}₽</p>
     </div>
     <div class="cart-buttons">
-        <a href="{% url 'checkout' %}" class="checkout-button">Оформить заказ</a>
+        <a href="#" class="checkout-button">Оформить заказ</a>
         <a href="{% url 'clear_cart' %}" class="clear-cart-button">Очистить
             корзину</a>
     </div>
@@ -59,4 +62,20 @@
     <p>Ваша корзина пуста.</p>
     {% endif %}
 </div>
+
+<script>
+    var itemsId = JSON.parse('{{ items_id }}')
+    for(const element of itemsId){
+        let minusButton  = document.getElementById('button_minus_' + element);
+        let plusButton = document.getElementById('button_plus' + element);
+        let quantityInput = document.getElementById('input_' + element);
+    
+        minusButton.addEventListener('click', function (){
+            if (quantityInput.value > 1) {
+                quantityInput.value--;
+            }
+        });
+    }
+
+</script>
 {% endblock %}
