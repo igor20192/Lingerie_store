@@ -39,4 +39,9 @@ urlpatterns = [
         views.AvailableProductQuantityView.as_view(),
         name="available_product_quantity",
     ),
+    path(
+        "cart_quantity_update/",
+        views.CartQuantityUpdateView.as_view(),
+        name="cart_quantity_update",
+    ),
 ]

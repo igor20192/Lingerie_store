@@ -135,6 +135,7 @@
   var quantityInput = document.getElementById('quantity_input');
   var productStock = document.getElementById('product_stock');
   var userIsAuthenticated = "{{ user }}";
+  var stock = 0
   // Функция для получения значения cookie по имени
   function getCookie(name) {
     var cookieValue = null;
@@ -232,7 +233,35 @@ Array.from(sizeSquares).forEach(function(square) {
 
     // Изменяем цвет текста выбранного квадратика размера
     this.style.color = 'pink';
-  });
+
+    
+    var selectedColor = document.querySelector('.color_circle.selected');
+    var selectedSize = document.querySelector('.size_square.selected');
+    var color = selectedColor.getAttribute('data-color');
+    var size = selectedSize.getAttribute('data-size');
+    var data = {
+      color: color,
+      size: size
+    };
+
+    // Создаем и настраиваем XMLHttpRequest объект
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '{% url "available_product_quantity" product.id %}');
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.setRequestHeader('X-CSRFToken', getCookie('csrftoken'));
+    // Отправляем данные на сервер
+    xhr.send(JSON.stringify(data));
+
+    // Обработчик ответа от сервера
+    xhr.onload = function() {
+      if (xhr.status === 200) {
+        // Обновляем информацию о количестве товара в наличии
+        var response = JSON.parse(xhr.responseText);
+        productStock.textContent = 'В наличии: ' + response.stock;
+        stock=response.stock
+      }
+    }
+  })
 });
 
 
@@ -246,13 +275,16 @@ Array.from(sizeSquares).forEach(function(square) {
 
   // Обработчик клика на кнопку "+"
   plusButton.addEventListener('click', function() {
-    quantityInput.value++;
+    if (quantityInput.value < stock){
+      quantityInput.value++;
+    }
   });
 
   // Обработчик отправки формы
   quantityForm.addEventListener('submit', function(event) {
     event.preventDefault();
-
+  
+  if (userIsAuthenticated === 'True'){
     var selectedColor = document.querySelector('.color_circle.selected');
     var selectedSize = document.querySelector('.size_square.selected');
 
@@ -288,7 +320,6 @@ Array.from(sizeSquares).forEach(function(square) {
         if (xhr.status === 200) {
           // Обновляем информацию о количестве товара в наличии
           var response = JSON.parse(xhr.responseText);
-          console.log(response)
           productStock.textContent = 'В наличии: ' + response.stock;
           quantityInput.value = 1;
 
@@ -311,6 +342,9 @@ Array.from(sizeSquares).forEach(function(square) {
       // Показываем уведомление о неправильном выборе цвета, размера или количества
       alert('Пожалуйста, выберите цвет, размер и количество товара!');
     }
+  } else {
+    alert('Зарегестрируйтесь или войдите!')
+  }
   });
 </script>
 {% endblock %}

@@ -369,7 +369,12 @@ class CartView(LoginRequiredMixin, TemplateView):
         cart = self.request.session.get("cart", [])
         product_data = []
         for id, data in enumerate(cart):
-            product_obj = Product.objects.get(id=data[0])
+            product_obj = get_object_or_404(Product, id=data[0])
+            color_id = get_object_or_404(Color, name=data[1]).id
+            size_id = get_object_or_404(Size, name=data[2]).id
+            stock = ProductVariant.objects.filter(
+                product=product_obj, color_id=color_id, size_id=size_id
+            ).values("stock")
             subtotal = product_obj.price * Decimal(data[3])
             product_data.append(
                 {
@@ -377,9 +382,11 @@ class CartView(LoginRequiredMixin, TemplateView):
                     "product": product_obj,
                     "quantity": data[3],
                     "subtotal": subtotal,
+                    "stock": stock[0]["stock"],
                 }
             )
-
+        item_id = [[item["id"], item["stock"]] for item in product_data]
+        context["items_id"] = json.dumps(item_id)
         context["cart_items"] = product_data
         context["cart_total"] = sum(item["subtotal"] for item in product_data)
         context["item_in_cart"] = len(self.request.session.get("cart", []))
@@ -432,3 +439,20 @@ class ClearCartView(LoginRequiredMixin, View):
         if request.session.get("cart"):
             request.session["cart"] = []
             return redirect("cart")
+
+
+class CartQuantityUpdateView(LoginRequiredMixin, View):
+    def post(self, request):
+        data = request.body.decode("utf-8")
+        cart = request.session.get("cart")
+        if data and cart:
+            json_data = json.loads(data)
+            quantity = json_data.get("quantity")
+            index = json_data.get("index")
+            cart[index][3] = quantity
+            request.session["cart"] = cart
+            return JsonResponse({"message": "Количество товаров в корзине обновлено."})
+        return JsonResponse(
+            {"message": "Error: No data provided or request method is not POST."},
+            status=400,
+        )

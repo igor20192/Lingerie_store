@@ -29,7 +29,7 @@
                         </div>
                     </div>
                 </td>
-                <td>{{ item.product.price }}₽</td>
+                <td id="price_{{ item.id }}">{{ item.product.price }}₽</td>
                 <td>
                     <div class="quantity">
                         <button id="button_minus_{{ item.id }}"
@@ -41,7 +41,7 @@
                             class="quantity-button plus">+</button>
                     </div>
                 </td>
-                <td>{{ item.subtotal }}₽</td>
+                <td id="subtotal_{{ item.id }}">{{ item.subtotal }}₽</td>
                 <td>
                     <a href="{% url 'remove_from_cart' item.id %}"
                         class="remove-button">Удалить</a>
@@ -51,7 +51,7 @@
         </tbody>
     </table>
     <div class="cart-total">
-        <p>Итого: {{ cart_total }}₽</p>
+        <p id="price_total">Итого: {{ cart_total }}₽</p>
     </div>
     <div class="cart-buttons">
         <a href="#" class="checkout-button">Оформить заказ</a>
@@ -63,24 +63,4 @@
     {% endif %}
 </div>
 
-<script>
-    var itemsId = JSON.parse('{{ items_id }}')
-    for(const element of itemsId) {
-        let minusButton  = document.getElementById('button_minus_' + element[0]);
-        let plusButton = document.getElementById('button_plus_' + element[0]);
-        let quantityInput = document.getElementById('input_' + element[0]);
-        let stock = element[1];
-        console.log(stock)
-        minusButton.addEventListener('click', function (){
-            if (quantityInput.value > 1) {
-                quantityInput.value--;
-            }
-        });
-        plusButton.addEventListener('click', function (){
-            if (quantityInput.value < stock) {
-                quantityInput.value++;
-            }
-        });
-    }
-</script>
 {% endblock %}
