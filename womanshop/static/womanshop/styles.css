@@ -1956,6 +1956,15 @@ a {
     color: #000000;
 }
 
+#product_love {
+    position: absolute;
+    width: 860px;
+    height: 461px;
+    flex-shrink: 0;
+    left: 433px;
+    top: 1241px;
+
+}
 
 #product {
     position: absolute;
@@ -1995,7 +2004,8 @@ a {
     color: #898989;
 }
 
-#naw_product {
+#naw_product,
+#naw_cart {
     /* Главная страница > Бюстгальтеры > Бюстгальтер 116181 (Classic) */
 
 
@@ -2293,11 +2303,98 @@ a {
     color: #000000;
 }
 
+#product_description {
+    position: absolute;
+    width: 500px;
+    height: auto;
+    top: 862px;
+    left: 36px;
+}
+
+#product_description p {
+    color: #000;
+    font-size: 48px;
+    font-family: 'Roboto', sans-serif;
+}
+
+#product_description_pre {
+    position: absolute;
+    max-width: 477px;
+    height: auto;
+    overflow: auto;
+    left: 370px;
+    top: 10px;
+
+    color: #000;
+    font-size: 14px;
+    font-family: 'Roboto', sans-serif;
+    line-height: 20px;
+}
+
+#you_more_love {
+    position: absolute;
+    width: 400px;
+    height: 112px;
+    left: 30px;
+    top: 1262px;
+
+    color: #000;
+    font-size: 48px;
+    font-family: 'Roboto', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
 #quantity_form {
     position: absolute;
     height: 23px;
     left: 21px;
     top: 536px;
+}
+
+#product_submit {
+    position: absolute;
+    width: 259px;
+    height: 50px;
+    left: 195px;
+    top: 0px;
+
+    background-color: #C91664;
+    color: #fbfafa;
+
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+}
+
+#product_stock {
+    position: absolute;
+    width: 140px;
+    height: 16px;
+    left: 20px;
+    top: 50px;
+
+    color: #F087B6;
+
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+
+
+}
+
+#order-info {
+    position: absolute;
+    width: 200px;
+    height: 14px;
+    left: 225px;
+    top: 50px;
+
+    color: #898989;
+
+    font-family: 'Roboto', sans-serif;
+    font-size: 10px;
+    font-weight: 400;
 }
 
 .quantity_wrapper {
@@ -2343,7 +2440,7 @@ a {
     position: absolute;
     width: 100%;
     height: 300px;
-    top: 110px;
+    top: 130px;
 
 }
 
@@ -2351,4 +2448,18 @@ a {
 
     width: 110px;
     height: 146.67px;
+}
+
+#minus_next {
+    position: absolute;
+    top: 1433px;
+    left: 381px;
+
+}
+
+#plus_next {
+    position: absolute;
+    left: 381px;
+    top: 1466px;
+
 }

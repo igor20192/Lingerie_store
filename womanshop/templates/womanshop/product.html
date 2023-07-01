@@ -80,12 +80,32 @@
       <button id="button_plus" type="button" class="quantity_button plus">+</button>
     </div>
     <p id="product_stock">В наличии: {{product.stock}}</p>
-    <button type="submit">Добавить в корзину</button>
+    <button id="product_submit" type="submit">Добавить в корзину</button>
+    <p id="order-info">Для заказа не нужна регистрация</p>
   </form>
 
   <div id="selected_size_square">
   </div>
 
+</div>
+<div id="product_description">
+  <p>ОПИСАНИЕ</p>
+  <pre id="product_description_pre">{{ product.description }}</pre>
+</div>
+
+<pre id="you_more_love">
+  ВАМ ЕЩЁ
+  ПОНРАВИТСЯ...
+</pre>
+
+<div id="minus_next"><a href="#product_love"><img
+      src="{% static '/img/Arrow 5.png' %}"
+      alt></a></div>
+<div id="plus_next"><a href="#product_love"><img
+      src="{% static '/img/Arrow 6.png' %}" alt></a></div>
+
+<div id="product_love" class="container">
+  <div id="love" class="row row-cols-3"></div>
 </div>
 
 <script>
@@ -346,5 +366,68 @@ Array.from(sizeSquares).forEach(function(square) {
     alert('Зарегестрируйтесь или войдите!')
   }
   });
+
+  async function getDataProductLove(url,page,paginateBy) {
+    const urlWithParams = url + "?" + new URLSearchParams({
+    page : page,
+    per_page: paginateBy,
+    category_by: "{{ product.category.name }}",
+    product_id: "{{ product.id }}"
+  })
+    const response = await fetch(urlWithParams);
+    return response.json();
+  }
+
+  class LoadMorePaginatorLove{
+    constructor(per_page) {
+      this.per_page = per_page
+      this.pageIndex = 1
+      this.container = document.querySelector('#love')
+      this.minusNext = document.querySelector('#minus_next')
+      this.plusNext = document.querySelector('#plus_next')
+      this.minusNext.addEventListener('click',this.onMinusClickNext.bind(this))
+      this.plusNext.addEventListener('click',this.onPlusClickNext.bind(this))
+      this.loadLoveMore()
+    }
+
+    onMinusClickNext (event) {
+      if (this.pageIndex > 1) {
+      this.pageIndex--;
+      this.loadLoveMore();
+      }
+    }
+
+    onPlusClickNext (event) {
+      this.pageIndex++;
+      this.loadLoveMore();
+    }
+
+    addLoveElement (product) {
+      const div = document.createElement('div');
+      div.innerHTML = `
+          <div class="col">
+            <img src="${product.image1}" width="273px" height="364px" alt="Not photo">
+            <p>${product.name}</p>
+            <p>${product.brand}</p>
+            <p>${product.price}₽</p>
+            <a href="/product/${product.id}">Подробние</a>
+            <p><img src="{% static '/img/Line 25.png' %}" alt=""></p>
+      `
+      this.container.append(div)
+      div.style.display = 'block'
+    }
+
+    loadLoveMore () {
+      getDataProductLove("{% url 'product_api' %}",this.pageIndex,this.per_page)
+      .then(response => {
+          this.container.innerHTML = '';
+          response.data.forEach ((el) => {
+              this.addLoveElement (el)
+          });
+          this.plusNext.style.display = !response.has_next ? "none" : "block"
+      });
+    }
+  }
+  new LoadMorePaginatorLove(3);
 </script>
 {% endblock %}
