@@ -44,4 +44,5 @@ urlpatterns = [
         views.CartQuantityUpdateView.as_view(),
         name="cart_quantity_update",
     ),
+    path("product_api", views.product_api, name="product_api"),
 ]

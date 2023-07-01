@@ -10,7 +10,7 @@ from django.db.models import Q
 from django.core.paginator import Paginator
 from django.http import JsonResponse
 from django.urls import reverse
-from .models import UserProfile, Product, Size, ProductVariant, Color
+from .models import UserProfile, Product, Size, ProductVariant, Color, Category
 from .forms import UserProfileForm
 
 
@@ -206,6 +206,57 @@ def catalog_api(request):
     return JsonResponse(data)
 
 
+def product_api(request):
+    """
+    API view for retrieving product data.
+
+    Args:
+        request (HttpRequest): The HTTP request object.
+
+    Returns:
+        JsonResponse: JSON response containing product data.
+
+    Raises:
+        Http404: If the specified category does not exist.
+    """
+
+    # Get the request parameters
+    page_number = request.GET.get("page")  # Page number
+    category = request.GET.get("category_by")  # Product category
+    product_id = request.GET.get("product_id")  # Product ID
+
+    # Get the category ID based on the category name
+    category_id = get_object_or_404(Category, name=category).id
+
+    # Filter products by category and exclude the specified product
+    products = Product.objects.filter(category_id=category_id).exclude(
+        id=int(product_id)
+    )
+
+    # Create a paginator to split the products into pages
+    paginator = Paginator(products, 3)
+
+    # Get the page object based on the page number
+    page_obj = paginator.get_page(page_number)
+
+    # Create a dictionary with product data
+    data = {
+        "has_next": page_obj.has_next(),  # Flag indicating if there is a next page
+        "data": [
+            {
+                "name": product.name,  # Product name
+                "price": product.price,  # Product price
+                "brand": product.brand.name,  # Product brand
+                "image1": product.image1.url,  # URL of the first product image
+                "id": product.id,  # Product ID
+            }
+            for product in page_obj.object_list  # Iterate over objects on the current page
+        ],
+    }
+
+    return JsonResponse(data)  # Return a JSON response with the data
+
+
 class CatalogView(TemplateView):
     """View for displaying the catalog page."""
 
@@ -370,10 +421,10 @@ class CartView(LoginRequiredMixin, TemplateView):
         product_data = []
         for id, data in enumerate(cart):
             product_obj = get_object_or_404(Product, id=data[0])
-            color_id = get_object_or_404(Color, name=data[1]).id
-            size_id = get_object_or_404(Size, name=data[2]).id
+            color = get_object_or_404(Color, name=data[1])
+            size = get_object_or_404(Size, name=data[2])
             stock = ProductVariant.objects.filter(
-                product=product_obj, color_id=color_id, size_id=size_id
+                product=product_obj, color_id=color.id, size_id=size.id
             ).values("stock")
             subtotal = product_obj.price * Decimal(data[3])
             product_data.append(
@@ -383,6 +434,8 @@ class CartView(LoginRequiredMixin, TemplateView):
                     "quantity": data[3],
                     "subtotal": subtotal,
                     "stock": stock[0]["stock"],
+                    "color": color.name,
+                    "size": size.name,
                 }
             )
         item_id = [[item["id"], item["stock"]] for item in product_data]
