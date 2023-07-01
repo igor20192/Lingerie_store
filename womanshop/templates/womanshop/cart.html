@@ -2,6 +2,18 @@
 {% load static %}
 
 {% block content %}
+<div id="naw_cart">
+    <nav style="--bs-breadcrumb-divider: '>';"
+        aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'index' %}">Главная
+                    страница</a></li>
+            <li class="breadcrumb-item"><a
+                    href="/catalog">Каталог</a></li>
+            <li class=" breadcrumb-item active" aria-current="page">Корзина</li>
+        </ol>
+    </nav>
+</div>
 <div class="cart">
     <h1>Корзина</h1>
     {% if cart_items %}
@@ -9,6 +21,8 @@
         <thead>
             <tr>
                 <th>Товар</th>
+                <th>ЦВЕТ</th>
+                <th>РАЗМЕР</th>
                 <th>Цена</th>
                 <th>Количество</th>
                 <th>Сумма</th>
@@ -29,6 +43,9 @@
                         </div>
                     </div>
                 </td>
+                <td><div class="color_circle"
+                        style="background-color: {{ item.color }};"></div></td>
+                <td>{{ item.size }}</td>
                 <td id="price_{{ item.id }}">{{ item.product.price }}₽</td>
                 <td>
                     <div class="quantity">
