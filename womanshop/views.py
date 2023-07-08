@@ -291,23 +291,46 @@ class CatalogView(TemplateView):
 
         # Displaying the number of items in the cart
         context["item_in_cart"] = len(self.request.session.get("cart", []))
+        context["favorites_id"] = json.dumps(self.request.session.get("favorite", []))
 
         return context
 
 
 class ProductDetailView(TemplateView):
+    """View class for displaying product details."""
+
     template_name = "womanshop/product.html"
 
     def get_context_data(self, **kwargs):
+        """Get the context data for rendering the template.
+
+        Args:
+            **kwargs: Additional keyword arguments.
+
+        Returns:
+            dict: The context data.
+
+        """
         context = super().get_context_data(**kwargs)
         product_id = kwargs.get("product_id")
-        product = Product.objects.get(id=product_id)
-        product_variant = ProductVariant.objects.filter(product_id=product.id)
-        colors = {obj.color.name for obj in product_variant}
+        product = Product.objects.get(
+            id=product_id
+        )  # Get the product object based on the id
+        product_variant = ProductVariant.objects.filter(
+            product_id=product.id
+        )  # Get the product variants
+        colors = {
+            obj.color.name for obj in product_variant
+        }  # Get unique colors from the product variants
         data = []
         user = self.request.user
 
+        # Check if the product is in favorites and add the favorite flag to the context if it is
+        if product_id in self.request.session.get("favorite", []):
+            context["favorite"] = True
+
         for color in list(colors):
+            # Create a dictionary with information about the color and associated sizes
             data.append(
                 {
                     "color": color,
@@ -320,12 +343,23 @@ class ProductDetailView(TemplateView):
                     ),
                 }
             )
-        context["product"] = product
-        context["data"] = data
-        context["user"] = user.is_authenticated
-        context["product_variant"] = product_variant
-        context["item_in_cart"] = len(self.request.session.get("cart", []))
-        return context
+
+        context["product"] = product  # Add the product object to the context
+        context["data"] = data  # Add the list of data to the context
+        context[
+            "user"
+        ] = (
+            user.is_authenticated
+        )  # Add information about the authenticated user to the context
+        context[
+            "product_variant"
+        ] = product_variant  # Add the product variants to the context
+        context["item_in_cart"] = len(
+            self.request.session.get("cart", [])
+        )  # Add the count of items in the cart to the context
+        context["favorites_id"] = json.dumps(self.request.session.get("favorite", []))
+
+        return context  # Return the context data
 
 
 class AddToCartView(LoginRequiredMixin, View):
@@ -495,9 +529,33 @@ class ClearCartView(LoginRequiredMixin, View):
 
 
 class CartQuantityUpdateView(LoginRequiredMixin, View):
+    """
+    View class for updating the quantity of items in the cart.
+
+    Attributes:
+        login_url (str): The URL for the login page.
+
+    Methods:
+        post(self, request): Handles the POST request for updating the quantity of items in the cart.
+
+    """
+
+    login_url = LOGIN_URL
+
     def post(self, request):
+        """
+        Handle the POST request for updating the quantity of items in the cart.
+
+        Args:
+            request (HttpRequest): The HTTP request object.
+
+        Returns:
+            JsonResponse: A JSON response indicating the status of the update.
+
+        """
         data = request.body.decode("utf-8")
         cart = request.session.get("cart")
+
         if data and cart:
             json_data = json.loads(data)
             quantity = json_data.get("quantity")
@@ -505,6 +563,67 @@ class CartQuantityUpdateView(LoginRequiredMixin, View):
             cart[index][3] = quantity
             request.session["cart"] = cart
             return JsonResponse({"message": "Количество товаров в корзине обновлено."})
+
+        return JsonResponse(
+            {"message": "Error: No data provided or request method is not POST."},
+            status=400,
+        )
+
+
+class AddFavorite(View):
+    """View class for adding a product to favorites."""
+
+    def post(self, request):
+        """Handles the POST request for adding a product to favorites.
+
+        Args:
+            request (HttpRequest): The HTTP request.
+
+        Returns:
+            JsonResponse: The JSON response.
+
+        """
+        data = request.body.decode("utf-8")
+        favorite = request.session.get("favorite", [])
+        if data:
+            json_data = json.loads(data)
+            favorite_id = json_data.get("favorite")
+            favorite.append(int(favorite_id))
+            request.session["favorite"] = list(set(favorite))
+            return JsonResponse({"message": "Товар добавлен в фавориты."})
+        return JsonResponse(
+            {"message": "Error: No data provided or request method is not POST."},
+            status=400,
+        )
+
+
+class RemoveFromFavorites(View):
+    """View class for removing a product from favorites."""
+
+    def post(self, request):
+        """Handles the POST request for removing a product from favorites.
+
+        Args:
+            request (HttpRequest): The HTTP request.
+
+        Returns:
+            JsonResponse: The JSON response.
+
+        """
+        data = request.body.decode("utf-8")
+        if request.session.get("favorite") and data:
+            favorites = request.session["favorite"]
+            json_data = json.loads(data)
+            favorite_id = json_data.get("favorite")
+
+            if int(favorite_id) in favorites:
+                favorites.remove(int(favorite_id))
+                request.session["favorite"] = favorites
+                return JsonResponse({"message": "Product removed from favorites."})
+            return JsonResponse(
+                {"message": "Error: Not a favorite or request method is not POST."},
+                status=400,
+            )
         return JsonResponse(
             {"message": "Error: No data provided or request method is not POST."},
             status=400,

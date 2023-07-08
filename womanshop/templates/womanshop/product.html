@@ -24,6 +24,15 @@
 <div id="product_info">
   <p>{{product.name}}</p>
   <pre>{{product.vendor_code}} | {{product.brand.name}} | {{product.collection}}</pre>
+
+  {% if favorite %}
+  <img id="favorite" src="{% static '/img/life.png' %}"
+    alt="favorite">
+  {% else %}
+  <img id="favorite" src="{% static '/img/избранное.png' %}"
+    alt="not_favorite">
+  {% endif %}
+
   <p id="product_price">{{product.price}}&nbsp;₽</p>
   <p id="product_color">ЦВЕТ:</p>
 
@@ -98,6 +107,17 @@
   ПОНРАВИТСЯ...
 </pre>
 
+<div id="brand" class="container">
+  <p>БРЕНДЫ</p>
+  <div id="img_brand" class="container">
+    <img src="{% static '/img/image 1.png' %}" alt>
+    <img src="{% static '/img/image 2.1.png' %}" alt>
+    <img src="{% static '/img/image 3.1.png' %}" alt>
+    <img src="{% static '/img/image 4.1.png' %}" alt>
+    <img src="{% static '/img/image 5.1.png' %}" alt>
+  </div>
+</div>
+
 <div id="minus_next"><a href="#product_love"><img
       src="{% static '/img/Arrow 5.png' %}"
       alt></a></div>
@@ -155,7 +175,11 @@
   var quantityInput = document.getElementById('quantity_input');
   var productStock = document.getElementById('product_stock');
   var userIsAuthenticated = "{{ user }}";
-  var stock = 0
+  var stock = 0;
+  let favoriteImage = document.getElementById('favorite');
+  const favoriteList= JSON.parse("{{ favorites_id }}")
+  console.log(favoriteList);
+  let myFavorite = "{{ favorite }}";
   // Функция для получения значения cookie по имени
   function getCookie(name) {
     var cookieValue = null;
@@ -404,9 +428,15 @@ Array.from(sizeSquares).forEach(function(square) {
 
     addLoveElement (product) {
       const div = document.createElement('div');
+      let favoriteImageURL = "{% static '/img/избранное.png' %}";
+      if (favoriteList.includes(product.id)) {
+        favoriteImageURL = '{% static "/img/life.png" %}';
+      }
       div.innerHTML = `
           <div class="col">
-            <img src="${product.image1}" width="273px" height="364px" alt="Not photo">
+            <img src="${product.image1}"  width="273px" height="364px"  alt="Not photo">
+            <img src="${favoriteImageURL}" style="position: relative; top: -350px;
+             left: 235px" width="20px" height="18px" alt="Not photo">
             <p>${product.name}</p>
             <p>${product.brand}</p>
             <p>${product.price}₽</p>
@@ -424,10 +454,45 @@ Array.from(sizeSquares).forEach(function(square) {
           response.data.forEach ((el) => {
               this.addLoveElement (el)
           });
-          this.plusNext.style.display = !response.has_next ? "none" : "block"
+          this.plusNext.style.display = !response.has_next ? "none" : "block";
+          if (this.pageIndex === 1) {
+            this.minusNext.style.display = 'none';
+          }
+          else {
+            this.minusNext.style.display = 'block'
+          }
       });
     }
   }
   new LoadMorePaginatorLove(3);
+
+  function updateFavorite (url) {
+    let data = {
+      favorite : '{{ product.id }}'
+    };
+    fetch(url, {
+      method : 'POST',
+      headers:{
+        'Content-Type': 'application/json',
+        'X-CSRFToken': getCookie('csrftoken')
+      },
+      body:JSON.stringify(data)
+    });
+  }
+
+  favoriteImage.addEventListener('click', () => {
+    if (favoriteImage.alt !== 'favorite') {
+      favoriteImage.src = '{% static "/img/life.png" %}';
+      favoriteImage.alt = 'favorite'
+      updateFavorite('/add_favorite/');
+    }
+    else {
+      favoriteImage.src = '{% static "/img/избранное.png" %}';
+      favoriteImage.alt = 'not_favorite'
+      updateFavorite('/remove_from_favorites/');
+    }
+  });
+  
+  
 </script>
 {% endblock %}

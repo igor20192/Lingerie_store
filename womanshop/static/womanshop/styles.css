@@ -2130,6 +2130,17 @@ a {
     color: #898989;
 }
 
+#favorite {
+    position: absolute;
+    width: 20px;
+    height: 18.701px;
+    flex-shrink: 0;
+    left: 470px;
+    top: 150px;
+
+
+}
+
 #product_price {
     /* 1900 ₽ */
 
@@ -2319,7 +2330,7 @@ a {
 
 #product_description_pre {
     position: absolute;
-    max-width: 477px;
+    max-width: 777px;
     height: auto;
     overflow: auto;
     left: 370px;
@@ -2462,4 +2473,32 @@ a {
     left: 381px;
     top: 1466px;
 
+}
+
+#brand {
+    position: absolute;
+    width: 217px;
+    height: 61px;
+    left: 43px;
+    top: 1871px;
+
+    color: #000;
+    font-size: 52px;
+    font-family: 'Roboto', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    text-transform: uppercase;
+}
+
+#img_brand {
+    position: absolute;
+    left: 341px;
+    top: 1px;
+    display: flex;
+}
+
+#img_brand img {
+    flex: 0 0 auto;
+    margin-left: 20px;
 }

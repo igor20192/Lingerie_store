@@ -18,6 +18,11 @@
         <link rel="icon" type="image/x-icon" href="{% static '/favicon.ico' %}">
         <script id="cart-script" data-items="{{ items_id }}"
             src="{% static 'womanshop/cart.js' %}"></script>
+        <script id="catalog-script" src="{% static 'womanshop/catalog.js' %}"
+            data-api-url="{% url 'catalog_api' %}"
+            data-favoritelist="{{ favorites_id }}"
+            data-favorites="{% static '/img/избранное.png' %}"
+            data-life="{% static '/img/life.png' %}"></script>
     </head>
     <body>
         <nav id="navbar">
