@@ -44,5 +44,11 @@ urlpatterns = [
         views.CartQuantityUpdateView.as_view(),
         name="cart_quantity_update",
     ),
-    path("product_api", views.product_api, name="product_api"),
+    path("product_api/", views.product_api, name="product_api"),
+    path("add_favorite/", views.AddFavorite.as_view(), name="add_favorite"),
+    path(
+        "remove_from_favorites/",
+        views.RemoveFromFavorites.as_view(),
+        name="remove_from_favorites",
+    ),
 ]
