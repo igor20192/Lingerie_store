@@ -301,10 +301,12 @@ document.addEventListener("DOMContentLoaded", () => {
             <img src="${favoriteImageURL}" style="position: relative; top: -350px;
              left: 235px" width="20px" height="18px" alt="Not photo">
             <p>${product.name}</p>
-            <p>${product.brand}</p>
-            <p>${product.price}₽</p>
-            <a href="/product/${product.id}">Подробние</a>
-            <p><img src="${productScript.dataset.img}" alt=""></p>
+            <p style="color: #F087B6;">${product.brand}</p>
+            <p style="font-size: 18px;" width="63px" height="21px">${product.price}₽</p>
+            <a href="/product/${product.id}" style="position: relative; color:#C91664; 
+            left: 100px; top: -42px" width="73px" height="16px">Подробние</a>
+            <p><img src="${productScript.dataset.img}" style="position: relative; 
+            left: 100px; top: -15px" alt=""></p>
       `
             this.container.append(div)
             div.style.display = 'block'
