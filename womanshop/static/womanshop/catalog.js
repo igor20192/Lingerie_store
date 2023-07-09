@@ -250,7 +250,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 <p id="name_product">${product.name}</p>
                 <p id="name_brn">${product.brand}</p>
                 <p id="name_prc">${product.price}₽</p>
-                <a id="detail" href="/product/${product.id}">Подробние</a>
+                <a id="detail" href="/product/${product.id}" style="color: #C91664;">Подробние</a>
                 <p><img id="line25" src="{% static '/img/Line 25.png' %}" alt=""></p>
             </div>
         `;
