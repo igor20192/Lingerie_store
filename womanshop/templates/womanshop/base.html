@@ -23,6 +23,17 @@
             data-favoritelist="{{ favorites_id }}"
             data-favorites="{% static '/img/избранное.png' %}"
             data-life="{% static '/img/life.png' %}"></script>
+        <script id="product-script" src="{% static 'womanshop/product.js' %}"
+            data-favoritelist="{{ favorites_id }}"
+            data-user="{{ user }}"
+            data-api-url="{% url 'product_api' %}"
+            data-add-favorite-url="{% url 'add_favorite' %}"
+            data-remove-favorite-url="{% url 'remove_from_favorites' %}"
+            data-categoryby="{{ product.category.name }}"
+            data-productid="{{ product.id }}"
+            data-favorites="{% static '/img/избранное.png' %}"
+            data-life="{% static '/img/life.png' %}"
+            data-img="{% static '/img/Line 25.png' %}"></script>
     </head>
     <body>
         <nav id="navbar">
