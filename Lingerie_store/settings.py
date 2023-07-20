@@ -36,6 +36,16 @@ DEBUG = env("DEBUG")
 
 ALLOWED_HOSTS = ["*"]
 
+CSRF_TRUSTED_ORIGINS = [env("CSRF_TRUSTED_ORIGINS")]
+CSRF_COOKIE_DOMAIN = env("CSRF_COOKIE_DOMAIN")
+
+# SECURE_HSTS_SECONDS = 10
+# # SECURE_SSL_REDIRECT = True
+# SESSION_COOKIE_SECURE = True
+# CSRF_COOKIE_SECURE = True
+# SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+# SECURE_HSTS_PRELOAD = True
+
 
 # Application definition
 
@@ -51,6 +61,7 @@ INSTALLED_APPS = [
     "allauth",
     "allauth.account",
     "allauth.socialaccount",
+    "paypal.standard.ipn",
 ]
 
 MIDDLEWARE = [
@@ -157,6 +168,9 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
 
 SITE_ID = 1
+
+PAYPAL_TEST = True
+PAYPAL_BUSINESS = env("PAYPAL_BUSINESS")
 
 LOGGING = {
     "version": 1,
