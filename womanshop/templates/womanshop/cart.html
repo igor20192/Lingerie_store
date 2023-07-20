@@ -71,7 +71,8 @@
         <p id="price_total">Итого: {{ cart_total }}₽</p>
     </div>
     <div class="cart-buttons">
-        <a href="#" class="checkout-button">Оформить заказ</a>
+        <a href="{% url 'checkout' cart_total %}" class="checkout-button"><strong>Оформить
+                заказ</strong></a>
         <a href="{% url 'clear_cart' %}" class="clear-cart-button">Очистить
             корзину</a>
     </div>

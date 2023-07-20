@@ -952,6 +952,7 @@ body {
     left: 500px;
     top: 1206px;
 
+
     background: rgba(229, 229, 229, 0.5);
 }
 
@@ -964,6 +965,7 @@ body {
     height: 194px;
     left: 17px;
     top: 13px;
+    z-index: 2;
 
     font-family: 'Roboto', sans-serif;
     font-style: normal;
@@ -2501,4 +2503,15 @@ a {
 #img_brand img {
     flex: 0 0 auto;
     margin-left: 20px;
+}
+
+.order-success,
+#form-paypal {
+    position: absolute;
+    top: 110px;
+}
+
+#success {
+    position: absolute;
+    top: 110px;
 }

@@ -1,0 +1,22 @@
+{% extends 'womanshop/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="order-success">
+    <h1>Ваш заказ успешно оформлен!</h1>
+    <p>Номер заказа: {{ order.order_number }}</p>
+    <p>Дата заказа: {{ order.order_date }}</p>
+    <p>Сумма заказа: {{ order.order_total }}₽</p>
+    <p>Статус заказа: {{ order.get_status_display }}</p>
+    <p>Спасибо за ваш заказ!</p>
+    <form action="{% url 'paypal_payment' %}" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="order_id" value="{{ order.id }}">
+        <input type="hidden" name="order_number"
+            value="{{ order.order_number }}">
+        <input type="hidden" name="order_date" value="{{ order.order_date  }}">
+        <input type="hidden" name="order_total" value="{{ order.order_total }}">
+        <button type="submit" class="btn btn-primary">Оплатить через PayPal</button>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends "womanshop/base.html" %}
+{% load static %}
+
+{% block content %}
+
+<div id="form-paypal" class="container-fluid">
+    <h1>{{order_number}}</h1>
+    <p>{{order_total}}$</p>
+    <p>{{order_data}}</p>
+    <!-- writes out the form tag automatically -->
+    {{ form.render }}
+    <a href="{% url 'catalog' %}">Cancel</a>
+</div>
+{% endblock %}

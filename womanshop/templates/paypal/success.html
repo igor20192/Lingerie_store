@@ -1,0 +1,14 @@
+<!-- paypal_success.html -->
+
+{% extends 'womanshop/base.html' %}
+{% load static %}
+
+{% block content %}
+<div id="success" class="container">
+    <h1>Оплата успешно выполнена</h1>
+    <p>Ваш заказ был успешно оплачен через PayPal.</p>
+    <p>Номер заказа: {{ order_number }}</p>
+    <p>Сумма заказа: {{ order_total }}</p>
+    <p>Спасибо за покупку!</p>
+</div>
+{% endblock %}

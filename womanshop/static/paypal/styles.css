@@ -1,0 +1,13 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+}
+
+h1 {
+    color: #FF0000;
+}
+
+#success {
+    position: absolute;
+    top: 110px;
+}
