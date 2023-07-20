@@ -1,6 +1,8 @@
+from typing import Iterable, Optional
 from django.db import models
 from django.contrib.auth.models import User
 import datetime
+from decimal import Decimal
 
 
 class UserProfile(models.Model):
@@ -27,12 +29,13 @@ class UserProfile(models.Model):
 class Order(models.Model):
     user_profile = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     # поля заказа
-    order_number = models.CharField(max_length=20, unique=True)
+    order_number = models.CharField(max_length=24, unique=True)
     order_date = models.DateTimeField(auto_now_add=True)
     order_total = models.DecimalField(max_digits=8, decimal_places=2)
     # поля для статуса заказа
     STATUS_CHOICES = (
         ("P", "Pending"),
+        ("O", "Order has been paid"),
         ("C", "Confirmed"),
         ("S", "Shipped"),
         ("D", "Delivered"),
@@ -108,3 +111,19 @@ class ProductVariant(models.Model):
 
     def __str__(self):
         return f"{self.product.name} - Color: {self.color.name}, Size: {self.size.name}"
+
+
+class OrderItem(models.Model):
+    order = models.ForeignKey("Order", on_delete=models.CASCADE)
+    product_variant = models.ForeignKey(ProductVariant, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(default=1)
+    price = models.DecimalField(max_digits=8, decimal_places=2)
+    subtotal = models.DecimalField(max_digits=8, decimal_places=2)
+
+    def __str__(self):
+        return f"{self.product_variant.product.name} - {self.quantity} - order_number:{self.order.order_number}"
+
+    def save(self, *args, **kwargs):
+        self.price = self.product_variant.product.price
+        self.subtotal = self.product_variant.product.price * Decimal(self.quantity)
+        return super().save(*args, **kwargs)
