@@ -1,16 +1,30 @@
 from decimal import Decimal
+from datetime import datetime
 import json
 from typing import Any, Dict
-from django.shortcuts import render, redirect, get_object_or_404, get_list_or_404
+from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.models import User
 from django.views import View
 from django.views.generic import TemplateView
 from django.db.models import Q
+from django.db import transaction
 from django.core.paginator import Paginator
 from django.http import JsonResponse
 from django.urls import reverse
-from .models import UserProfile, Product, Size, ProductVariant, Color, Category
+from django.conf import settings
+from paypal.standard.forms import PayPalPaymentsForm
+from .models import (
+    UserProfile,
+    Product,
+    Size,
+    ProductVariant,
+    Color,
+    Category,
+    Order,
+    OrderItem,
+)
 from .forms import UserProfileForm
 
 
@@ -20,9 +34,28 @@ LOGIN_URL = "/accounts/signup/"
 
 
 class IndexView(TemplateView):
+    """
+    View for displaying the index/home page.
+
+    Attributes:
+        template_name (str): The name of the template used for rendering the index page.
+
+    Methods:
+        get_context_data(**kwargs): Retrieves context data for rendering the index page.
+
+    """
+
     template_name = "womanshop/index.html"
 
     def get_context_data(self, **kwargs):
+        """
+        Retrieves context data for rendering the index page.
+
+        Returns:
+            dict: A dictionary containing the context data for the template.
+
+        """
+
         context = super().get_context_data(**kwargs)
         context["item_in_cart"] = len(self.request.session.get("cart", []))
         return context
@@ -446,10 +479,30 @@ class AvailableProductQuantityView(LoginRequiredMixin, View):
 
 
 class CartView(LoginRequiredMixin, TemplateView):
+    """
+    View for displaying the shopping cart page.
+
+    Attributes:
+        login_url (str): The URL to redirect to for login. Used by the LoginRequiredMixin.
+        template_name (str): The name of the template used for rendering the shopping cart page.
+
+    Methods:
+        get_context_data(**kwargs): Retrieves context data for rendering the shopping cart page.
+
+    """
+
     login_url = LOGIN_URL
     template_name = "womanshop/cart.html"
 
     def get_context_data(self, **kwargs):
+        """
+        Retrieves context data for rendering the shopping cart page.
+
+        Returns:
+            dict: A dictionary containing the context data for the template.
+
+        """
+
         context = super().get_context_data(**kwargs)
         cart = self.request.session.get("cart", [])
         product_data = []
@@ -628,3 +681,163 @@ class RemoveFromFavorites(View):
             {"message": "Error: No data provided or request method is not POST."},
             status=400,
         )
+
+
+class CheckoutTemplateView(TemplateView):
+    template_name = "womanshop/order.html"
+
+    def get_context_data(self, cart_total, **kwargs):
+        """
+        Override the get_context_data method to include order creation and clearing the cart.
+
+        Args:
+            cart_total (str): Total amount of the cart.
+
+        Returns:
+            dict: Context data for the template.
+        """
+        context = super().get_context_data(**kwargs)
+        user = get_object_or_404(User, username=self.request.user)
+        user_profile = get_object_or_404(UserProfile, user=user)
+        cart_items = self.request.session.get("cart", [])
+        if cart_items:
+            with transaction.atomic():
+                order = Order.objects.create(
+                    user_profile=user_profile,
+                    order_number=self.generate_order_number(),
+                    order_total=self.get_cart_total(cart_items),
+                    status="P",
+                )
+
+            for item in cart_items:
+                color = get_object_or_404(Color, name=item[1])
+                size = get_object_or_404(Size, name=item[2])
+                product_variant = get_object_or_404(
+                    ProductVariant,
+                    product_id=item[0],
+                    color_id=color.id,
+                    size_id=size.id,
+                )
+                OrderItem.objects.create(
+                    order=order,
+                    product_variant=product_variant,
+                    quantity=item[3],
+                    price=product_variant.product.price,
+                    subtotal=product_variant.product.price * Decimal(item[3]),
+                )
+                ProductVariant.objects.filter(id=product_variant.id).update(
+                    stock=product_variant.stock - int(item[3])
+                )
+        self.request.session["cart"] = []
+        context["order"] = order
+        return context
+
+    @staticmethod
+    def generate_order_number():
+        """
+        Generate a unique order number based on the current timestamp.
+
+        Returns:
+            str: Generated order number.
+        """
+        timestamp = datetime.now().strftime("%Y%m%d%H%M%S%f")
+        order_number = f"ORD-{timestamp}"
+        return order_number
+
+    @staticmethod
+    def get_cart_total(cart):
+        """
+        Calculate the total amount of the cart.
+
+        Args:
+            cart (list): List of cart items.
+
+        Returns:
+            decimal.Decimal: Total amount of the cart.
+        """
+        total_cart = []
+        for data in cart:
+            product = get_object_or_404(Product, id=data[0])
+            subtotal = product.price * Decimal(data[3])
+            total_cart.append(subtotal)
+        return sum(total_cart)
+
+
+class PayPalSuccessView(TemplateView):
+    """
+    View for displaying the success page after a successful PayPal payment.
+
+    Attributes:
+        template_name (str): The name of the template used for rendering the success page.
+
+    Methods:
+        get_context_data(order_number, order_total, **kwargs): Retrieves context data for rendering the success page.
+
+    """
+
+    template_name = "paypal/success.html"
+
+    def get_context_data(self, order_number, order_total, **kwargs):
+        """
+        Retrieves context data for rendering the success page.
+
+        Args:
+            order_number (str): The order number for the successful payment.
+            order_total (str): The total amount of the order for the successful payment.
+            **kwargs: Additional keyword arguments.
+
+        Returns:
+            dict: A dictionary containing the context data for the template.
+
+        """
+
+        context = super().get_context_data(**kwargs)
+        context["order_number"] = order_number
+        context["order_total"] = order_total
+        return context
+
+
+class PayPalPaymentView(View):
+    """
+    View for processing payments through PayPal.
+
+    Methods:
+        post(request): Handles the POST request to create a payment through PayPal.
+    """
+
+    def post(self, request):
+        """
+        Handles the POST request to create a payment through PayPal.
+
+        Args:
+            request (HttpRequest): The HTTP request.
+
+        Returns:
+            HttpResponse: The HTTP response with the template for PayPal payment.
+        """
+
+        context = dict(
+            order_number=request.POST.get("order_number"),
+            order_date=request.POST.get("order_date"),
+            order_total=request.POST.get("order_total"),
+        )
+
+        paypal_dict = {
+            "add": "1",
+            "no_shipping": 2,
+            "business": settings.PAYPAL_BUSINESS,
+            "amount": Decimal(context["order_total"]),
+            "item_name": context["order_number"],
+            "invoice": request.POST.get("order_id"),
+            "notify_url": request.build_absolute_uri(reverse("paypal-ipn")),
+            "return": request.build_absolute_uri(
+                reverse(
+                    "success", args=[context["order_number"], context["order_total"]]
+                )
+            ),
+            "cancel_return": request.build_absolute_uri(reverse("payment_canceled")),
+            "custom": "premium_plan",
+        }
+        form = PayPalPaymentsForm(initial=paypal_dict)
+        context["form"] = form
+        return render(request, "paypal/payment.html", context)
