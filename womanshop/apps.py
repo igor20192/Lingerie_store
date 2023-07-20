@@ -1,5 +1,6 @@
 from django.apps import AppConfig
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, post_delete
+from paypal.standard.ipn.signals import valid_ipn_received
 
 
 class WomanshopConfig(AppConfig):
@@ -10,3 +11,5 @@ class WomanshopConfig(AppConfig):
         from . import signals
 
         post_save.connect(signals.create_user_profile)
+        valid_ipn_received.connect(signals.show_me_the_money)
+        post_delete.connect(signals.update_stock_on_order_delete)
