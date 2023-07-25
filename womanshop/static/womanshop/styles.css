@@ -12,7 +12,7 @@
 body {
     position: absolute;
     width: 100%;
-    height: auto;
+    height: 100%;
 
 }
 
@@ -99,6 +99,8 @@ body {
     height: 16px;
     left: 210px;
     top: 78px;
+    z-index: 0;
+    background-color: #000;
 
     font-family: 'Roboto', sans-serif;
     font-style: normal;
@@ -128,6 +130,49 @@ body {
     text-transform: uppercase;
 
     color: #FFFFFF;
+}
+
+#brand-dropdown {
+    display: none;
+    /* По умолчанию список скрыт */
+    position: absolute;
+    top: 100%;
+    /* Позиция по вертикали относительно элемента #brand */
+    left: 348px;
+    /* Позиция по горизонтали относительно элемента #brand */
+    background-color: #fff;
+    /* Цвет фона списка */
+    border: 1px solid #ccc;
+    /* Рамка вокруг списка */
+    padding: 10px;
+    /* Внутренний отступ */
+}
+
+#brand-dropdown.show {
+    display: block;
+    z-index: 2;
+    /* Показываем список при наличии класса 'show' */
+}
+
+#brand-dropdown a {
+    display: block;
+    /* Сделать ссылку блочным элементом */
+    padding: 5px 10px;
+    /* Внутренний отступ */
+    color: #333;
+    /* Цвет текста */
+    text-decoration: none;
+    /* Убрать подчеркивание ссылок */
+
+}
+
+#brand-dropdown a:hover {
+    color: #c51490;
+}
+
+/* Добавьте отступы между ссылками */
+#brand-dropdown a+a {
+    margin-top: 5px;
 }
 
 #xxl {

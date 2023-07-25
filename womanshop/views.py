@@ -2,7 +2,13 @@ from decimal import Decimal
 from datetime import datetime
 import json
 from typing import Any, Dict
-from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
+from django.shortcuts import (
+    render,
+    redirect,
+    get_object_or_404,
+    get_list_or_404,
+    HttpResponse,
+)
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.models import User
@@ -138,7 +144,7 @@ class UserProfileFormView(View):
 
 def catalog_api(request):
     """
-    Performs filtering and sorting of products based on the parameters provided in the request.GET.
+    Perform filtering and sorting of products based on the parameters provided in the request.GET.
     Returns the result in JSON format.
 
     Args:
@@ -153,6 +159,7 @@ def catalog_api(request):
     sort_direction = request.GET.get("sort_direction")
     start_price = request.GET.get("start")
     end_price = request.GET.get("end")
+    categors = request.GET.get("categors")
 
     # Define name lists for categories, styles, and brands
     name_categor = (
@@ -187,15 +194,27 @@ def catalog_api(request):
         "teatro",
         "triumph",
     )
+    size_names = ("80B", "80C", "80D", "80E", "80F")
+    product_xxl = []
 
     # Filter categories, styles, and brands based on the request parameters
     categories = [
-        values for values in name_categor if request.GET.get(values) == "true"
+        values
+        for values in name_categor
+        if request.GET.get(values) == "true" or values == categors
     ]
     styles = [values for values in name_styles if request.GET.get(values) == "true"]
     brands = [
-        values.upper() for values in name_brands if request.GET.get(values) == "true"
+        values.upper()
+        for values in name_brands
+        if request.GET.get(values) == "true" or values == categors
     ]
+
+    if categors == "XXL":
+        size_xxl_id = ProductVariant.objects.filter(size__name__in=size_names).values(
+            "product_id"
+        )
+        product_xxl = Product.objects.filter(id__in=size_xxl_id).values("id")
 
     # Create the filters based on the selected categories, styles, brands, and price range
     filters = Q()
@@ -213,6 +232,9 @@ def catalog_api(request):
     # Determine the sort direction
     if sort_direction == "desc":
         sort_by = f"-{sort_by}"
+
+    if product_xxl:
+        filters &= Q(id__in=product_xxl)
 
     # Filter and sort the products
     products = Product.objects.filter(filters).order_by(sort_by)
@@ -308,6 +330,10 @@ class CatalogView(TemplateView):
         page_number = self.request.GET.get("page")
 
         # Retrieve all products and order them by price
+        categors = self.request.GET.get("categors")
+
+        context["categors"] = categors
+
         products = Product.objects.all().order_by("price")
 
         # Create a paginator with 12 products per page
