@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
     const apiURL = document.querySelector("script[src$='catalog.js']").getAttribute("data-api-url");
     let catalogScript = document.getElementById('catalog-script')
-    async function getData(url, page, paginateBy, sortBy, sortDirection, bodysuit, bras, tights_and_socks, swimwear, men_underwear, panties, seamless_underwear, thermal_underwear, accessories, basic_underwear, new_style, сomfort_underwear, sexual, lacy, everyday, homewear, sleepwear, for_wedding, avelin, comazo, lauma, melado, milavitsa, serge, teatro, triumph, start, end) {
+    async function getData(url, page, paginateBy, sortBy, sortDirection, bodysuit, bras, tights_and_socks, swimwear, men_underwear, panties, seamless_underwear, thermal_underwear, accessories, basic_underwear, new_style, сomfort_underwear, sexual, lacy, everyday, homewear, sleepwear, for_wedding, avelin, comazo, lauma, melado, milavitsa, serge, teatro, triumph, start, end, categors) {
         const urlWithParams = url + "?" + new URLSearchParams({
             page: page,
             per_page: paginateBy,
@@ -34,7 +34,8 @@ document.addEventListener("DOMContentLoaded", () => {
             teatro: teatro,
             triumph: triumph,
             start: start,
-            end: end
+            end: end,
+            categors: categors
         })
         const response = await fetch(urlWithParams);
         return response.json();
@@ -107,6 +108,7 @@ document.addEventListener("DOMContentLoaded", () => {
             this.triumph.addEventListener("change", this.onTriumphChange.bind(this))
             this.start.addEventListener("change", this.onStartChange.bind(this))
             this.end.addEventListener("change", this.onEndChange.bind(this))
+            this.categors = catalogScript.dataset.categors
             this.loadMore()
         }
         onNextClick(event) {
@@ -289,8 +291,10 @@ document.addEventListener("DOMContentLoaded", () => {
             const triumph = this.triumph.checked
             const start = this.start.value
             const end = this.end.value
+            const categors = this.categors
+            console.log(this.categors)
 
-            getData(apiURL, this.pageIndex, this.perPage, sortBy, sortDirection, bodysuit, bras, tights_and_socks, swimwear, men_underwear, panties, seamless_underwear, thermal_underwear, accessories, basic_underwear, new_style, сomfort_underwear, sexual, lacy, everyday, homewear, sleepwear, for_wedding, avelin, comazo, lauma, melado, milavitsa, serge, teatro, triumph, start, end)
+            getData(apiURL, this.pageIndex, this.perPage, sortBy, sortDirection, bodysuit, bras, tights_and_socks, swimwear, men_underwear, panties, seamless_underwear, thermal_underwear, accessories, basic_underwear, new_style, сomfort_underwear, sexual, lacy, everyday, homewear, sleepwear, for_wedding, avelin, comazo, lauma, melado, milavitsa, serge, teatro, triumph, start, end, categors)
                 .then(response => {
                     this.container.innerHTML = ""
                     response.data.forEach((el) => {
