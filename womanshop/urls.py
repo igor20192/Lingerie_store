@@ -71,4 +71,5 @@ urlpatterns = [
         TemplateView.as_view(template_name="paypal/payment_canceled.html"),
         name="payment_canceled",
     ),
+    path("search/", views.search_view, name="search"),
 ]

@@ -6,8 +6,6 @@ from django.shortcuts import (
     render,
     redirect,
     get_object_or_404,
-    get_list_or_404,
-    HttpResponse,
 )
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
@@ -144,7 +142,7 @@ class UserProfileFormView(View):
 
 def catalog_api(request):
     """
-    Perform filtering and sorting of products based on the parameters provided in the request.GET.
+    Perform filtering and sorting of products based on the parameters provided in the request.
     Returns the result in JSON format.
 
     Args:
@@ -196,6 +194,7 @@ def catalog_api(request):
     )
     size_names = ("80B", "80C", "80D", "80E", "80F")
     product_xxl = []
+    product_sale_id = []
 
     # Filter categories, styles, and brands based on the request parameters
     categories = [
@@ -210,11 +209,21 @@ def catalog_api(request):
         if request.GET.get(values) == "true" or values == categors
     ]
 
+    # Check for specific category "XXL" or "sale" to filter the products
     if categors == "XXL":
         size_xxl_id = ProductVariant.objects.filter(size__name__in=size_names).values(
             "product_id"
         )
+        if not size_xxl_id:
+            data = {"data": []}
+            return JsonResponse(data)
         product_xxl = Product.objects.filter(id__in=size_xxl_id).values("id")
+
+    if categors == "sale":
+        product_sale_id = Product.objects.filter(sale=True).values("id")
+        if not product_sale_id:
+            data = {"data": []}
+            return JsonResponse(data)
 
     # Create the filters based on the selected categories, styles, brands, and price range
     filters = Q()
@@ -233,8 +242,12 @@ def catalog_api(request):
     if sort_direction == "desc":
         sort_by = f"-{sort_by}"
 
+    # Apply additional filters based on "XXL" or "sale" category
     if product_xxl:
         filters &= Q(id__in=product_xxl)
+
+    if product_sale_id:
+        filters &= Q(id__in=product_sale_id)
 
     # Filter and sort the products
     products = Product.objects.filter(filters).order_by(sort_by)
@@ -310,6 +323,29 @@ def product_api(request):
     }
 
     return JsonResponse(data)  # Return a JSON response with the data
+
+
+def search_view(request):
+    """
+    View function for handling product search.
+
+    Args:
+        request (HttpRequest): The HTTP request object.
+
+    Returns:
+        JsonResponse: JSON response containing the search results.
+
+    """
+    search_term = request.GET.get("q")
+    results = []
+
+    if search_term:
+        # Perform case-insensitive search for products that contain the search term in their name
+        results = Product.objects.filter(name__icontains=search_term).values(
+            "id", "name"
+        )
+
+    return JsonResponse(list(results), safe=False)
 
 
 class CatalogView(TemplateView):
