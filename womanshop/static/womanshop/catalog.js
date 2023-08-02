@@ -1,7 +1,13 @@
 document.addEventListener("DOMContentLoaded", () => {
+    // Get the API URL from the data attribute of the script element
     const apiURL = document.querySelector("script[src$='catalog.js']").getAttribute("data-api-url");
-    let catalogScript = document.getElementById('catalog-script')
+    // Get the necessary DOM elements
+    let catalogScript = document.getElementById('catalog-script');
+
+    // Function to fetch data from the API using parameters
+
     async function getData(url, page, paginateBy, sortBy, sortDirection, bodysuit, bras, tights_and_socks, swimwear, men_underwear, panties, seamless_underwear, thermal_underwear, accessories, basic_underwear, new_style, сomfort_underwear, sexual, lacy, everyday, homewear, sleepwear, for_wedding, avelin, comazo, lauma, melado, milavitsa, serge, teatro, triumph, start, end, categors) {
+        // Construct the URL with query parameters
         const urlWithParams = url + "?" + new URLSearchParams({
             page: page,
             per_page: paginateBy,
@@ -36,13 +42,19 @@ document.addEventListener("DOMContentLoaded", () => {
             start: start,
             end: end,
             categors: categors
-        })
+        });
+
+        // Fetch the data from the API
         const response = await fetch(urlWithParams);
         return response.json();
     }
 
+    // Paginator class for handling pagination and filtering
     class LoadMorePaginator {
         constructor(perPage) {
+            // Initialize paginator properties and get DOM elements
+            // Bind event listeners for various filter options
+            // Load initial data by calling this.loadMore()
             this.perPage = perPage
             this.pageIndex = 1
             this.container = document.querySelector("#a")
@@ -111,15 +123,20 @@ document.addEventListener("DOMContentLoaded", () => {
             this.categors = catalogScript.dataset.categors
             this.loadMore()
         }
+
+        // Event handler for the "Next" button click
         onNextClick(event) {
             event.preventDefault()
             this.pageIndex++
             this.loadMore()
         }
+
+        // Event handler for changing the "Sort By" option
         onSortByChange(event) {
             this.pageIndex = 1
             this.loadMore()
         }
+
         onSortDirectionChange(event) {
             this.pageIndex = 1
             this.loadMore()
@@ -237,7 +254,10 @@ document.addEventListener("DOMContentLoaded", () => {
             this.pageIndex = 1
             this.loadMore()
         }
+
+        // Function to add product elements to the DOM
         addElement(product) {
+            // Create a new div element with product information and append it to the container
             const div = document.createElement("div");
             const favoriteList = JSON.parse(catalogScript.dataset.favoritelist);
             let favoriteImageURL = catalogScript.dataset.favorites;
@@ -260,7 +280,10 @@ document.addEventListener("DOMContentLoaded", () => {
             div.style.display = "block";
         }
 
+        // Function to load more data from the API
         loadMore() {
+            // Get filter options from DOM elements
+            // Call getData() with filter options and update the container with new data
             const sortBy = this.sortBy.value
             const sortDirection = this.sortDirection.value
             const bodysuit = this.bodysuit.checked
@@ -305,6 +328,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-
+    // Create an instance of the LoadMorePaginator with 3 products per page
     new LoadMorePaginator(3);
 })

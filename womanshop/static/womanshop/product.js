@@ -1,35 +1,36 @@
 document.addEventListener("DOMContentLoaded", () => {
-    // Получаем ссылки на изображения
+    // Get references to the images
     let image1 = document.getElementById('product_image1');
     let image2 = document.getElementById('product_image2');
     let image3 = document.getElementById('product_image3');
     let image4 = document.getElementById('product_image4');
-    // Сохраняем исходный src атрибут image1
+    // Save the original src attribute of image1
     let originalSrc = image1.src;
-    // Функция для замены изображения
+    // Function to replace images when clicked
     function replaceImage(clickedImage) {
         let clickedSrc = clickedImage.src;
         clickedImage.src = image1.src;
         image1.src = clickedSrc;
     }
-    // Обработчик клика на изображении image2
+    // Event listeners for images 2, 3, and 4 to swap with image 1
+
     image2.addEventListener('click', function () {
         replaceImage(image2);
     });
-    // Обработчик клика на изображении image3
+
     image3.addEventListener('click', function () {
         replaceImage(image3);
     });
-    // Обработчик клика на изображении image4
+
     image4.addEventListener('click', function () {
         replaceImage(image4);
     });
-    // Обработчик клика на изображении image1
+    // Event listener for image 1 to swap back with the original image
     image1.addEventListener('click', function () {
         replaceImage(image1);
     });
 
-    // Получаем ссылки на элементы формы и кнопки
+    // Get references to form elements and buttons
     let productScript = document.getElementById('product-script')
     let quantityForm = document.getElementById('quantity_form');
     let minusButton = document.querySelector('.quantity_button.minus');
@@ -42,14 +43,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const favoriteList = JSON.parse(productScript.dataset.favoritelist);
     console.log(favoriteList);
     const apiURL = document.querySelector("script[src$='product.js']").getAttribute("data-api-url");
-    // Функция для получения значения cookie по имени
+    // Function to get the value of a cookie by name
     function getCookie(name) {
         let cookieValue = null;
         if (document.cookie && document.cookie !== '') {
             let cookies = document.cookie.split(';');
             for (const element of cookies) {
                 let cookie = element.trim();
-                // Проверяем, является ли cookie искомым cookie по имени
                 if (cookie.substring(0, name.length + 1) === (name + '=')) {
                     cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
                     break;
@@ -59,17 +59,15 @@ document.addEventListener("DOMContentLoaded", () => {
         return cookieValue;
     }
 
-    // Функция для обновления доступных размеров
+    // Function to update the available sizes
     function updateSizes(sizes) {
         let sizePicker = document.getElementById('size_picker');
         let sizeSquares = sizePicker.getElementsByClassName('size_square');
 
-        // Скрыть все размеры
         Array.from(sizeSquares).forEach(function (square) {
             square.style.display = 'none';
         });
 
-        // Отобразить только выбранные размеры
         sizes.split(',').forEach(function (size) {
             let sizeSquare = sizePicker.querySelector('.size_square[data-size="' + size + '"]');
             if (sizeSquare) {
@@ -79,34 +77,34 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
-    // Обработчик клика на цветовом кружке
+
     let colorCircles = document.querySelectorAll('.color_circle');
     colorCircles.forEach(function (circle) {
         circle.addEventListener('click', function () {
-            // Убираем класс 'selected' у всех цветовых кружков
+            // Removing the 'selected' class from all color circles
             colorCircles.forEach(function (circle) {
                 circle.classList.remove('selected');
             });
 
-            // Добавляем класс 'selected' выбранному цветовому кружку
+            // Adding the 'selected' class to the selected color circle
             this.classList.add('selected');
 
-            // Удаляем стиль 'border' у всех цветовых кружков
+            // Remove the 'border' style from all color circles
             colorCircles.forEach(function (circle) {
                 circle.style.border = 'none';
             });
 
-            // Добавляем стиль 'border' выбранному цветовому кружку
-            this.style.border = '4px solid pink'; // Здесь 'pink' можно заменить на желаемый цвет
+            // Adding the 'border' style to the selected color circle
+            this.style.border = '4px solid pink'; // Here 'pink' can be replaced with the desired color
 
-            // Получаем доступные размеры для выбранного цвета
+            // Get the available sizes for the selected color
             let sizes = this.getAttribute('data-sizes');
             console.log(sizes)
 
 
-            // Обновляем размеры в соответствующем контейнере
+            // Update the dimensions in the appropriate container
             if (sizes !== null && sizes !== undefined) {
-                // Выполнить действия, если размеры не равны null или undefined
+                // Perform actions if dimensions are not null or undefined
                 updateSizes(sizes);
             }
 
@@ -114,30 +112,29 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
 
-    // Обработчик клика на квадратике размера
-    // Получаем ссылку на контейнер с квадратиками размеров
+    // Click handler on size square
+    // Get a link to a container with size squares
     let sizePicker = document.getElementById('size_picker');
 
-    // Получаем ссылки на все квадратики размеров внутри контейнера
+    // Get links to all size squares inside the container
     let sizeSquares = sizePicker.getElementsByClassName('size_square');
 
-    // Обработчик клика на квадратике размера
+    // Click handler on size square
     Array.from(sizeSquares).forEach(function (square) {
         square.addEventListener('click', function () {
-            // Убираем класс 'selected' у всех квадратиков размера
+            // Remove the 'selected' class from all size squares
             Array.from(sizeSquares).forEach(function (square) {
                 square.classList.remove('selected');
             });
 
-            // Добавляем класс 'selected' выбранному квадратику размера
+            // Adding the 'selected' class to the selected size box
             this.classList.add('selected');
 
-            // Изменяем цвет текста всех квадратиков размера
             Array.from(sizeSquares).forEach(function (square) {
                 square.style.color = 'black';
             });
 
-            // Изменяем цвет текста выбранного квадратика размера
+            // Change the text color of the selected size box
             this.style.color = 'pink';
 
             const productQuantityURL = document.querySelector("#productQuantityURL").value;
@@ -150,18 +147,18 @@ document.addEventListener("DOMContentLoaded", () => {
                 size: size
             };
 
-            // Создаем и настраиваем XMLHttpRequest объект
+            // Creating and configuring the XMLHttpRequest object
             let xhr = new XMLHttpRequest();
             xhr.open('POST', productQuantityURL);
             xhr.setRequestHeader('Content-Type', 'application/json');
             xhr.setRequestHeader('X-CSRFToken', getCookie('csrftoken'));
-            // Отправляем данные на сервер
+            // Sending data to the server
             xhr.send(JSON.stringify(data));
 
-            // Обработчик ответа от сервера
+            // Server response handler
             xhr.onload = function () {
                 if (xhr.status === 200) {
-                    // Обновляем информацию о количестве товара в наличии
+                    // Update information about the quantity of goods in stock
                     let response = JSON.parse(xhr.responseText);
                     productStock.textContent = 'В наличии: ' + response.stock;
                     stock = response.stock
@@ -172,21 +169,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-    // Обработчик клика на кнопку "-"
+    // Button click handler "-"
     minusButton.addEventListener('click', function () {
         if (quantityInput.value > 1) {
             quantityInput.value--;
         }
     });
 
-    // Обработчик клика на кнопку "+"
+    // Button click handler "+"
     plusButton.addEventListener('click', function () {
         if (quantityInput.value < stock) {
             quantityInput.value++;
         }
     });
 
-    // Обработчик отправки формы
+    // Form submission handler
     quantityForm.addEventListener('submit', (event) => {
         event.preventDefault();
 
@@ -194,7 +191,7 @@ document.addEventListener("DOMContentLoaded", () => {
             let selectedColor = document.querySelector('.color_circle.selected');
             let selectedSize = document.querySelector('.size_square.selected');
 
-            // Установка значений выбранного цвета и размера на странице
+            // Setting the values ​​of the selected color and size on the page
             let selectedColorText = selectedColor.getAttribute('data-color');
             let selectedSizeText = selectedSize.getAttribute('data-size');
             document.getElementById('product_color').textContent = 'ЦВЕТ: ' + selectedColorText;
@@ -206,31 +203,31 @@ document.addEventListener("DOMContentLoaded", () => {
                 let size = selectedSize.getAttribute('data-size');
                 let quantity = quantityInput.value;
 
-                // Создаем объект с данными для отправки на сервер
+                // Create an object with data to send to the server
                 let data = {
                     color: color,
                     size: size,
                     quantity: quantity
                 };
 
-                // Создаем и настраиваем XMLHttpRequest объект
+                // Creating and configuring the XMLHttpRequest object
                 let xhr = new XMLHttpRequest();
                 xhr.open('POST', productAddCartUrl);
                 xhr.setRequestHeader('Content-Type', 'application/json');
                 xhr.setRequestHeader('X-CSRFToken', getCookie('csrftoken'));
 
-                // Отправляем данные на сервер
+                // Sending data to the server
                 xhr.send(JSON.stringify(data));
 
-                // Обработчик ответа от сервера
+                // Server response handler
                 xhr.onload = function () {
                     if (xhr.status === 200) {
-                        // Обновляем информацию о количестве товара в наличии
+                        // Update information about the quantity of goods in stock
                         let response = JSON.parse(xhr.responseText);
                         productStock.textContent = 'В наличии: ' + response.stock;
                         quantityInput.value = 1;
 
-                        // Обновляем количество товаров в корзине
+                        // Update the number of items in the cart
                         let itemInCartElement = document.getElementById('item_in_cart');
                         if (itemInCartElement) {
                             let currentItemCount = parseInt(itemInCartElement.textContent);
@@ -238,15 +235,15 @@ document.addEventListener("DOMContentLoaded", () => {
                         }
 
 
-                        // Показываем уведомление об успешном добавлении товара в корзину
+                        // We show a notification about the successful addition of an item to the cart
                         alert('Товар успешно добавлен в корзину!');
                     } else {
-                        // Показываем уведомление об ошибке
+                        // Show error notification
                         alert('Ошибка при добавлении товара в корзину!');
                     }
                 };
             } else {
-                // Показываем уведомление о неправильном выборе цвета, размера или количества
+                // We show a notification about the wrong choice of color, size or quantity
                 alert('Пожалуйста, выберите цвет, размер и количество товара!');
             }
         } else {
@@ -254,6 +251,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
+    // Function to fetch more product data (pagination)
     async function getDataProductLove(url, page, paginateBy) {
         const urlWithParams = url + "?" + new URLSearchParams({
             page: page,
@@ -265,6 +263,7 @@ document.addEventListener("DOMContentLoaded", () => {
         return response.json();
     }
 
+    // Class for handling product pagination in the "Love" section
     class LoadMorePaginatorLove {
         constructor(per_page) {
             this.per_page = per_page
@@ -329,8 +328,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 });
         }
     }
+
+    // Instantiate the LoadMorePaginatorLove class with 3 products per page
     new LoadMorePaginatorLove(3);
 
+    // Function to update favorite status of a product
     function updateFavorite(url) {
         let data = {
             favorite: productScript.dataset.productid
@@ -345,6 +347,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
+    // Event listener for the favorite image icon
     const addFavoriteUrl = document.querySelector("script[src$='product.js']").getAttribute("data-add-favorite-url");
     const removeFromFavoritesUrl = document.querySelector("script[src$='product.js']").getAttribute("data-remove-favorite-url")
 

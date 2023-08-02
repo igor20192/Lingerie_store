@@ -112,7 +112,7 @@ body {
     color: #FFFFFF;
 }
 
-#brend {
+#brand {
     /* Бренды */
 
 
@@ -2437,7 +2437,7 @@ a {
 
 #product_description_pre {
     position: absolute;
-    max-width: 777px;
+    width: auto;
     height: auto;
     overflow: auto;
     left: 370px;
@@ -2582,7 +2582,7 @@ a {
 
 }
 
-#brand {
+#brand2 {
     position: absolute;
     width: 217px;
     height: 61px;
