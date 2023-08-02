@@ -9,7 +9,7 @@
       <li class="breadcrumb-item"><a href="{% url 'index' %}">Главная
           страница</a></li>
       <li class="breadcrumb-item"><a
-          href="/catalog">{{product.category.name}}</a></li>
+          href="{% url 'catalog' %}?categors={{ product.category.name }}">{{product.category.name}}</a></li>
       <li class=" breadcrumb-item active" aria-current="page">{{product.name}}</li>
     </ol>
   </nav>
