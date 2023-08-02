@@ -46,10 +46,9 @@
                     photo">
                     <img id="telephone" src="{% static '/img/telephone.png' %}"
                         alt="Not photo">
-                    <a class="navbar-brand" id="catalog"
-                        href="{% url 'catalog' %}">
-                        <img src="{% static '/img/КАТАЛОГ.png' %}" alt>
-                    </a>
+                    <div class="navbar-brand" id="catalog">
+                        <p>КАТАЛОГ</p>
+                    </div>
                     <a class="navbar-brand" id="undwear"
                         href="{% url 'catalog' %}?categors=panties">
                         <img src="{% static '/img/Нижнее белье.png' %}"
@@ -58,6 +57,59 @@
 
                     <div class="navbar-brand" id="brend">
                         <p>БРЕНДЫ</p>
+                    </div>
+
+                    <div id="megamenu">
+                        <div class="megamenu_group">
+                            <h6>МОДЕЛИ</h6>
+                            <a href="{% url 'catalog' %}?categors=bodysuit">Боди</a>
+                            <a href="{% url 'catalog' %}?categors=bras">Бюстгальтеры</a>
+                            <a
+                                href="{% url 'catalog' %}?categors=">Детское
+                                белье</a>
+                            <a
+                                href="{% url 'catalog' %}?categors=tights_and_socks">Колготки
+                                и носки</a>
+                            <a href="{% url 'catalog' %}?categors=">Кружевное
+                                нижнее белье</a>
+                            <a href="{% url 'catalog' %}?categors=swimwear">Купальники</a>
+                            <a
+                                href="{% url 'catalog' %}?categors=men_underwear">Мужское
+                                белье</a>
+                            <a
+                                href="{% url 'catalog' %}?categors=panties">Трусики</a>
+                            <a
+                                href="{% url 'catalog' %}?categors=seamless_underwear">Бесшовное
+                                нижнее белье</a>
+                            <a href="{% url 'catalog' %}?categors=">Разное</a>
+                        </div>
+                        <div class="megamenu_group">
+                            <h6>По СТИЛЮ И НАЗНАЧЕНИЮ</h6>
+                            <a href>Базовое белье</a>
+                            <a href>Новинки</a>
+                            <a href>Комфортное белье</a>
+                            <a href>Сексуальное</a>
+                            <a href>Кружевное</a>
+                            <a href>Повседневное</a>
+                            <a href>Одежда для дома</a>
+                            <a href>Одежда для сна</a>
+                            <a href>Для свадьбы</a>
+                        </div>
+                        <div class="megamenu_group">
+                            <h6>БРЕНДЫ</h6>
+                            <a href="{% url 'catalog' %}?categors=avelin">AVELIN</a>
+                            <a href="{% url 'catalog' %}?categors=comazo">COMAZO</a>
+                            <a href="{% url 'catalog' %}?categors=lauma">LAUMA</a>
+                            <a href="{% url 'catalog' %}?categors=melado">MELADO</a>
+                            <a href="{% url 'catalog' %}?categors=milavitsa">MILAVITSA</a>
+                            <a href="{% url 'catalog' %}?categors=serge">SERGE</a>
+                            <a href="{% url 'catalog' %}?categors=teatro">TEATRO</a>
+                            <a href="{% url 'catalog' %}?categors=triumph">TRIUMPH</a>
+                        </div>
+                        <div class="megamenu_group">
+                            <p>-20%</p>
+                            <img src="{% static 'img/Rectangle 9v.png' %}" alt>
+                        </div>
                     </div>
 
                     <div id="brand-dropdown">
@@ -75,7 +127,8 @@
                         href="{% url 'catalog' %}?categors=XXL">
                         <img src="{% static '/img/XXL.png' %}" alt>
                     </a>
-                    <a class="navbar-brand" id="sale" href="#">
+                    <a class="navbar-brand" id="sale"
+                        href="{% url 'catalog' %}?categors=sale">
                         <img src="{% static '/img/Распродажа.png' %}" alt>
                     </a>
                     <a class="navbar-brand" id="certificate" href="#">
@@ -84,6 +137,9 @@
                     <a class="navbar-brand" id="group1" href="#">
                         <img src="{% static '/img/Group 1.png' %}" alt>
                     </a>
+                    <input type="text" id="search-input"
+                        placeholder="поиск товара">
+                    <div id="search-results"></div>
                     <a class="navbar-brand" id="group2" href="#map">
                         <img src="{% static '/img/Group 2.png' %}" alt>
                     </a>
