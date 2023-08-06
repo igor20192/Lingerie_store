@@ -1,6 +1,17 @@
 version: '3.8'
 
 services:
+  web:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8080
+    volumes:
+      - ./:/usr/src/Lingerie_store
+    ports:
+      - 8080:8080
+    env_file:
+      - ./.env
+    depends_on:
+      - db
   db:
     image: postgres:15-alpine
     volumes:
