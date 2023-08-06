@@ -100,20 +100,20 @@ WSGI_APPLICATION = "Lingerie_store.wsgi.application"
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 
-DATABASES = {"default": env.db("DATABASE_URL")}
+# DATABASES = {"default": env.db("DATABASE_URL")}
 
 # DATABASES for docker
 
-# DATABASES = {
-#     "default": {
-#         "ENGINE": env("DATABASE_ENGINE"),
-#         "NAME": env("DATABASE_NAME"),
-#         "USER": env("DATABASE_USERNAME"),
-#         "PASSWORD": env("DATABASE_PASSWORD"),
-#         "HOST": env("DATABASE_HOST"),
-#         "PORT": env("DATABASE_PORT"),
-#     }
-# }
+DATABASES = {
+    "default": {
+        "ENGINE": env("DATABASE_ENGINE"),
+        "NAME": env("DATABASE_NAME"),
+        "USER": env("DATABASE_USERNAME"),
+        "PASSWORD": env("DATABASE_PASSWORD"),
+        "HOST": env("DATABASE_HOST"),
+        "PORT": env("DATABASE_PORT"),
+    }
+}
 
 
 # Password validation
