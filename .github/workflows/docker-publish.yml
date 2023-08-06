@@ -28,4 +28,4 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/Lingerie_store_hub:latest
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/lingerie_store_hub:latest
