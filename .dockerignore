@@ -3,7 +3,6 @@ venv
 .gitignore
 backup_file.sql
 backup.sql
-backup.tar
 db.sqlite3
 docker-compose.yml
 Dockerfile
