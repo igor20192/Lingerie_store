@@ -6,8 +6,11 @@ from decimal import Decimal
 
 
 class UserProfile(models.Model):
+    """
+    Model representing a user profile.
+    """
+
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    # поля профиля
     address = models.CharField(max_length=255, null=True)
     city = models.CharField(max_length=255, null=True)
     state = models.CharField(max_length=255, null=True, default="active")
@@ -17,7 +20,6 @@ class UserProfile(models.Model):
     gender = models.CharField(
         max_length=1, choices=(("M", "Male"), ("F", "Female")), null=True
     )
-    # поля для фотографии профиля
     profile_pic = models.ImageField(
         upload_to="profile_pics/", blank=True, default="profile_pics/not_photo.png"
     )
@@ -27,12 +29,15 @@ class UserProfile(models.Model):
 
 
 class Order(models.Model):
+    """
+    Model representing an order.
+    """
+
     user_profile = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
-    # поля заказа
     order_number = models.CharField(max_length=24, unique=True)
     order_date = models.DateTimeField(auto_now_add=True)
     order_total = models.DecimalField(max_digits=8, decimal_places=2)
-    # поля для статуса заказа
+
     STATUS_CHOICES = (
         ("P", "Pending"),
         ("O", "Order has been paid"),
@@ -47,6 +52,10 @@ class Order(models.Model):
 
 
 class Category(models.Model):
+    """
+    Model representing a product category.
+    """
+
     name = models.CharField(max_length=100)
 
     def __str__(self):
@@ -54,6 +63,10 @@ class Category(models.Model):
 
 
 class Style(models.Model):
+    """
+    Model representing a product style.
+    """
+
     name = models.CharField(max_length=100)
 
     def __str__(self):
@@ -61,6 +74,10 @@ class Style(models.Model):
 
 
 class Brand(models.Model):
+    """
+    Model representing a brand.
+    """
+
     name = models.CharField(max_length=100)
 
     def __str__(self):
@@ -68,6 +85,10 @@ class Brand(models.Model):
 
 
 class Color(models.Model):
+    """
+    Model representing a color.
+    """
+
     name = models.CharField(max_length=100)
 
     def __str__(self):
@@ -75,6 +96,10 @@ class Color(models.Model):
 
 
 class Size(models.Model):
+    """
+    Model representing a size.
+    """
+
     name = models.CharField(max_length=100)
 
     def __str__(self):
@@ -82,6 +107,10 @@ class Size(models.Model):
 
 
 class Product(models.Model):
+    """
+    Model representing a product.
+    """
+
     upload_to = "products/"
 
     name = models.CharField(max_length=100)
@@ -104,6 +133,10 @@ class Product(models.Model):
 
 
 class ProductVariant(models.Model):
+    """
+    Model representing a product variant.
+    """
+
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     color = models.ForeignKey(Color, on_delete=models.CASCADE)
     size = models.ForeignKey(Size, on_delete=models.CASCADE)
@@ -114,6 +147,10 @@ class ProductVariant(models.Model):
 
 
 class OrderItem(models.Model):
+    """
+    Model representing an item in an order.
+    """
+
     order = models.ForeignKey("Order", on_delete=models.CASCADE)
     product_variant = models.ForeignKey(ProductVariant, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField(default=1)
