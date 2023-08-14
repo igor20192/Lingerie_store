@@ -241,10 +241,112 @@ def search_view(request):
         products = Product.objects.all()
     return render(request, 'search_results.html', {'products': products})
 ```
+## API Endpoints
+
+### Products
+- `GET /api/products/`: List all products.
+- `GET /api/products/<int:pk>/`: Retrieve a product instance.
+- `POST /api/products/create/`: Create a new product (Admin only).
+- `PUT /api/products/update/<int:pk>/`: Update a product instance (Admin only).
+- `DELETE /api/products/destroy/<int:pk>/`: Delete a product instance (Admin only).
+
+### Categories
+- `GET /api/categories/`: List all categories.
+- `GET /api/categories/<int:pk>/`: Retrieve a category instance.
+- `POST /api/categories/create/`: Create a new category (Admin only).
+- `DELETE /api/categories/destroy/<int:pk>/`: Delete a category instance (Admin only).
+
+### Orders
+- `GET /api/orders/`: List all orders (Authenticated users and Admins).
+- `GET /api/orders/<int:pk>/`: Retrieve an order instance (Authenticated users and Admins).
+- `PUT /api/order/update/<int:pk>/`: Update an order instance (Authenticated users and Admins).
+- `DELETE /api/order/destroy/<int:pk>/`: Delete an order instance (Authenticated users and Admins).
+
+### Styles, Brands, Colors, Sizes
+- Endpoints for listing, retrieving, creating, and deleting individual instances of styles, brands, colors, and sizes follow a similar pattern as above.
+
+### Product Variants
+- Endpoints for listing, retrieving, creating, updating, and deleting product variants follow a similar pattern as above.
+
+### User Profiles
+- Endpoints for listing and retrieving user profiles are available for Admins only.
+
+### Users
+- Endpoints for listing and retrieving users are available for Admins only.
+
+Please note that some endpoints require authentication or Admin permissions.
+
+## Shop API
+
+### Views
+
+Here are the views available in the Shop API:
+
+#### Products
+
+- `GET /api/products/`: List all products.
+- `GET /api/products/<int:pk>/`: Retrieve a product instance.
+- `POST /api/products/create/`: Create a new product instance (Admin only).
+- `PUT /api/products/update/<int:pk>/`: Update a product instance (Admin only).
+- `DELETE /api/products/destroy/<int:pk>/`: Delete a product instance (Admin only).
+
+#### Categories
+
+- `GET /api/categories/`: List all categories.
+- `GET /api/categories/<int:pk>/`: Retrieve a category instance.
+- `POST /api/categories/create/`: Create a new category instance (Admin only).
+- `DELETE /api/categories/destroy/<int:pk>/`: Delete a category instance (Admin only).
+
+#### Orders
+
+- `GET /api/orders/`: List orders (Authenticated users and Admins).
+- `GET /api/orders/<int:pk>/`: Retrieve an order instance (Authenticated users and Admins).
+- `PUT /api/order/update/<int:pk>/`: Update an order instance (Authenticated users and Admins).
+- `DELETE /api/order/destroy/<int:pk>/`: Delete an order instance (Authenticated users and Admins).
+
+#### Styles
+
+- `GET /api/style/`: List all styles.
+- `GET /api/style/<int:pk>/`: Retrieve a style instance.
+- `POST /api/style/create/`: Create a new style instance (Admin only).
+- `DELETE /api/style/destroy/<int:pk>/`: Delete a style instance (Admin only).
+
+#### Brands
+
+- `GET /api/brand/`: List all brands.
+- `GET /api/brand/<int:pk>/`: Retrieve a brand instance.
+- `POST /api/brand/create/`: Create a new brand instance (Admin only).
+- `DELETE /api/brand/destroy/<int:pk>/`: Delete a brand instance (Admin only).
+
+#### Colors
+
+- `GET /api/color/`: List all colors.
+- `GET /api/color/<int:pk>/`: Retrieve a color instance.
+- `POST /api/color/create/`: Create a new color instance (Admin only).
+- `DELETE /api/color/destroy/<int:pk>/`: Delete a color instance (Admin only).
+
+#### Sizes
+
+- `GET /api/size/`: List all sizes.
+- `GET /api/size/<int:pk>/`: Retrieve a size instance.
+- `POST /api/size/create/`: Create a new size instance (Admin only).
+- `DELETE /api/size/destroy/<int:pk>/`: Delete a size instance (Admin only).
+
+### Permissions
+
+- `IsAuthenticated`: Accessible to authenticated users.
+- `IsAdminUser`: Accessible to admin users.
+
+Please note that certain actions require appropriate permissions. See each view's documentation for details.
+
 
 ## Authors
 
 The project is developed and maintained by Igor Udovenko.
+
+## Contributing
+
+Contributions are welcome! If you have any bug fixes, improvements, or new features, please submit a pull request.
 ## License
 
 This project is licensed under the MIT License - see the LICENSE file for details.

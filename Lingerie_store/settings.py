@@ -62,6 +62,8 @@ INSTALLED_APPS = [
     "allauth.account",
     "allauth.socialaccount",
     "paypal.standard.ipn",
+    "shop_api",
+    "rest_framework",
 ]
 
 MIDDLEWARE = [
@@ -73,6 +75,10 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
+REST_FRAMEWORK = {
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
+    "PAGE_SIZE": 10,
+}
 
 ROOT_URLCONF = "Lingerie_store.urls"
 
@@ -100,20 +106,20 @@ WSGI_APPLICATION = "Lingerie_store.wsgi.application"
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 
-# DATABASES = {"default": env.db("DATABASE_URL")}
+DATABASES = {"default": env.db("DATABASE_URL")}
 
 # DATABASES for docker
 
-DATABASES = {
-    "default": {
-        "ENGINE": env("DATABASE_ENGINE"),
-        "NAME": env("DATABASE_NAME"),
-        "USER": env("DATABASE_USERNAME"),
-        "PASSWORD": env("DATABASE_PASSWORD"),
-        "HOST": env("DATABASE_HOST"),
-        "PORT": env("DATABASE_PORT"),
-    }
-}
+# DATABASES = {
+# "default": {
+# "ENGINE": env("DATABASE_ENGINE"),
+# "NAME": env("DATABASE_NAME"),
+# "USER": env("DATABASE_USERNAME"),
+# "PASSWORD": env("DATABASE_PASSWORD"),
+# "HOST": env("DATABASE_HOST"),
+# "PORT": env("DATABASE_PORT"),
+# }
+# }
 
 
 # Password validation
