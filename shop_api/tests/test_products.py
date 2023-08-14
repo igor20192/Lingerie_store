@@ -49,4 +49,4 @@ class ProductAPITests(TestCase):
         request = self.factory.get(f"/api/products/{product.pk}/")
         response = view(request, pk=product.pk)
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.data["name"], "Test Product")
+        self.assertEqual(response.data.get("name"), "Test Product")
