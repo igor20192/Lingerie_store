@@ -14,6 +14,7 @@ defusedxml==0.7.1
 Django==4.1.7
 django-allauth==0.54.0
 django-environ==0.10.0
+django-filter==23.2
 django-paypal==2.0
 djangorestframework==3.14.0
 executing==1.2.0
