@@ -98,6 +98,7 @@ class ProductVariantListAPIView(generics.ListAPIView):
     List all product variants.
     """
 
+    permission_classes = [IsAuthenticated]
     serializer_class = ProductVariantSerializer
     queryset = ProductVariant.objects.all()
 
@@ -565,14 +566,38 @@ class OrderDetailAPIView(generics.RetrieveAPIView):
 
 class UserProfileListView(generics.ListAPIView):
     """
-    List user profiles (accessible to admin users).
+    View for listing user profiles.
+
+    Provides a list of user profiles with search capabilities. Only authenticated users
+    can access this view.
+
+    Attributes:
+        permission_classes: List of permission classes required for accessing the view.
+        serializer_class: Serializer for converting user profile data.
+        filter_backends: List of backends for filtering.
+        search_fields: Fields for performing searches.
+
+    Methods:
+        get_queryset: Retrieve the queryset for listing user profiles based on user type.
     """
 
-    permission_classes = [IsAdminUser]
+    permission_classes = [IsAuthenticated]
     serializer_class = UserProfileSerializer
+    filter_backends = [filters.SearchFilter]
+    search_fields = ["user__username", "user__email"]
 
     def get_queryset(self):
-        return UserProfile.objects.all()
+        """
+        Retrieve the queryset for listing user profiles.
+
+        Returns:
+            Queryset: A queryset of user profiles based on user type.
+        """
+        user = self.request.user
+
+        if user.is_staff:
+            return UserProfile.objects.all()
+        return UserProfile.objects.filter(user__username=user)
 
 
 class UserProfileDetailAPIView(generics.RetrieveAPIView):
@@ -590,14 +615,37 @@ class UserProfileDetailAPIView(generics.RetrieveAPIView):
 
 class UserListAPIView(generics.ListAPIView):
     """
-    List users (accessible to admin users).
+    View for listing users.
+
+    Provides a list of users with search capabilities. Only authenticated users with
+    staff status can access the view.
+
+    Attributes:
+        permission_classes: List of permission classes required for accessing the view.
+        serializer_class: Serializer for converting user data.
+        filter_backends: List of backends for filtering.
+        search_fields: Fields for performing searches.
+
+    Methods:
+        get_queryset: Retrieve the queryset for listing users based on user type.
     """
 
-    permission_classes = [IsAdminUser]
+    permission_classes = [IsAuthenticated]
     serializer_class = UserSerializer
+    filter_backends = [filters.SearchFilter]
+    search_fields = ["username", "email"]
 
     def get_queryset(self):
-        return User.objects.all()
+        """
+        Retrieve the queryset for listing users.
+
+        Returns:
+            Queryset: A queryset of users based on user type.
+        """
+        user = self.request.user
+        if user.is_staff:
+            return User.objects.all()
+        return User.objects.filter(username=user)
 
 
 class UserDetailAPIView(generics.RetrieveAPIView):
