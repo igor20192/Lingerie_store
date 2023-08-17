@@ -325,6 +325,9 @@ Here are the views available in the Shop API:
 
 - `GET /api/products/`: List all products.
 - `GET /api/products/<int:pk>/`: Retrieve a product instance.
+- `GET /api/products/?brand=` : Search by id brand,style,category,price
+- `GET /api/products/?price__lt=` : Search for price less
+- `GET /api/products/?price__gt=` : Search for price more
 - `POST /api/products/create/`: Create a new product instance (Admin only).
 - `PUT /api/products/update/<int:pk>/`: Update a product instance (Admin only).
 - `DELETE /api/products/destroy/<int:pk>/`: Delete a product instance (Admin only).
