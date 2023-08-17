@@ -1,6 +1,7 @@
 from django.shortcuts import render
-from rest_framework import generics, viewsets
+from rest_framework import generics, filters
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
+from django_filters.rest_framework import DjangoFilterBackend, FilterSet, NumberFilter
 from womanshop.models import (
     Product,
     Order,
@@ -27,13 +28,59 @@ from .serializers import (
 from django.contrib.auth.models import User
 
 
+class ProductFilters(FilterSet):
+    """
+    Filters for products.
+
+    Allow filtering products by price and various attributes such as
+    vendor code, brand, category, and style.
+
+    Attributes:
+        price: Filter by price.
+        price__gt: Filter by price greater than a specified value.
+        price__lt: Filter by price less than a specified value.
+    """
+
+    price = NumberFilter()
+    price__gt = NumberFilter(field_name="price", lookup_expr="gt")
+    price__lt = NumberFilter(field_name="price", lookup_expr="lt")
+
+    class Meta:
+        model = Product
+        fields = {
+            "price": ["lt", "gt"],
+            "vendor_code": ["exact"],
+            "brand": ["exact"],
+            "category": ["exact"],
+            "style": ["exact"],
+        }
+
+
 class ProductListAPIView(generics.ListAPIView):
     """
-    List all products.
+    View for listing products.
+
+    Allows retrieving a list of products with filtering and searching capabilities.
+
+    Attributes:
+        queryset: Query for retrieving the list of products.
+        serializer_class: Serializer for converting product data.
+        filter_backends: List of backends for filtering.
+        filterset_class: Filtering class for configuring product filters.
+        search_fields: Fields for performing searches.
     """
 
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter]
+    filterset_class = ProductFilters
+    search_fields = [
+        "name",
+        "collection",
+        "brand__name",
+        "category__name",
+        "style__name",
+    ]
 
 
 class ProductDetailAPIView(generics.RetrieveAPIView):
