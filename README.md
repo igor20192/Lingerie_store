@@ -278,6 +278,45 @@ Please note that some endpoints require authentication or Admin permissions.
 
 ## Shop API
 
+### Product Filters
+
+This project includes a `ProductFilters` class that allows you to filter products based on different attributes such as price, vendor code, brand, category, and style. Here's how you can use it:
+
+```python
+# Import the necessary modules
+from django_filters import FilterSet, NumberFilter
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import generics, filters
+from .models import Product
+from .serializers import ProductSerializer
+
+# Define the ProductFilters class
+class ProductFilters(FilterSet):
+    """
+    Filters for products.
+
+    Allow filtering products by price and various attributes such as
+    vendor code, brand, category, and style.
+
+    Attributes:
+        price: Filter by price.
+        price__gt: Filter by price greater than a specified value.
+        price__lt: Filter by price less than a specified value.
+    """
+    price = NumberFilter()
+    price__gt = NumberFilter(field_name="price", lookup_expr="gt")
+    price__lt = NumberFilter(field_name="price", lookup_expr="lt")
+
+    class Meta:
+        model = Product
+        fields = {
+            "price": ["lt", "gt"],
+            "vendor_code": ["exact"],
+            "brand": ["exact"],
+            "category": ["exact"],
+            "style": ["exact"],
+        }
+```
 ### Views
 
 Here are the views available in the Shop API:
