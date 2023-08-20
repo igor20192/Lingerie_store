@@ -103,11 +103,12 @@ class ProductVariantListAPIView(generics.ListAPIView):
     queryset = ProductVariant.objects.all()
 
 
-class ProductVriantDetailAPIView(generics.RetrieveAPIView):
+class ProductVariantDetailAPIView(generics.RetrieveAPIView):
     """
     Retrieve a product variant instance.
     """
 
+    permission_classes = [IsAuthenticated]
     queryset = ProductVariant.objects.all()
     serializer_class = ProductVariantSerializer
     lookup_field = "pk"
@@ -118,6 +119,7 @@ class CategoryListAPIView(generics.ListAPIView):
     List all categories.
     """
 
+    permission_classes = [IsAuthenticated]
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
 
