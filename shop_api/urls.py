@@ -38,7 +38,7 @@ urlpatterns = [
     ),
     path(
         "product_variant/<int:pk>/",
-        views.ProductDetailAPIView.as_view(),
+        views.ProductVariantDetailAPIView.as_view(),
         name="productvariant-detail",
     ),
     path("color/", views.ColorListAPIView.as_view(), name="color-list"),
@@ -50,12 +50,12 @@ urlpatterns = [
         "products/create/", views.ProductCreateAPIView.as_view(), name="product-create"
     ),
     path(
-        "products/update/<int:pk>",
+        "products/update/<int:pk>/",
         views.ProductUpdateAPIViews.as_view(),
         name="product-update",
     ),
     path(
-        "products/destroy/<int:pk>",
+        "products/destroy/<int:pk>/",
         views.ProductDestroyAPIView.as_view(),
         name="product-destroy",
     ),
@@ -66,21 +66,23 @@ urlpatterns = [
         name="productvariant-create",
     ),
     path(
-        "product_variant/update/<int:pk>",
+        "product_variant/update/<int:pk>/",
         views.ProductVariantUpdateAPIViews.as_view(),
         name="product-update",
     ),
     path(
-        "product_variant/destroy/<int:pk>",
+        "product_variant/destroy/<int:pk>/",
         views.ProductVariantDestroyAPIView.as_view(),
         name="productvariant-destroy",
     ),
     # To update and delete order
     path(
-        "order/update/<int:pk>", views.OrderUpdateAPIView.as_view(), name="order-update"
+        "order/update/<int:pk>/",
+        views.OrderUpdateAPIView.as_view(),
+        name="order-update",
     ),
     path(
-        "order/destroy/<int:pk>",
+        "order/destroy/<int:pk>/",
         views.OrderDestroyAPIView.as_view(),
         name="order-destroy",
     ),
@@ -91,35 +93,37 @@ urlpatterns = [
         name="category-create",
     ),
     path(
-        "categories/destroy/<int:pk>",
+        "categories/destroy/<int:pk>/",
         views.CategoryDestroyAPIView.as_view(),
         name="category-destroy",
     ),
     # To create and delete style
     path("style/create/", views.StyleCreateAPIView.as_view(), name="style-create"),
     path(
-        "style/destroy/<int:pk>",
+        "style/destroy/<int:pk>/",
         views.StyleDestroyAPIView.as_view(),
         name="style-destroy",
     ),
     # To create and delete brand
     path("brand/create/", views.BrandCreateAPIView.as_view(), name="brand-create"),
     path(
-        "brand/destroy/<int:pk>",
+        "brand/destroy/<int:pk>/",
         views.BrandDestroyAPIView.as_view(),
         name="brand-destroy",
     ),
     # To create and delete color
     path("color/create/", views.ColorCreateAPIView.as_view(), name="color-create"),
     path(
-        "color/destroy/<int:pk>",
+        "color/destroy/<int:pk>/",
         views.ColorDestroyAPIView.as_view(),
         name="color-destroy",
     ),
     # To create and delete size
     path("size/create/", views.SizeCreateAPIView.as_view(), name="size-create"),
     path(
-        "size/destroy/<int:pk>", views.SizeDestroyAPIView.as_view(), name="size-destroy"
+        "size/destroy/<int:pk>/",
+        views.SizeDestroyAPIView.as_view(),
+        name="size-destroy",
     ),
 ]
 # Apply formatting to endpoints
