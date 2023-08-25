@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import get_list_or_404
 from rest_framework import generics, filters
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from django_filters.rest_framework import DjangoFilterBackend, FilterSet, NumberFilter
@@ -129,6 +129,7 @@ class CategoryDetailAPIView(generics.RetrieveAPIView):
     Retrieve a category instance.
     """
 
+    permission_classes = [IsAuthenticated]
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
     lookup_field = "pk"
@@ -204,6 +205,7 @@ class StyleListAPIView(generics.ListAPIView):
     List all styles.
     """
 
+    permission_classes = [IsAuthenticated]
     queryset = Style.objects.all()
     serializer_class = StyleSerializer
 
@@ -213,6 +215,7 @@ class StyleDetailAPIView(generics.RetrieveAPIView):
     Retrieve a style instance.
     """
 
+    permission_classes = [IsAuthenticated]
     queryset = Style.objects.all()
     serializer_class = StyleSerializer
     lookup_field = "pk"
@@ -288,6 +291,7 @@ class BrandListAPIView(generics.ListAPIView):
     List all brands.
     """
 
+    permission_classes = [IsAuthenticated]
     queryset = Brand.objects.all()
     serializer_class = BrandSerializer
 
@@ -297,6 +301,7 @@ class BrandDetailAPIView(generics.RetrieveAPIView):
     Retrieve a brand instance.
     """
 
+    permission_classes = [IsAuthenticated]
     queryset = Brand.objects.all()
     serializer_class = BrandSerializer
     lookup_field = "pk"
@@ -372,6 +377,7 @@ class ColorListAPIView(generics.ListAPIView):
     List all colors.
     """
 
+    permission_classes = [IsAuthenticated]
     queryset = Color.objects.all()
     serializer_class = ColorSerializer
 
@@ -381,6 +387,7 @@ class ColorDetailAPIView(generics.RetrieveAPIView):
     Retrieve a color instance.
     """
 
+    permission_classes = [IsAuthenticated]
     queryset = Color.objects.all()
     serializer_class = ColorSerializer
     lookup_field = "pk"
@@ -456,6 +463,7 @@ class SizeListAPIView(generics.ListAPIView):
     List all sizes.
     """
 
+    permission_classes = [IsAuthenticated]
     queryset = Size.objects.all()
     serializer_class = SizeSerializer
 
@@ -465,6 +473,7 @@ class SizeDetailAPIView(generics.RetrieveAPIView):
     Retrieve a size instance.
     """
 
+    permission_classes = [IsAuthenticated]
     queryset = Size.objects.all()
     serializer_class = SizeSerializer
     lookup_field = "pk"
@@ -607,12 +616,14 @@ class UserProfileDetailAPIView(generics.RetrieveAPIView):
     Retrieve a user profile instance (accessible to admin users).
     """
 
-    permission_classes = [IsAdminUser]
+    permission_classes = [IsAuthenticated]
     serializer_class = UserProfileSerializer
-    lookup_field = "pk"
 
     def get_queryset(self):
-        return UserProfile.objects.all()
+        user = self.request.user
+        if user.is_staff:
+            return UserProfile.objects.all()
+        return UserProfile.objects.filter(user__username=user)
 
 
 class UserListAPIView(generics.ListAPIView):
@@ -655,12 +666,14 @@ class UserDetailAPIView(generics.RetrieveAPIView):
     Retrieve a user instance (accessible to admin users).
     """
 
-    permission_classes = [IsAdminUser]
+    permission_classes = [IsAuthenticated]
     serializer_class = UserSerializer
-    lookup_field = "pk"
 
     def get_queryset(self):
-        return User.objects.all()
+        user = self.request.user
+        if user.is_staff:
+            return User.objects.all()
+        return User.objects.filter(username=user)
 
 
 class ProductCreateAPIView(generics.CreateAPIView):
@@ -683,7 +696,7 @@ class ProductVariantCreateAPIViews(generics.CreateAPIView):
     permission_classes = [IsAdminUser]
 
 
-class ProductUpdateAPIViews(generics.UpdateAPIView):
+class ProductUpdateAPIViews(generics.RetrieveUpdateAPIView):
     """
     Update a product instance (accessible to admin users).
     """
@@ -708,15 +721,10 @@ class OrderUpdateAPIView(generics.UpdateAPIView):
     Update an order instance (accessible to authenticated users and staff).
     """
 
-    permission_classes = [IsAuthenticated]
+    queryset = Order.objects.all()
+    permission_classes = [IsAdminUser]
     serializer_class = OrderSerializer
     lookup_field = "pk"
-
-    def get_queryset(self):
-        user = self.request.user
-        if user.is_staff:
-            return Order.objects.all()
-        return Order.objects.filter(user_profile=self.request.user.userprofile)
 
 
 class OrderDestroyAPIView(generics.RetrieveDestroyAPIView):
