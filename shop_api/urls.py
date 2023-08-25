@@ -18,7 +18,7 @@ urlpatterns = [
         name="category-detail",
     ),
     path("orders/", views.OrderListAPIView.as_view(), name="order-list-api"),
-    path("order/<int:pk>/", views.OrderDetailAPIView.as_view(), name="order-detail"),
+    path("orders/<int:pk>/", views.OrderDetailAPIView.as_view(), name="order-detail"),
     path("style/", views.StyleListAPIView.as_view(), name="style-list"),
     path("style/<int:pk>/", views.StyleDetailAPIView.as_view(), name="style-detail"),
     path("brand/", views.BrandListAPIView.as_view(), name="brand-list"),
@@ -30,7 +30,7 @@ urlpatterns = [
         name="userprofile-detail",
     ),
     path("user/", views.UserListAPIView.as_view(), name="user-list"),
-    path("user/<int:pk>", views.UserDetailAPIView.as_view(), name="user-detail"),
+    path("user/<int:pk>/", views.UserDetailAPIView.as_view(), name="user-detail"),
     path(
         "product_variant/",
         views.ProductVariantListAPIView.as_view(),
@@ -44,7 +44,7 @@ urlpatterns = [
     path("color/", views.ColorListAPIView.as_view(), name="color-list"),
     path("color/<int:pk>/", views.ColorDetailAPIView.as_view(), name="color-detail"),
     path("size/", views.SizeListAPIView.as_view(), name="size-list"),
-    path("size/<int:pk>", views.SizeDetailAPIView.as_view(), name="size-detail"),
+    path("size/<int:pk>/", views.SizeDetailAPIView.as_view(), name="size-detail"),
     # To create, update and delete products
     path(
         "products/create/", views.ProductCreateAPIView.as_view(), name="product-create"
