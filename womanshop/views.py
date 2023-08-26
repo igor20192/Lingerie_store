@@ -36,6 +36,7 @@ from .forms import UserProfileForm
 
 LOGIN_URL = "/accounts/signup/"
 
+# Constants for filtering
 CATEGORS = {
     "bodysuit",
     "bras",
@@ -190,7 +191,7 @@ def filter_data(request, data):
     return [
         value
         for value in data
-        if request.GET.get(value.lower()) == "true" or categories == value.lower()
+        if (request.GET.get(value.lower()) == "true") or (categories == value.lower())
     ]
 
 
@@ -339,12 +340,12 @@ def catalog_api(request):
         product_sale_id = filters_categors_sale()
 
     # Create the filters based on the selected categories, styles, brands, and price range
-    filters_categors = filter_data(request, CATEGORS)
+    filtered_categories = filter_data(request, CATEGORS)
     filters_style = filter_data(request, STYLES)
     filters_brand = filter_data(request, BRANDS)
 
     products = filters_catalog_products(
-        filters_categors,
+        filtered_categories,
         filters_style,
         filters_brand,
         start_price,
