@@ -36,6 +36,40 @@ from .forms import UserProfileForm
 
 LOGIN_URL = "/accounts/signup/"
 
+CATEGORS = {
+    "bodysuit",
+    "bras",
+    "tights_and_socks",
+    "swimwear",
+    "men_underwear",
+    "panties",
+    "seamless_underwear",
+    "thermal_underwear",
+    "accessories",
+}
+STYLES = {
+    "basic_underwear",
+    "new_style",
+    "сomfort_underwear",
+    "sexual",
+    "lacy",
+    "everyday",
+    "homewear",
+    "sleepwear",
+    "for_wedding",
+}
+BRANDS = {
+    "AVELIN",
+    "COMAZO",
+    "LAUMA",
+    "MELADO",
+    "MILAVITSA",
+    "SERGE",
+    "TEATRO",
+    "TRIUMPH",
+}
+SIZE = {"80B", "80C", "80D", "80E", "80F"}
+
 
 class IndexView(TemplateView):
     """
@@ -140,16 +174,151 @@ class UserProfileFormView(View):
         return render(request, "womanshop/user_profile_form.html", {"form": form})
 
 
+def filter_data(request, data):
+    """
+    Filter data based on the request.
+
+    Args:
+        request (HttpRequest): The HTTP request object.
+        data (list): The list of data to filter.
+
+    Returns:
+        list: The filtered data.
+
+    """
+    categories = request.GET.get("categors")
+    return [
+        value
+        for value in data
+        if request.GET.get(value.lower()) == "true" or categories == value.lower()
+    ]
+
+
+def filters_categors_xxl():
+    """
+    Retrieves the product_id values of ProductVariant objects that have a size name in the SIZE list.
+
+    Returns:
+        JsonResponse: The JSON response containing the filtered product_id values. If no matching product_id values are found, an empty JSON response is returned.
+    """
+    size_xxl_id = ProductVariant.objects.filter(size__name__in=SIZE).values(
+        "product_id"
+    )
+    if not size_xxl_id:
+        data = {"data": []}
+        return JsonResponse(data)
+    return Product.objects.filter(id__in=size_xxl_id).values("id")
+
+
+def filters_categors_sale():
+    """
+    Retrieves the id values of Product objects that have the sale field set to True.
+
+    Returns:
+        JsonResponse: The JSON response containing the filtered id values. If no matching id values are found, an empty JSON response is returned.
+    """
+    product_sale = Product.objects.filter(sale=True).values("id")
+    if not product_sale:
+        data = {"data": []}
+        return JsonResponse(data)
+    return product_sale
+
+
+def filters_catalog_products(
+    categors, style, brand, startprice, endprice, xxl, sale, sortdirect, sortby
+):
+    """
+    Filters and sorts the products based on the given filter parameters.
+
+    Parameters:
+        categors (list): The list of category names to filter by.
+        style (list): The list of style names to filter by.
+        brand (list): The list of brand names to filter by.
+        startprice (int): The minimum price to filter by.
+        endprice (int): The maximum price to filter by.
+        xxl (set): The set of product_id values for the "XXL" category.
+        sale (set): The set of id values for the "sale" category.
+        sortdirect (str): The sort direction ("asc" or "desc").
+        sortby (str): The field to sort by.
+
+    Returns:
+        queryset: The filtered and sorted queryset of Product objects.
+    """
+    filters = Q()
+    if categors:
+        filters &= Q(category__name__in=categors)
+    if style:
+        filters &= Q(style__name__in=style)
+    if brand:
+        filters &= Q(brand__name__in=brand)
+    if startprice:
+        filters &= Q(price__gt=startprice)
+    if endprice:
+        filters &= Q(price__lt=endprice)
+    # Determine the sort direction
+    if sortdirect == "desc":
+        sortby = f"-{sortby}"
+    # Apply additional filters based on "XXL" or "sale" category
+    if xxl:
+        filters &= Q(id__in=xxl)
+    if sale:
+        filters &= Q(id__in=sale)
+    # Filter and sort the products
+    return Product.objects.filter(filters).order_by(sortby)
+
+
+def paginator_products(products, pg_number, number):
+    """
+    Paginate a list of products.
+
+    Args:
+        products (list): The list of products to paginate.
+        pg_number (int): The page number to retrieve.
+
+    Returns:
+        Paginator: The paginated page object.
+
+    """
+    paginator = Paginator(products, number)
+    return paginator.get_page(pg_number)
+
+
+def create_response_data(pg_obj):
+    """
+    Create response data for a paginated object.
+
+    Args:
+        pg_obj (Paginator): The paginated object.
+
+    Returns:
+        dict: The response data.
+
+    """
+    data = {
+        "has_next": pg_obj.has_next(),
+        "data": [
+            {
+                "name": product.name,
+                "price": product.price,
+                "brand": product.brand.name,
+                "image1": product.image1.url,
+                "id": product.id,
+            }
+            for product in pg_obj.object_list
+        ],
+    }
+    return data
+
+
 def catalog_api(request):
     """
-    Perform filtering and sorting of products based on the parameters provided in the request.
-    Returns the result in JSON format.
+    API endpoint for catalog data.
 
     Args:
         request (HttpRequest): The HTTP request object.
 
     Returns:
-        JsonResponse: JSON response containing the filtered and sorted products.
+        JsonResponse: The JSON response.
 
     """
     page_number = request.GET.get("page")
@@ -159,119 +328,35 @@ def catalog_api(request):
     end_price = request.GET.get("end")
     categors = request.GET.get("categors")
 
-    # Define name lists for categories, styles, and brands
-    name_categor = (
-        "bodysuit",
-        "bras",
-        "tights_and_socks",
-        "swimwear",
-        "men_underwear",
-        "panties",
-        "seamless_underwear",
-        "thermal_underwear",
-        "accessories",
-    )
-    name_styles = (
-        "basic_underwear",
-        "new_style",
-        "сomfort_underwear",
-        "sexual",
-        "lacy",
-        "everyday",
-        "homewear",
-        "sleepwear",
-        "for_wedding",
-    )
-    name_brands = (
-        "avelin",
-        "comazo",
-        "lauma",
-        "melado",
-        "milavitsa",
-        "serge",
-        "teatro",
-        "triumph",
-    )
-    size_names = ("80B", "80C", "80D", "80E", "80F")
-    product_xxl = []
-    product_sale_id = []
-
-    # Filter categories, styles, and brands based on the request parameters
-    categories = [
-        values
-        for values in name_categor
-        if request.GET.get(values) == "true" or values == categors
-    ]
-    styles = [values for values in name_styles if request.GET.get(values) == "true"]
-    brands = [
-        values.upper()
-        for values in name_brands
-        if request.GET.get(values) == "true" or values == categors
-    ]
+    product_xxl = set()
+    product_sale_id = set()
 
     # Check for specific category "XXL" or "sale" to filter the products
     if categors == "XXL":
-        size_xxl_id = ProductVariant.objects.filter(size__name__in=size_names).values(
-            "product_id"
-        )
-        if not size_xxl_id:
-            data = {"data": []}
-            return JsonResponse(data)
-        product_xxl = Product.objects.filter(id__in=size_xxl_id).values("id")
+        product_xxl = filters_categors_xxl()
 
     if categors == "sale":
-        product_sale_id = Product.objects.filter(sale=True).values("id")
-        if not product_sale_id:
-            data = {"data": []}
-            return JsonResponse(data)
+        product_sale_id = filters_categors_sale()
 
     # Create the filters based on the selected categories, styles, brands, and price range
-    filters = Q()
-    if categories:
-        filters &= Q(category__name__in=categories)
-    if styles:
-        filters &= Q(style__name__in=styles)
-    if brands:
-        filters &= Q(brand__name__in=brands)
-    if start_price:
-        filters &= Q(price__gt=start_price)
-    if end_price:
-        filters &= Q(price__lt=end_price)
+    filters_categors = filter_data(request, CATEGORS)
+    filters_style = filter_data(request, STYLES)
+    filters_brand = filter_data(request, BRANDS)
 
-    # Determine the sort direction
-    if sort_direction == "desc":
-        sort_by = f"-{sort_by}"
+    products = filters_catalog_products(
+        filters_categors,
+        filters_style,
+        filters_brand,
+        start_price,
+        end_price,
+        product_xxl,
+        product_sale_id,
+        sort_direction,
+        sort_by,
+    )
+    page_obj = paginator_products(products, page_number, 12)
 
-    # Apply additional filters based on "XXL" or "sale" category
-    if product_xxl:
-        filters &= Q(id__in=product_xxl)
-
-    if product_sale_id:
-        filters &= Q(id__in=product_sale_id)
-
-    # Filter and sort the products
-    products = Product.objects.filter(filters).order_by(sort_by)
-
-    # Paginate the products
-    paginator = Paginator(products, 12)
-    page_obj = paginator.get_page(page_number)
-
-    # Create the response data
-    data = {
-        "has_next": page_obj.has_next(),
-        "data": [
-            {
-                "name": product.name,
-                "price": product.price,
-                "brand": product.brand.name,
-                "image1": product.image1.url,
-                "id": product.id,
-            }
-            for product in page_obj.object_list
-        ],
-    }
-
-    return JsonResponse(data)
+    return JsonResponse(create_response_data(page_obj))
 
 
 def product_api(request):
@@ -285,6 +370,7 @@ def product_api(request):
         JsonResponse: JSON response containing product data.
 
     Raises:
+
         Http404: If the specified category does not exist.
     """
 
@@ -301,28 +387,11 @@ def product_api(request):
         id=int(product_id)
     )
 
-    # Create a paginator to split the products into pages
-    paginator = Paginator(products, 3)
+    page_obj = paginator_products(products, page_number, 3)
 
-    # Get the page object based on the page number
-    page_obj = paginator.get_page(page_number)
-
-    # Create a dictionary with product data
-    data = {
-        "has_next": page_obj.has_next(),  # Flag indicating if there is a next page
-        "data": [
-            {
-                "name": product.name,  # Product name
-                "price": product.price,  # Product price
-                "brand": product.brand.name,  # Product brand
-                "image1": product.image1.url,  # URL of the first product image
-                "id": product.id,  # Product ID
-            }
-            for product in page_obj.object_list  # Iterate over objects on the current page
-        ],
-    }
-
-    return JsonResponse(data)  # Return a JSON response with the data
+    return JsonResponse(
+        create_response_data(page_obj)
+    )  # Return a JSON response with the data
 
 
 def search_view(request):
