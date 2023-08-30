@@ -12,6 +12,7 @@ from womanshop.models import (
     ProductVariant,
     Color,
     Size,
+    OrderItem,
 )
 from .serializers import (
     ProductSerializer,
@@ -24,6 +25,7 @@ from .serializers import (
     ProductVariantSerializer,
     ColorSerializer,
     SizeSerializer,
+    OrderItemSerializer,
 )
 from django.contrib.auth.models import User
 
@@ -840,3 +842,15 @@ class ProductVariantDestroyAPIView(generics.RetrieveDestroyAPIView):
     permission_classes = [IsAdminUser]
     serializer_class = ProductVariantSerializer
     lookup_field = "pk"
+
+
+class OrderItemListAPIView(generics.ListAPIView):
+    queryset = OrderItem.objects.all()
+    permission_classes = [IsAdminUser]
+    serializer_class = OrderItemSerializer
+
+
+class OpderItemDetailAPIView(generics.RetrieveAPIView):
+    queryset = OrderItem.objects.all()
+    permission_classes = [IsAdminUser]
+    serializer_class = OrderItemSerializer
