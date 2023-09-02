@@ -845,12 +845,30 @@ class ProductVariantDestroyAPIView(generics.RetrieveDestroyAPIView):
 
 
 class OrderItemListAPIView(generics.ListAPIView):
+    """
+    API view for retrieving a list of order items.
+
+    This view allows an admin user to retrieve a list of all order items.
+    The queryset variable is set to retrieve all OrderItem objects.
+    The permission_classes variable is set to allow only admin users to access this view.
+    The serializer_class variable is set to use the OrderItemSerializer for serialization.
+    """
+
     queryset = OrderItem.objects.all()
     permission_classes = [IsAdminUser]
     serializer_class = OrderItemSerializer
 
 
 class OpderItemDetailAPIView(generics.RetrieveAPIView):
+    """
+    API view for retrieving details of an order item.
+
+    This view allows an admin user to retrieve the details of a specific order item.
+    The queryset variable is set to retrieve all OrderItem objects.
+    The permission_classes variable is set to allow only admin users to access this view.
+    The serializer_class variable is set to use the OrderItemSerializer for serialization.
+    """
+
     queryset = OrderItem.objects.all()
     permission_classes = [IsAdminUser]
     serializer_class = OrderItemSerializer
