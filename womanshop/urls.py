@@ -5,16 +5,16 @@ from . import views
 
 urlpatterns = [
     path("", views.IndexView.as_view(), name="index"),
-    path(
-        "user_profile/",
-        login_required(views.UserProfileView.as_view()),
-        name="user_profile",
-    ),
-    path(
-        "user_profile_form/",
-        views.UserProfileFormView.as_view(),
-        name="user_profile_form",
-    ),
+    # path(
+    # "user_profile/",
+    # login_required(views.UserProfileView.as_view()),
+    # name="user_profile",
+    # ),
+    # path(
+    # "user_profile_form/",
+    # views.UserProfileFormView.as_view(),
+    # name="user_profile_form",
+    # ),
     path("catalog/", views.CatalogView.as_view(), name="catalog"),
     path("catalog_api/", views.catalog_api, name="catalog_api"),
     path(

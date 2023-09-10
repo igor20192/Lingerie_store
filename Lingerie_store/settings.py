@@ -65,6 +65,7 @@ INSTALLED_APPS = [
     "shop_api",
     "rest_framework",
     "django_filters",
+    "users",
 ]
 
 MIDDLEWARE = [

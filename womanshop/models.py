@@ -4,29 +4,7 @@ from django.db import models
 from django.contrib.auth.models import User
 import datetime
 from decimal import Decimal
-
-
-class UserProfile(models.Model):
-    """
-    Model representing a user profile.
-    """
-
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    address = models.CharField(max_length=255, null=True)
-    city = models.CharField(max_length=255, null=True)
-    state = models.CharField(max_length=255, null=True, default="active")
-    zip_code = models.CharField(max_length=10, null=True)
-    phone_number = models.CharField(max_length=20, null=True)
-    date_of_birth = models.DateField(default=datetime.date.today)
-    gender = models.CharField(
-        max_length=1, choices=(("M", "Male"), ("F", "Female")), null=True
-    )
-    profile_pic = models.ImageField(
-        upload_to="profile_pics/", blank=True, default="profile_pics/not_photo.png"
-    )
-
-    def __str__(self):
-        return self.user.username
+from users.models import UserProfile
 
 
 class Order(models.Model):
