@@ -844,12 +844,11 @@ class CheckoutTemplateView(TemplateView):
             for item in cart_items:
                 color = get_object_or_404(Color, name=item[1])
                 size = get_object_or_404(Size, name=item[2])
-                product_variant = get_object_or_404(
-                    ProductVariant,
+                product_variant = ProductVariant.objects.filter(
                     product_id=item[0],
                     color_id=color.id,
                     size_id=size.id,
-                )
+                ).first()
                 OrderItem.objects.create(
                     order=order,
                     product_variant=product_variant,
